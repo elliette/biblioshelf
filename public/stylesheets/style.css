@@ -1,0 +1,61 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #e0e0eb;
+}
+
+
+.navbar-default {
+padding: 0px; 
+width: 100%; 
+}
+
+
+/*Sets the text hover color on navbar*/
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+color: #012e77;  
+}
+
+.navbar-brand {
+	padding-left: 50px; 
+}
+
+ul {
+	display: inline-block;
+	padding-bottom: 10px; 
+}
+
+
+li {
+
+	list-style-type: none;
+	text-align: center;
+}
+
+.title {
+
+	font-weight: bold;
+}
+
+a {
+	color: #1d293d;	
+}
+
+a:hover {
+  color: #012e77;
+}
+
+.bookNotes {
+	border-style: solid;
+	border-width: 1px; 
+	border-color: #303030;
+	background-color: #FFFFFF; 
+	padding: 10px;
+	display: inline-flex; 
+
+}
+
+
+
+
+
