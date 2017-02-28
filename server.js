@@ -5,7 +5,6 @@ var path = require('path');
 var models = require('./models');
 var Book = models.Book;
 var MonthRead = models.MonthRead; 
-var getFullMonth = models.getFullMonth; 
 
 var app = express(); 
 
@@ -18,7 +17,49 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './public')));
 app.use(express.static(path.join(__dirname, './node_modules')));
 
+
+app.get('/api/books/:id', function(req, res){
+  console.log("HITTING THIS ROUTE!!!!!!!!!!!!!!!")
+  var id = req.params.id; 
+  Book.findOne({
+    where: {
+      id: id
+    }
+  })
+  .then(function(book){
+    res.json(book); 
+  })
+});
+
+app.delete('/delete/:id', function(req, res){
+  console.log("hit the delete route!")
+  var id = req.params.id; 
+  Book.findOne({
+    where: {
+      id: id
+    }
+  })
+  .then(function(book){
+    book.destroy(); 
+  })
+  .then(function(){
+    res.send("Book has been deleted!")
+  })
+});
+
+
 app.get('/api/books', function(req, res){
+  console.log("hitting the books route!")
+  Book.findAll() 
+  .then(function(books){ 
+    res.json(books); 
+  })
+}); 
+
+
+
+app.get('/api/months', function(req, res){
+  console.log("hitting the months route!")
   MonthRead.findAll({
     include: [{ all: true }]
   }) 
@@ -26,6 +67,7 @@ app.get('/api/books', function(req, res){
     res.json(months); 
   })
 }); 
+
 
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, './views', 'index.html'));
@@ -35,25 +77,39 @@ app.get('/add', function(req, res){
   res.render('addPage')
 }); 
 
-app.post('/', function(req, res, next) {
-  var month; 
-  var year; 
-  var date; 
-  if (req.body.month != "N/A" && req.body.year !== "N/A" && req.body.day !== "N/A"){
-    month = req.body.month; 
-    year = req.body.year; 
-    date = `${req.body.month} ${req.body.day}, ${req.body.year}`
+app.post('/addbook', function(req, res, next) {
+
+  if (req.body.date){
+    var date = new Date(req.body.date)
+    console.log("IF A DATE WAS SELECTED THEN DATE IS:", date); 
   } else {
     date = new Date(); 
-    month = getFullMonth(date.toString().slice(4, 7)); 
-    year = date.getFullYear().toString();
-    date = date.toString(); 
+    console.log("IF NO DATE WAS SELECTED THEN DATE IS", date); 
   }
+  let month = date.getMonth();
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+  var monthStr = months[month];
+  var year = date.getFullYear(); 
+  console.log("type of year is", typeof year); 
+
   MonthRead.findOrCreate({
     where: {
-      month: month, 
+      month: monthStr, 
       year: year, 
-      time: Date.parse(month+year)
+      time: new Date(year, month)
     }
   })
   .spread(function(monthRead, created){ 
@@ -62,7 +118,6 @@ app.post('/', function(req, res, next) {
       author: req.body.author,
       url: req.body.url,
       notes: req.body.notes, 
-      tags: req.body.tags, 
       starred: req.body.starred,
       date: date
     })
@@ -72,23 +127,59 @@ app.post('/', function(req, res, next) {
     return book.setMonthRead(monthRead)
   })
   .then(function(book){ 
-    res.redirect('/');
+    res.send(book);
   })
 }); 
-    
-app.get('/book:id', function(req, res, next){
-  var id = req.params.id; 
-  Book.findOne({
+
+app.put('/editbook', function(req, res, next) {
+  console.log("in edit!")
+  var date = new Date(req.body.date)
+
+  let month = date.getMonth();
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+  var monthStr = months[month];
+  var year = date.getFullYear(); 
+
+  MonthRead.findOrCreate({
     where: {
-      id: id
+      month: monthStr, 
+      year: year, 
+      time: new Date(year, month)
     }
   })
+  .spread(function(monthRead, created){ 
+    var book = Book.findOne({
+      where: {
+        id: req.body.id
+      }
+    })
+    return Promise.all([monthRead, book])
+  }) 
+  .spread(function(monthRead, book){
+    var book = book.update(req.body); 
+    return Promise.all([monthRead, book])
+  }) 
+  .spread(function(monthRead, book){
+    return book.setMonthRead(monthRead)
+  })
   .then(function(book){
-    res.render('book', {
-        'book': book, 
-      })
+    res.send(book); 
   })
 }); 
+
 
 models.db.sync({force : false})
   .then(function() {

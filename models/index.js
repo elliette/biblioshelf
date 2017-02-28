@@ -1,53 +1,5 @@
 var Sequelize = require('sequelize');
-var db = new Sequelize('postgres://localhost:5432/bookshelf')
-
-/*
-================================================
-			HELPER FUNCTIONS
-================================================
-*/ 
-
-var getFullMonth = function(month) {
-
-	switch (month) {
-		case "Jan":
-			return "January"
-			break;
-		case "Feb":
-			return "February"
-			break;
-		case "Mar":
-			return "March"
-			break;
-		case "Apr":
-			return "April"
-			break;
-		case "May":
-			return "May"
-			break;
-		case "Jun":
-			return "June"
-			break;
-		case "Jul":
-			return "July"
-			break;
-		case "Aug":
-			return "August"
-			break;
-		case "Sep":
-			return "September"
-			break;
-		case "Oct":
-			return "October"
-			break;
-		case "Nov":
-			return "November"
-			break;
-		case "Dec":
-			return "December"
-			break;
-	}
-}
+var db = new Sequelize('postgres://localhost:5432/bookshelf'); 
 
 /*
 ================================================
@@ -58,7 +10,7 @@ var getFullMonth = function(month) {
 var MonthRead = db.define('monthRead', {
 
 	time: {
-		type: Sequelize.BIGINT
+		type: Sequelize.DATE
 	},
 
 	month: {
@@ -66,7 +18,7 @@ var MonthRead = db.define('monthRead', {
 	},
 
 	year: {
-		type: Sequelize.STRING
+		type: Sequelize.INTEGER
 	}
 }) 
 
@@ -84,19 +36,15 @@ var Book = db.define('book', {
 	},
 
 	notes: {
-		type: Sequelize.TEXT
+		type: Sequelize.TEXT, 
 	},
 
 	starred: {
 		type: Sequelize.ENUM('yes', 'no')
 	}, 
 
-	tags: {
-		type: Sequelize.TEXT
-	}, 
-
 	date: {
-		type: Sequelize.STRING
+		type: Sequelize.DATE
 	},
 
 }, {
@@ -104,20 +52,24 @@ var Book = db.define('book', {
 	hooks: {
 
 		beforeCreate: function(book) {
-			// getting generic book image url 
+			// getting a random generic book image url 
 			if (!book.url) {
-				book.url = "https://www.mobileread.com/forums/attachment.php?attachmentid=111281&d=1378756884"
+				var randomNum = Math.floor(Math.random() * 4) + 1; 
+				book.url = `https://www.mobileread.com/forums/attachment.php?attachmentid=11128${randomNum}&d=1378756884`
+			}
+
+			if (!book.notes) {
+				book.notes = "There are no notes for this book yet."; 
 			}
 		}
-	},
+	}
 })
 
-MonthRead.hasMany(Book); 
+MonthRead.hasMany(Book, {onDelete: 'CASCADE'}); 
 Book.belongsTo(MonthRead); 
 
 module.exports = {
 	db: db,
 	Book: Book, 
 	MonthRead: MonthRead, 
-	getFullMonth: getFullMonth, 
 };
