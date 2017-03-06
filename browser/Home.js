@@ -1,50 +1,55 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React from 'react';
 import Month from './Month'; 
 import WelcomeMessage from './WelcomeMessage'; 
 
-export default class Home extends Component {
+export default function Home ({ books }) {
 
-constructor (props) {
-    super(props);
-    this.state = {
-      months: [], 
-      isEmpty: false
-    };
-  }
+    console.log("BOOKS!!!!!", books); 
 
-  componentWillMount () {
-    
-    axios.get('/api/books')
-    .then((res) => {
-      console.log("RESPONSE", res)
-      return res.data
-    })
-    .then((books) => {
-      if (!books.length){
-        this.setState({isEmpty: true})
-      } else {
-        axios.get('/api/months')
-        .then((res) => {
-          return res.data.sort(function(a,b) {return (a.time < b.time) ? 1 : ((b.time < a.time) ? -1 : 0);} );
-        }) 
-        .then((months) => {
-          console.log("results:", months); 
-          this.setState({months: months}); 
-      })
+    function groupByMonthAndYear(books) {
+
+        var result = []; 
+
+        books.forEach(function(book){
+            var newMonth = true
+            result.forEach(function(monthObj){
+                if (monthObj.monthYear === book.monthYear){
+                    monthObj.books.push(book); 
+                    newMonth= false; 
+                }
+            })
+            if (newMonth === true){
+                var newMonthObj = {
+                    monthYear: book.monthYear, 
+                    time: book.date, 
+                    books: [book]
+                }
+                result.push(newMonthObj)
+            }
+        })
+        return result.sort(function(a, b) {return (a.time < b.time) ? 1 : ((b.time < a.time) ? -1 : 0);} ); 
     }
-    })
-  }
-   
-   render () {
+
+    var booksByMonth = groupByMonthAndYear(books); 
+
+
+    console.log(booksByMonth)
+    
     return (
-    	<div>
-
-    {this.state.isEmpty ? <WelcomeMessage /> : this.state.months.map(function(monthObj){
-        return <Month key={monthObj.month+monthObj.year} monthDetails={monthObj} /> 
-      })}
-
-    </div>
+        <div> 
+            {booksByMonth === [] 
+                ? <WelcomeMessage /> 
+                : booksByMonth.map(function(monthObj){
+                    return <Month title={monthObj.monthYear} books={monthObj.books} /> 
+                })
+            }
+        </div> 
     )
-	}
-} 
+}
+
+
+
+
+
+
+

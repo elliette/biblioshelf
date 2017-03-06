@@ -47,6 +47,10 @@ var Book = db.define('book', {
 		type: Sequelize.DATE
 	},
 
+	monthYear: {
+		type: Sequelize.STRING
+	}
+
 }, {
 
 	hooks: {

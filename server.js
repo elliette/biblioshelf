@@ -104,32 +104,47 @@ app.post('/addbook', function(req, res, next) {
   var monthStr = months[month];
   var year = date.getFullYear(); 
   console.log("type of year is", typeof year); 
+  var monthYear = monthStr+" "+year; 
 
-  MonthRead.findOrCreate({
-    where: {
-      month: monthStr, 
-      year: year, 
-      time: new Date(year, month)
-    }
-  })
-  .spread(function(monthRead, created){ 
-    var book = Book.create({
-      title: req.body.title,
-      author: req.body.author,
-      url: req.body.url,
-      notes: req.body.notes, 
-      starred: req.body.starred,
-      date: date
-    })
-    return Promise.all([monthRead, book])
-  }) 
-  .spread(function(monthRead, book){
-    return book.setMonthRead(monthRead)
-  })
-  .then(function(book){ 
+   var book = Book.create({
+        title: req.body.title,
+        author: req.body.author,
+        url: req.body.url,
+        notes: req.body.notes, 
+        starred: req.body.starred,
+        date: date, 
+        monthYear: monthYear
+      })
+   .then(function(book){ 
     res.send(book);
   })
-}); 
+})
+
+//   MonthRead.findOrCreate({
+//     where: {
+//       month: monthStr, 
+//       year: year, 
+//       time: new Date(year, month)
+//     }
+//   })
+//   .spread(function(monthRead, created){ 
+//     var book = Book.create({
+//       title: req.body.title,
+//       author: req.body.author,
+//       url: req.body.url,
+//       notes: req.body.notes, 
+//       starred: req.body.starred,
+//       date: date
+//     })
+//     return Promise.all([monthRead, book])
+//   }) 
+//   .spread(function(monthRead, book){
+//     return book.setMonthRead(monthRead)
+//   })
+//   .then(function(book){ 
+//     res.send(book);
+//   })
+// }); 
 
 app.put('/editbook', function(req, res, next) {
   console.log("in edit!")

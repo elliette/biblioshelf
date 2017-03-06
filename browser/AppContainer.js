@@ -9,7 +9,7 @@ export default class AppContainer extends Component {
   }
     
     render(){
-      console.log(this.props.children); 
+      console.log("Inside App Container rendering the entire page", this.props.children); 
         return(
             <div>
                 <nav className="navbar navbar-default">
