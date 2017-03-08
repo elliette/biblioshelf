@@ -37,7 +37,7 @@ export default function Home ({ books }) {
     
     return (
         <div> 
-            {booksByMonth === [] 
+            {booksByMonth.length === 0
                 ? <WelcomeMessage /> 
                 : booksByMonth.map(function(monthObj){
                     return <Month title={monthObj.monthYear} books={monthObj.books} /> 

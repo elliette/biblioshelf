@@ -43,7 +43,7 @@ app.delete('/delete/:id', function(req, res){
     book.destroy(); 
   })
   .then(function(){
-    res.send("Book has been deleted!")
+    res.send(id)
   })
 });
 

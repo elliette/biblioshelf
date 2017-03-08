@@ -2,14 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory, IndexRedirect} from 'react-router';
 import HomeContainer from './HomeContainer';
+import BookContainer from './BookContainer'; 
 import Book from './Book';
 import AppContainer from './AppContainer';
 import AddBook from './AddBook';
 import EditBook from './EditBook';
 import AddBookMessage from './AddBookMessage';
+import DeletedBookMessage from './DeletedBookMessage';
 import { Provider } from 'react-redux';
 import store from './store'; 
 import { setBooks } from './book-reducer'; 
+import { setBook } from './single-book-reducer'; 
 import axios from 'axios';
 
 
@@ -23,15 +26,27 @@ const onLoadBooks = function() {
         .catch(err => console.error(err))   
 }
 
+const onLoadBook = function(nextRouterState) {
+     var id = nextRouterState.params.bookId
+     axios.get(`/api/books/${id}`)
+        .then(res => res.data)
+        .then((book) => {
+            console.log("Loading single Book on onLoadBook and dispatching my action", book)
+            store.dispatch(setBook(book))
+        })
+        .catch(err => console.error(err))   
+}
+
 ReactDOM.render(
     <Provider store={store}>
     	<Router history={hashHistory} >
     		<Route path="/" component={AppContainer} onEnter={onLoadBooks} > 
     			<Route path="/home" component={HomeContainer} />
-    			<Route path="/books/:bookId" component={Book} />
+    			<Route path="/books/:bookId" component={BookContainer} onEnter={onLoadBook} />
     			<Route path="/books/edit/:bookId" component={EditBook} />
         		<Route path='/add' component={AddBook} /> 
         		<Route path='/message' component={AddBookMessage} /> 
+                <Route path='/books/delete/:bookId' component={DeletedBookMessage} /> 
         		<IndexRedirect to='/home' />
         	</Route> 
         </Router>
