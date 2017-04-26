@@ -7,7 +7,7 @@ export default class AddBookMessage extends Component {
     	super(props);
   	}
 
-  render() {
+	render() {
   	return (
     <div className="jumbotron">
 	    <h1>Congratulations!</h1> 

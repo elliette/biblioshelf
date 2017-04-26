@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 // var nunjucks = require('nunjucks');
 var path = require('path');
-var models = require('./models');
+var models = require('./models')
 var Book = models.Book;
 var MonthRead = models.MonthRead; 
 
@@ -18,66 +18,7 @@ app.use(express.static(path.join(__dirname, './public')));
 app.use(express.static(path.join(__dirname, './node_modules')));
 
 
-app.get('/api/books/:id', function(req, res){
-  console.log("HITTING THIS ROUTE!!!!!!!!!!!!!!!")
-  var id = req.params.id; 
-  Book.findOne({
-    where: {
-      id: id
-    }
-  })
-  .then(function(book){
-    res.json(book); 
-  })
-});
-
-app.delete('/delete/:id', function(req, res){
-  console.log("hit the delete route!")
-  var id = req.params.id; 
-  Book.findOne({
-    where: {
-      id: id
-    }
-  })
-  .then(function(book){
-    book.destroy(); 
-  })
-  .then(function(){
-    res.send(id)
-  })
-});
-
-
-app.get('/api/books', function(req, res){
-  console.log("hitting the books route!")
-  Book.findAll() 
-  .then(function(books){ 
-    res.json(books); 
-  })
-}); 
-
-
-
-app.get('/api/months', function(req, res){
-  console.log("hitting the months route!")
-  MonthRead.findAll({
-    include: [{ all: true }]
-  }) 
-  .then(function(months){ 
-    res.json(months); 
-  })
-}); 
-
-
-app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, './views', 'index.html'));
-});
-
-app.get('/add', function(req, res){
-  res.render('addPage')
-}); 
-
-app.post('/addbook', function(req, res, next) {
+app.post('/api/books', function(req, res, next) {
 
   if (req.body.date){
     var date = new Date(req.body.date)
@@ -119,6 +60,66 @@ app.post('/addbook', function(req, res, next) {
     res.send(book);
   })
 })
+
+app.get('/api/books/:id', function(req, res){
+  console.log("HITTING THIS ROUTE!!!!!!!!!!!!!!!")
+  var id = req.params.id; 
+  Book.findOne({
+    where: {
+      id: id
+    }
+  })
+  .then(function(book){
+    res.json(book); 
+  })
+});
+
+app.delete('/delete/:id', function(req, res){
+  console.log("hit the delete route!")
+  var id = req.params.id; 
+  Book.findOne({
+    where: {
+      id: id
+    }
+  })
+  .then(function(book){
+    book.destroy(); 
+  })
+  .then(function(){
+    res.send(id)
+  })
+});
+
+
+app.get('/api/books', function(req, res){
+  console.log('INSIDE GET API BOOKS');
+  Book.findAll() 
+  .then(function(books){ 
+    res.json(books); 
+  })
+}); 
+
+
+
+app.get('/api/months', function(req, res){
+  console.log("hitting the months route!")
+  MonthRead.findAll({
+    include: [{ all: true }]
+  }) 
+  .then(function(months){ 
+    res.json(months); 
+  })
+}); 
+
+
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, './views', 'index.html'));
+});
+
+app.get('/add', function(req, res){
+  res.render('addPage')
+}); 
+
 
 //   MonthRead.findOrCreate({
 //     where: {

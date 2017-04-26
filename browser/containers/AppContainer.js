@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
-import Home from './Home'; 
+import Home from '../components/Home';
 
 export default class AppContainer extends Component {
 
-  constructor(props){
-    super(props)
-  }
-    
-    render(){
-      console.log("Inside App Container rendering the entire page", this.props.children); 
-        return(
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        console.log("Inside App Container rendering the entire page", this.props.children);
+        return (
             <div>
                 <nav className="navbar navbar-default">
                   <div className="container-fluid">

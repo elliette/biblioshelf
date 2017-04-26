@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory, IndexRedirect} from 'react-router';
-import HomeContainer from './HomeContainer';
-import BookContainer from './BookContainer'; 
-import Book from './Book';
-import AppContainer from './AppContainer';
-import AddBook from './AddBook';
-import EditBook from './EditBook';
-import AddBookMessage from './AddBookMessage';
-import DeletedBookMessage from './DeletedBookMessage';
+import HomeContainer from './containers/HomeContainer';
+import BookContainer from './containers/BookContainer';
+import Book from './components/Book';
+import AppContainer from './containers/AppContainer';
+import AddBookContainer from './containers/AddBookContainer';
+import EditBook from './components/EditBook';
+import AddBookMessage from './components/AddBookMessage';
+import DeletedBookMessage from './components/DeletedBookMessage';
 import { Provider } from 'react-redux';
-import store from './store'; 
-import { setBooks } from './book-reducer'; 
-import { setBook } from './single-book-reducer'; 
+import store from './store';
+import { setBooks } from './reducers/book-reducer';
+import { setBook } from './reducers/single-book-reducer';
 import axios from 'axios';
 
 
@@ -44,7 +44,7 @@ ReactDOM.render(
     			<Route path="/home" component={HomeContainer} />
     			<Route path="/books/:bookId" component={BookContainer} onEnter={onLoadBook} />
     			<Route path="/books/edit/:bookId" component={EditBook} />
-        		<Route path='/add' component={AddBook} /> 
+        		<Route path='/add' component={AddBookContainer} /> 
         		<Route path='/message' component={AddBookMessage} /> 
                 <Route path='/books/delete/:bookId' component={DeletedBookMessage} /> 
         		<IndexRedirect to='/home' />
