@@ -147,7 +147,7 @@ app.get('/add', function(req, res){
 //   })
 // }); 
 
-app.put('/editbook', function(req, res, next) {
+app.put('/api/books', function(req, res, next) {
   console.log("in edit!")
   var date = new Date(req.body.date)
 

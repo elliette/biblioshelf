@@ -15,11 +15,7 @@ const addBookToDB = (book) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    handleAddBook: (book) => {
-      dispatch(addBookToDB(book));
-    }
-  };
+  return { handleAddBook: (book) => dispatch(addBookToDB(book)) };
 };
 
 export default connect(null, mapDispatchToProps)(AddBookForm);

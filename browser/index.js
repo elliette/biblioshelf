@@ -6,7 +6,7 @@ import BookContainer from './containers/BookContainer';
 import Book from './components/Book';
 import AppContainer from './containers/AppContainer';
 import AddBookContainer from './containers/AddBookContainer';
-import EditBook from './components/EditBook';
+import EditBookContainer from './containers/EditBookContainer';
 import AddBookMessage from './components/AddBookMessage';
 import DeletedBookMessage from './components/DeletedBookMessage';
 import { Provider } from 'react-redux';
@@ -43,7 +43,7 @@ ReactDOM.render(
     		<Route path="/" component={AppContainer} onEnter={onLoadBooks} > 
     			<Route path="/home" component={HomeContainer} />
     			<Route path="/books/:bookId" component={BookContainer} onEnter={onLoadBook} />
-    			<Route path="/books/edit/:bookId" component={EditBook} />
+    			<Route path="/books/edit/:bookId" component={EditBookContainer} />
         		<Route path='/add' component={AddBookContainer} /> 
         		<Route path='/message' component={AddBookMessage} /> 
                 <Route path='/books/delete/:bookId' component={DeletedBookMessage} /> 
