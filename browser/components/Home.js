@@ -3,9 +3,7 @@ import Month from './Month';
 import WelcomeMessage from './WelcomeMessage';
 
 function groupByMonthAndYear(listOfBooks) {
-
     var result = [];
-
     listOfBooks.forEach(function(book){
         var newMonth = true;
         result.forEach(function(monthObj){
@@ -23,7 +21,6 @@ function groupByMonthAndYear(listOfBooks) {
             result.push(newMonthObj);
         }
     });
-    console.log('RESULT ARRAY', result);
     return result.sort( (monthObj1, monthObj2) => monthObj1.time < monthObj2.time ? 1 : ((monthObj2.time < monthObj1.time) ? -1 : 0) );
 }
 

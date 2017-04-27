@@ -1,16 +1,16 @@
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 
 import AddBookForm from '../components/AddBookForm';
-import { addBook } from '../reducers/book-reducer';
+import { addBook } from '../reducers/booksReducer';
 
 const addBookToDB = (book) => {
 	return (dispatch) => {
 		axios.post(`/api/books`, book)
 		.then((res) => res.data)
 		.then((newBook) => dispatch(addBook(newBook)))
-		.then(() => hashHistory.push('/message'));
+		.then(() => browserHistory.push('/message'));
 	};
 };
 

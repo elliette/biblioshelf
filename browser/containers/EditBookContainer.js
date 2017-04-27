@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router';
+import { browserHistory
+ } from 'react-router';
 
 import EditBookForm from '../components/EditBookForm';
-import { editBook } from '../reducers/book-reducer';
+import { editBook } from '../reducers/booksReducer';
 
 const editBookInDB = (book) => {
 	return (dispatch) => {
@@ -12,7 +13,8 @@ const editBookInDB = (book) => {
 		.then((updatedBook) => {
 			dispatch(editBook(updatedBook));
 		})
-		.then(() => hashHistory.push(`/home`));
+		.then(() => browserHistory
+.push(`/home`));
 	};
 };
 

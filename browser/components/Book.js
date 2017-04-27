@@ -1,37 +1,27 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { Link } from 'react-router';
-import {hashHistory} from "react-router";
 import dateFormat from 'dateformat';
-import Markdown from 'react-markdown'
+import Markdown from 'react-markdown';
 
 export default function Book ( {book, handleDelete}) {
-
-  console.log("my book is", book); 
-  console.log("handleDelete is", handleDelete); 
-
     return (
         <div>
             <img className="book-image" src={book.url} />
             <div className="book-box">
-                {book.starred === "yes" 
-                    ? <h1>{book.title} <i className="fa fa-heart" aria-hidden="true"></i></h1> 
-                    : <h1>{book.title}</h1> 
-                } 
+                {book.starred === 'yes'
+                    ? <h1>{book.title} <i className="fa fa-heart" aria-hidden="true" /></h1>
+                    : <h1>{book.title}</h1>
+                }
                 <h4><i>by {book.author}</i></h4>
-                <p><b>Read on:</b> {dateFormat(book.date, "dddd, mmmm dS, yyyy")}</p> 
+                <p><b>Read on:</b> {dateFormat(book.date, 'dddd, mmmm dS, yyyy')}</p>
                 <div className="bookNotes">
-                    <Markdown source={book.notes ? book.notes : "There are no notes for this book yet."} />
-                </div> 
+                    <Markdown source={book.notes ? book.notes : 'There are no notes for this book yet.'} />
+                </div>
                 <div className="bottom-buttons">
-                    <Link to={`/books/edit/${book.id}`}><button type="button" className="btn btn-link">[Edit Book]</button></Link> 
+                    <Link to={`/books/edit/${book.id}`}><button type="button" className="btn btn-link">[Edit Book]</button></Link>
                     <button type="button" className="btn btn-link" onClick={() => handleDelete(book.id)}>[Delete Book]</button>
-                </div> 
-            </div> 
-        </div> 
-    )
+                </div>
+            </div>
+        </div>
+    );
 }
-
-
-
-
