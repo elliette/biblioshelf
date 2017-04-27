@@ -11,9 +11,8 @@ const editBookInDB = (book) => {
 		.then((res) => res.data)
 		.then((updatedBook) => {
 			dispatch(editBook(updatedBook));
-			return updatedBook;
 		})
-		.then((updatedBook) => hashHistory.push(`/books/${updatedBook.id}`));
+		.then(() => hashHistory.push(`/home`));
 	};
 };
 

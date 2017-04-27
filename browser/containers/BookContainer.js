@@ -7,7 +7,7 @@ import { deleteBook } from '../reducers/book-reducer';
 
 const deleteBookFromDB = (bookId) => {
 	return (dispatch) => {
-		axios.delete(`/delete/${bookId}`)
+		axios.delete(`/api/books/${bookId}`)
 		.then((res) => res.data)
 		.then((book) => dispatch(deleteBook(book)))
 		.then(() => hashHistory.push(`/books/delete/${bookId}`));
