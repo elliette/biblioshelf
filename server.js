@@ -1,129 +1,55 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var path = require('path');
-var models = require('./models');
+'use strict';
 
-var Book = models.Book;
-var MonthRead = models.MonthRead;
+const models = require('./models');
 
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const passport = require('passport');
+const cookieSession = require('cookie-session');
+// PrettyError docs: https://www.npmjs.com/package/pretty-error
+
+const apiRoutes = require('./routes/api');
+
+const app = express();
+
+  // Session middleware - compared to express-session (which is what's used in the Auther workshop), cookie-session stores sessions in a cookie, rather than some other type of session store.
+  // Cookie-session docs: https://www.npmjs.com/package/cookie-session
+app.use(cookieSession({
+    name: 'session',
+    keys: [process.env.SESSION_SECRET || 'an insecure secret key'],
+  }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//   // Authentication middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static(path.join(__dirname, './public')));
 app.use(express.static(path.join(__dirname, './node_modules')));
+
+app.use('/api', apiRoutes);
+
+  // any requests with an extension (.js, .css, etc.) turn into 404
+app.use((req, res, next) => {
+    if (path.extname(req.path).length) {
+        const err = new Error('Not found');
+        err.status = 404;
+        next(err);
+    } else {
+        next();
+    }
+});
 
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, './public', 'index.html'));
 });
 
-app.post('/api/books', function(req, res, next) {
-    if (req.body.date){
-        var date = new Date(req.body.date);
-    } else {
-        date = new Date();
-    }
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    MonthRead.findOrCreate({
-        where: {
-            time: new Date(year, month)
-        }
-    })
-    .spread(function(monthRead){
-        var book = Book.create({
-            title: req.body.title,
-            author: req.body.author,
-            url: req.body.url,
-            notes: req.body.notes,
-            starred: req.body.starred,
-            date: date,
-        });
-        return Promise.all([monthRead, book]);
-    })
-    .spread(function(monthRead, book){
-        return book.setMonthRead(monthRead);
-    })
-    .then(function(book){
-        res.send(book);
-    });
-});
-
-app.put('/api/books', function(req, res, next) {
-    var date = new Date(req.body.date);
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    MonthRead.findOrCreate({
-        where: {
-            time: new Date(year, month)
-        }
-    })
-    .spread(function(monthRead){
-        var book = Book.findOne({
-            where: {
-            id: req.body.id
-            }
-        });
-        return Promise.all([monthRead, book]);
-    })
-    .spread(function(monthRead, book){
-        var editedBook = book.update(req.body);
-        return Promise.all([monthRead, editedBook]);
-    })
-    .spread(function(monthRead, editedBook){
-        return editedBook.setMonthRead(monthRead);
-    })
-    .then(function(editedBook){
-        res.send(editedBook);
-    });
-});
-
-app.get('/api/books/:id', function(req, res){
-    var id = req.params.id;
-    Book.findOne({
-        where: {
-            id: id
-        }
-    })
-    .then(function(book){
-        res.send(book);
-    });
-});
-
-app.delete('/api/books/:id', function(req, res){
-    var id = req.params.id;
-    Book.findOne({
-        where: {
-            id: id
-        }
-    })
-    .then(function(book){
-        book.destroy();
-    })
-    .then(function(){
-        res.send(id);
-    });
-});
-
-app.get('/api/books', function(req, res){
-    Book.findAll()
-    .then(function(books){
-        res.send(books);
-    });
-});
-
-app.get('/api/months', function(req, res){
-    MonthRead.findAll({
-        include: [{ all: true }]
-    })
-    .then(function(months){
-        res.send(months);
-    });
-});
-
-app.get('/add', function(req, res){
-    res.render('addPage');
-});
+app.use((err, req, res, next) => {
+    console.error(err);
+  });
 
 models.db.sync({force: false})
     .then(function() {
