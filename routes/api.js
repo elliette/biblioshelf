@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const models = require('../models');
-const Book = models.Book;
-const MonthRead = models.MonthRead;
+const Book = require('../db/models/book');
+const MonthRead = require('../db/models/months');
 
 router.post('/books', function(req, res, next) {
     if (req.body.date){

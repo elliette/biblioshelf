@@ -1,7 +1,7 @@
 const passport = require('passport');
 const debug = require('debug')(`bookshelf:auth`);
 
-const User = require('../models/users');
+const User = require('../db/models/users');
 const auth = require('express').Router();
 
 passport.serializeUser((user, done) => {
@@ -56,21 +56,32 @@ auth.get('/whoami', (req, res) => res.send(req.user));
 // POST requests for local login:
 auth.post('/login/local', passport.authenticate('local', {successRedirect: '/'}));
 
-// GET requests for OAuth login:
-// Register this route as a callback URL with OAuth provider
-auth.get('/login/:strategy', (req, res, next) =>
-  passport.authenticate(req.params.strategy, {
-    scope: 'email', // You may want to ask for additional OAuth scopes. These are
-                    // provider specific, and let you access additional data (like
-                    // their friends or email), or perform actions on their behalf.
-    successRedirect: '/',
-    // Specify other config here
-  })(req, res, next)
-);
+// // GET requests for OAuth login:
+// // Register this route as a callback URL with OAuth provider
+// auth.get('/login/:strategy', (req, res, next) =>
+//   passport.authenticate(req.params.strategy, {
+//     scope: 'email', // You may want to ask for additional OAuth scopes. These are
+//                     // provider specific, and let you access additional data (like
+//                     // their friends or email), or perform actions on their behalf.
+//     successRedirect: '/',
+//     // Specify other config here
+//   })(req, res, next)
+// );
 
 auth.post('/logout', (req, res) => {
   req.logout();
   res.redirect('/api/auth/whoami');
+});
+
+auth.post('/signup', (req, res) => {
+  User.create({
+    where: {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password
+    }
+  })
+  .then(user => res.send(user));
 });
 
 module.exports = auth;

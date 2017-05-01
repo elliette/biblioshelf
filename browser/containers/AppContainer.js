@@ -33,7 +33,7 @@ export default class AppContainer extends Component {
                             </div>
                             <button type="submit" className="btn btn-primary">Submit</button>
                         </form>
-                        {user ? <WhoAmI /> : <Login />}
+                        {user ? <WhoAmI /> : <div><Login /><Link to="/signup"><button type="submit" className="btn btn-primary">Sign Up</button></Link></div>}
                     </div>
                 </nav>
                 <div className="container">

@@ -11,6 +11,7 @@ import AddBookContainer from './containers/AddBookContainer';
 import EditBookContainer from './containers/EditBookContainer';
 import AddBookMessage from './components/AddBookMessage';
 import DeletedBookMessage from './components/DeletedBookMessage';
+import SignUpForm from './components/SignUpForm';
 import store from './store';
 import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
@@ -40,6 +41,7 @@ ReactDOM.render(
                 <Route path="/add" component={AddBookContainer} />
                 <Route path="/message" component={AddBookMessage} />
                 <Route path="/books/delete/:bookId" component={DeletedBookMessage} />
+                <Route path ="/signup" component={SignUpForm} />
                 <IndexRedirect to="/home" />
             </Route>
         </Router>

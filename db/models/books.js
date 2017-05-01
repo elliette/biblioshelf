@@ -1,5 +1,7 @@
-var Sequelize = require('sequelize');
-var db = new Sequelize('postgres://localhost:5432/bookshelf');
+const Sequelize = require('sequelize');
+const db = require('../index');
+const User = require('./users');
+const MonthRead = require('./months');
 
 /*
 ================================================
@@ -7,7 +9,7 @@ var db = new Sequelize('postgres://localhost:5432/bookshelf');
 ================================================
 */
 
-var updateAndCreateChecks = function(book){
+const updateAndCreateChecks = function(book){
 		if (!book.url) {
 		var randomNum = Math.floor(Math.random() * 4) + 1;
 		book.url = `https://www.mobileread.com/forums/attachment.php?attachmentid=11128${randomNum}&d=1378756884`;
@@ -44,13 +46,7 @@ var updateAndCreateChecks = function(book){
 ================================================
 */
 
-var MonthRead = db.define('monthRead', {
-	time: {
-		type: Sequelize.DATE
-	},
-});
-
-var Book = db.define('book', {
+const Book = db.define('book', {
 	title: {
 		type: Sequelize.STRING
 	},
@@ -79,11 +75,15 @@ var Book = db.define('book', {
 	}
 });
 
-MonthRead.hasMany(Book, {onDelete: 'CASCADE'});
+Book.belongsTo(User);
 Book.belongsTo(MonthRead);
 
-module.exports = {
-	db: db,
-	Book: Book,
-	MonthRead: MonthRead,
-};
+module.exports.associations = (Book, {User, MonthRead}) => {
+  // Create a static association between the OAuth and User models.
+  // This lets us refer to OAuth.User above, when we need to create
+  // a user.
+  Book.belongsTo(User);
+  Book.belongsTo(MonthRead)
+}
+
+module.exports = Book;
