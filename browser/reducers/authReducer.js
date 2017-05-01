@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { browserHistory } from 'react-router';
 
 /* ============ CONSTANTS =============== */
 
@@ -24,9 +25,9 @@ export const whoami = () =>
       })
       .catch(failed => dispatch(authenticated(null)));
 
-export const login = (username, password) =>
+export const login = (email, password) =>
     dispatch =>
-        axios.post('/api/auth/login/local', {username, password})
+        axios.post('/api/auth/login/local', {email, password})
         .then(() => dispatch(whoami()))
         .catch(() => dispatch(whoami()));
 
@@ -36,10 +37,11 @@ export const logout = () =>
         .then(() => dispatch(whoami()))
         .catch(() => dispatch(whoami()));
 
-export const signup = (name, username, password) =>
+export const signup = (name, email, password) =>
     dispatch =>
-        axios.post('api/auth/signup', {name, username, password})
-        .then(() => dispatch(login(username, password)));
+        axios.post('/api/auth/signup', {name, email, password})
+        .then( () => browserHistory.push('/signupsuccess') )
+        
 
 /* ============ REDUCER =============== */
 

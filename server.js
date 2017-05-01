@@ -49,15 +49,15 @@ app.use('/api/auth', authRoutes);
 app.use('/api', apiRoutes);
 
   // any requests with an extension (.js, .css, etc.) turn into 404
-app.use((req, res, next) => {
-    if (path.extname(req.path).length) {
-        const err = new Error('Not found');
-        err.status = 404;
-        next(err);
-    } else {
-        next();
-    }
-});
+// app.use((req, res, next) => {
+//     if (path.extname(req.path).length) {
+//         const err = new Error('Not found');
+//         err.status = 404;
+//         next(err);
+//     } else {
+//         next();
+//     }
+// });
 
 // app.use('/*', function(req, res, next){
 //   console.log("REQ.SESSION", req.session); 
@@ -71,9 +71,9 @@ app.use((err, req, res, next) => {
     console.error(err);
   });
 
-var startDb = require('./database');
+var db = require('./db').db;
 
-startDb.sync({force: false})
+db.sync({force: false})
     .then(function() {
         app.listen(3000, function() {
             console.log('Server is listening on port 3000!');

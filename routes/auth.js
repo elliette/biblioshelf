@@ -1,7 +1,7 @@
 const passport = require('passport');
 const debug = require('debug')(`bookshelf:auth`);
 
-const User = require('../db/models/users');
+const User = require('../db').User;
 const auth = require('express').Router();
 
 passport.serializeUser((user, done) => {
@@ -74,6 +74,7 @@ auth.post('/logout', (req, res) => {
 });
 
 auth.post('/signup', (req, res) => {
+  console.log("***************REQ.BODY*****************", req.body);
   User.create({
     where: {
       name: req.body.name,
