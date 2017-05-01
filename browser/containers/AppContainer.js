@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router';
-import Login from '../components/Login';
+import UserLoginContainer from '../containers/UserLoginContainer';
 import WhoAmI from '../components/WhoAmI';
+import { connect } from 'react-redux';
 
-// need to get the user from the session
-// need to also make a sign up option!
-const user = null;
 
-export default class AppContainer extends Component {
+const user = null; 
+
+class AppContainer extends Component {
 
     constructor(props){
         super(props);
+        console.log("PROPS ARE", props);
     }
 
     render(){
@@ -33,7 +34,7 @@ export default class AppContainer extends Component {
                             </div>
                             <button type="submit" className="btn btn-primary">Submit</button>
                         </form>
-                        {user ? <WhoAmI /> : <div><Login /><Link to="/signup"><button type="submit" className="btn btn-secondary">Sign Up</button></Link></div>}
+                        {user ? <WhoAmI /> : <div><UserLoginContainer /><Link to="/signup"><button type="submit" className="btn btn-secondary">Sign Up</button></Link></div>}
                     </div>
                 </nav>
                 <div className="container">
@@ -44,3 +45,12 @@ export default class AppContainer extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };
+};
+
+export default connect(mapStateToProps)(AppContainer);
+

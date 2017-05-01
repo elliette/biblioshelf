@@ -6,7 +6,6 @@ export default class SignUpForm extends Component {
         super(props);
         this.state = {};
         this.handleSubmit = this.handleSubmit.bind(this);
-        console.log("PROPS ARE", props);
     }
 
     handleSubmit(event) {

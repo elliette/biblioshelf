@@ -16,13 +16,16 @@ import UserSignUpContainer from './containers/UserSignUpContainer';
 import store from './store';
 import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
+import { authenticated } from './reducers/authReducer';
 
-const onLoadBooks = function() {
-    axios.get('/api/books')
-        .then(res => res.data)
-        .then((books) => {store.dispatch(setBooks(books));})
-        .catch(err => console.error(err));
-};
+console.log("STORE", store);
+
+// const onLoadBooks = function() {
+//     axios.get('/api/books')
+//         .then(res => res.data)
+//         .then((books) => {store.dispatch(setBooks(books));})
+//         .catch(err => console.error(err));
+// };
 
 const onLoadBook = function(nextRouterState) {
     var id = nextRouterState.params.bookId;
@@ -32,10 +35,29 @@ const onLoadBook = function(nextRouterState) {
         .catch(err => console.error(err));
 };
 
+const setUser = () => 
+    axios.get('/api/auth/whoami')
+    .then(user => {
+            let userId = user.data.id;
+            console.log('Setting the user on state:', userId);
+            store.dispatch(authenticated(userId));
+      });
+
+// export const whoami = () =>
+//     dispatch =>
+//         axios.get('/api/auth/whoami')
+//         .then(user => {
+//             let userId = user.data.id;
+//             console.log('Setting the user on state:', userId);
+//             dispatch(authenticated(userId));
+//       });
+      //.catch(failed => dispatch(authenticated(null)));
+
+
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory} >
-            <Route path="/" component={AppContainer} onEnter={onLoadBooks} >
+            <Route path="/" component={AppContainer} onEnter={setUser} >
                 <Route path="/home" component={HomeContainer} />
                 <Route path="/books/:bookId" component={BookContainer} onEnter={onLoadBook} />
                 <Route path="/books/edit/:bookId" component={EditBookContainer} />

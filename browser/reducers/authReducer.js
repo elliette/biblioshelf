@@ -16,26 +16,26 @@ export const authenticated = function(user) {
 
 /* ============ ASYNC ACTIONS =============== */
 
-export const whoami = () =>
-    dispatch =>
-        axios.get('/api/auth/whoami')
-        .then(response => {
-            const user = response.data;
-            dispatch(authenticated(user));
-      })
-      .catch(failed => dispatch(authenticated(null)));
 
 export const login = (email, password) =>
     dispatch =>
-        axios.post('/api/auth/login/local', {email, password})
-        .then(() => dispatch(whoami()))
-        .catch(() => dispatch(whoami()));
+        axios.post('/api/auth/login', {email, password})
+        .then((user) => {
+            let userId = user.data.id;
+            console.log('User has logged in as:', userId);
+            dispatch(authenticated(userId));});
+        // .then(() => dispatch(whoami()))
+        // .catch(() => dispatch(whoami()));
 
-export const logout = () =>
-    dispatch =>
-        axios.post('/api/auth/logout')
-        .then(() => dispatch(whoami()))
-        .catch(() => dispatch(whoami()));
+// export const logout = () =>
+//     dispatch =>
+//         axios.post('/api/auth/logout')
+//         .then(() => dispatch(whoami()))
+//         .catch(() => dispatch(whoami()));
+
+export const logout = () => 
+    dispatch => 
+        axios.post('api/auth/logout')
 
 export const signup = (name, email, password) =>
     dispatch =>
@@ -52,4 +52,5 @@ export default function(state = null, action) {
     default:
         return state;
     }
+    return state;
 }
