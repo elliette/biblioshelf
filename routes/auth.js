@@ -76,11 +76,9 @@ auth.post('/logout', (req, res) => {
 auth.post('/signup', (req, res) => {
   console.log("***************REQ.BODY*****************", req.body);
   User.create({
-    where: {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password
-    }
   })
   .then(user => res.send(user));
 });

@@ -15,12 +15,7 @@ export default class SignUpForm extends Component {
         var email = event.target.email.value;
         var password = event.target.password.value;
 
-        var reqObj = {
-			name: name,
-			email: email,
-			password: password
-        };
-        this.props.handleAddUser(reqObj); // need to make a reducer to handle this!
+        this.props.handleAddUser(name, email, password); // need to make a reducer to handle this!
     }
 
     render() {
