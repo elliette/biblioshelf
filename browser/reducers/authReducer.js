@@ -16,7 +16,6 @@ export const authenticated = function(user) {
 
 /* ============ ASYNC ACTIONS =============== */
 
-
 export const login = (email, password) =>
     dispatch =>
         axios.post('/api/auth/login', {email, password})

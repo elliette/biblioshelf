@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router';
-import UserLoginContainer from '../containers/UserLoginContainer';
+import LoginContainer from '../containers/LoginContainer';
 import WhoAmI from '../components/WhoAmI';
 import { connect } from 'react-redux';
 
 
-const user = null; 
+const user = null;
 
 class AppContainer extends Component {
 
@@ -34,7 +34,7 @@ class AppContainer extends Component {
                             </div>
                             <button type="submit" className="btn btn-primary">Submit</button>
                         </form>
-                        {user ? <WhoAmI /> : <div><UserLoginContainer /><Link to="/signup"><button type="submit" className="btn btn-secondary">Sign Up</button></Link></div>}
+                        {user ? <WhoAmI /> : <div><LoginContainer /><Link to="/signup"><button type="submit" className="btn btn-secondary">Sign Up</button></Link></div>}
                     </div>
                 </nav>
                 <div className="container">
@@ -42,7 +42,7 @@ class AppContainer extends Component {
                 </div>
                 <div className="footer"><strong>Book Shelf</strong> by Elliott Brooks</div>
             </div>
-        )
+        );
     }
 }
 

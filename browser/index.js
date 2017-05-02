@@ -35,14 +35,14 @@ const onLoadBook = function(nextRouterState) {
         .catch(err => console.error(err));
 };
 
-const setUser = () => 
+const setUser = () =>
     axios.get('/api/auth/whoami')
     .then(user => {
-            let userId = user.data.id;
-            console.log('Setting the user on state:', userId);
-            store.dispatch(authenticated(userId));
-      });
-
+        let userId = user.data.id;
+        console.log('Setting the user on state:', userId);
+        store.dispatch(authenticated(userId));
+    })
+    
 // export const whoami = () =>
 //     dispatch =>
 //         axios.get('/api/auth/whoami')
