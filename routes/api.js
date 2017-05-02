@@ -2,22 +2,32 @@ const express = require('express');
 const router = express.Router();
 
 const Book = require('../db').Book;
+const User = require('../db').User;
 const MonthRead = require('../db').MonthRead;
 
 router.post('/books', function(req, res, next) {
-    if (req.body.date){
-        var date = new Date(req.body.date);
-    } else {
-        date = new Date();
-    }
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    MonthRead.findOrCreate({
+    User.findOne({
         where: {
-            time: new Date(year, month)
+            id: req.session.userId
         }
     })
-    .spread(function(monthRead){
+    .then(function(user){
+        if (!user){
+            //make a new error;
+        } else {
+            var date = req.body.date ? new Date(req.body.date) : new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth();
+            var monthRead = MonthRead.findOrCreate({
+                where: {
+                    time: new Date(year, month)
+                }
+            });
+        }
+        return Promise.all([user, monthRead[0]]);
+    })
+    .spread(function(user, monthRead){
+        var date = req.body.date ? new Date(req.body.date) : new Date(); // figure out how to consolidate this
         var book = Book.create({
             title: req.body.title,
             author: req.body.author,
@@ -26,13 +36,17 @@ router.post('/books', function(req, res, next) {
             starred: req.body.starred,
             date: date,
         });
-        return Promise.all([monthRead, book]);
+        return Promise.all([user, monthRead, book]);
     })
-    .spread(function(monthRead, book){
-        return book.setMonthRead(monthRead);
+    .spread(function(user, monthRead, book){
+        var bookWithMonth = book.setMonthRead(monthRead);
+        return Promise.all([user, bookWithMonth]);
     })
-    .then(function(book){
-        res.send(book);
+    .spread(function(user, bookWithMonth){
+        return bookWithMonth.setUser(user);
+    })
+    .then(function(bookWithUser){
+        res.send(bookWithUser);
     });
 });
 
@@ -93,7 +107,11 @@ router.delete('/books/:id', function(req, res){
 });
 
 router.get('/books', function(req, res){
-    Book.findAll()
+    Book.findAll({
+        where: {
+            userId: req.session.userId
+        }
+    })
     .then(function(books){
         res.send(books);
     });

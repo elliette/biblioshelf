@@ -29,7 +29,7 @@ export default class Login extends Component {
     <div className="form-group">
         <input type="text" className="form-control" name="password" placeholder="Password" />
     </div>
-    <button type="submit" className="btn btn-default">Log In</button>
+    <button type="submit" className="btn btn-primary">Log In</button>
 </form>
 )
 

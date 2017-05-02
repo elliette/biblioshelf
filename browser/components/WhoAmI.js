@@ -1,13 +1,25 @@
-import React from 'react'
-import {logout} from '../reducers/authReducer'
-import {connect} from 'react-redux'
+import React from 'react';
+import {connect} from 'react-redux';
+import axios from 'axios';
+import { authenticated } from '../reducers/authReducer';
+import { browserHistory } from 'react-router';
 
 export const WhoAmI = ({ user, logout }) => (
   <div className="whoami">
-    <span className="whoami-user-name">{user && user.name}</span>
-    <button className="logout" onClick={logout}>Logout</button>
+    <button className="btn btn-primary" onClick={logout}>Logout</button>
   </div>
-)
+);
 
+export const logout = () => {
+    return (dispatch) =>  {
+        axios.post('api/auth/logout')
+        .then(() => dispatch(authenticated(null)))
+        .then(() => browserHistory.push('/home'));
+    };
+};
 
-export default connect(({ auth }) => ({ user: auth }), {logout})(WhoAmI)
+const mapStateToProps = (state) => {
+	return {user: state.auth};
+};
+
+export default connect(mapStateToProps, {logout})(WhoAmI);

@@ -1,12 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory, IndexRedirect} from 'react-router';
-import { Provider } from 'react-redux';
-import axios from 'axios';
-
+import { render } from 'react-dom';
+import { Router, Route, browserHistory, IndexRedirect, Link} from 'react-router';
+import { Provider, connect } from 'react-redux';
+import LoginContainer from './containers/LoginContainer';
+import WhoAmI from './components/WhoAmI';
 import HomeContainer from './containers/HomeContainer';
 import BookContainer from './containers/BookContainer';
-import AppContainer from './containers/AppContainer';
 import AddBookContainer from './containers/AddBookContainer';
 import EditBookContainer from './containers/EditBookContainer';
 import AddBookMessage from './components/AddBookMessage';
@@ -14,18 +13,19 @@ import DeletedBookMessage from './components/DeletedBookMessage';
 import SignUpMessage from './components/SignUpMessage';
 import UserSignUpContainer from './containers/UserSignUpContainer';
 import store from './store';
-import { setBooks } from './reducers/booksReducer';
-import { setBook } from './reducers/singleBookReducer';
+import axios from 'axios';
+// comment back in:
+//import { setBooks } from './reducers/booksReducer';
+//import { setBook } from './reducers/singleBookReducer';
 import { authenticated } from './reducers/authReducer';
 
-console.log("STORE", store);
 
-// const onLoadBooks = function() {
-//     axios.get('/api/books')
-//         .then(res => res.data)
-//         .then((books) => {store.dispatch(setBooks(books));})
-//         .catch(err => console.error(err));
-// };
+const onLoadBooks = function() {
+    axios.get('/api/books')
+        .then(res => res.data)
+        .then((books) => {store.dispatch(setBooks(books));})
+        .catch(err => console.error(err));
+};
 
 const onLoadBook = function(nextRouterState) {
     var id = nextRouterState.params.bookId;
@@ -42,7 +42,7 @@ const setUser = () =>
         console.log('Setting the user on state:', userId);
         store.dispatch(authenticated(userId));
     })
-    
+
 // export const whoami = () =>
 //     dispatch =>
 //         axios.get('/api/auth/whoami')
@@ -54,11 +54,54 @@ const setUser = () =>
       //.catch(failed => dispatch(authenticated(null)));
 
 
-ReactDOM.render(
+const currUser = null;
+
+const BookShelf = function(props) {
+    console.log("props are ", props);
+    return (
+        <div>
+            <nav className="navbar navbar-default">
+                <div className="container-fluid">
+                    <div className="navbar-header">
+                        <Link className="navbar-brand" to="/">Book Shelf</Link>
+                    </div>
+                    <ul className="nav navbar-nav">
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/add">Add a Book</Link></li>
+                        <li><Link to="/stats">Reading Stats</Link></li>
+                        <li><Link to="/about">About</Link></li>
+                    </ul>
+                    <form className="navbar-form navbar-left">
+                        <div className="form-group">
+                            <input type="text" className="form-control" placeholder="Search" />
+                        </div>
+                        <button type="submit" className="btn btn-default">Submit</button>
+                    </form>
+                    { props.auth ? <WhoAmI /> : <ul className="nav navbar-nav navbar-right"><li><LoginContainer /></li><li><Link to="/signup"><button className="btn btn-info navbar-right" type="submit">Sign Up</button></Link></li></ul>}
+                </div>
+            </nav>
+            <div className="container">
+                  { props.children }
+            </div>
+            <div className="footer"><strong>Book Shelf</strong> by Elliott Brooks</div>
+        </div>
+    );
+};
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };
+};
+
+const AppContainer = connect(mapStateToProps)(BookShelf);
+
+render(
     <Provider store={store}>
         <Router history={browserHistory} >
             <Route path="/" component={AppContainer} onEnter={setUser} >
-                <Route path="/home" component={HomeContainer} />
+                <IndexRedirect to="/home" />
+                <Route path="/home" component={HomeContainer} onEnter={onLoadBooks} />
                 <Route path="/books/:bookId" component={BookContainer} onEnter={onLoadBook} />
                 <Route path="/books/edit/:bookId" component={EditBookContainer} />
                 <Route path="/add" component={AddBookContainer} />
@@ -66,7 +109,7 @@ ReactDOM.render(
                 <Route path="/books/delete/:bookId" component={DeletedBookMessage} />
                 <Route path ="/signup" component={UserSignUpContainer} />
                 <Route path = "/signupsuccess" component={SignUpMessage} />
-                <IndexRedirect to="/home" />
+
             </Route>
         </Router>
     </Provider>,

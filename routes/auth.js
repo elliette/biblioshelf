@@ -3,8 +3,12 @@ const auth = express.Router();
 const User = require('../db').User;
 
 auth.get('/whoami', (req, res, next) => {
-    let userId = req.session.userId;
-    res.send({id: userId});
+    if (req.session.id){
+      let userId = req.session.userId;
+      res.send({id: userId});
+    } else {
+      res.send(null)
+    }
 });
 
 auth.post('/login', (req, res, next) => {
@@ -37,5 +41,10 @@ auth.post('/signup', (req, res) => {
   })
   .then(user => res.send(user));
 });
+
+auth.post('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/api/auth/whoami')
+})
 
 module.exports = auth;
