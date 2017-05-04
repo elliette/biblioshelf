@@ -77,7 +77,7 @@ const BookShelf = function(props) {
                         </div>
                         <button type="submit" className="btn btn-default">Submit</button>
                     </form>
-                    { props.auth ? <WhoAmI /> : <ul className="nav navbar-nav navbar-right"><li><LoginContainer /></li><li><Link to="/signup"><button className="btn btn-info navbar-right" type="submit">Sign Up</button></Link></li></ul>}
+                    { props.auth.id ? <WhoAmI /> : <ul className="nav navbar-nav navbar-right"><li><LoginContainer /></li><li><Link to="/signup"><button className="btn btn-info navbar-right" type="submit">Sign Up</button></Link></li></ul>}
                 </div>
             </nav>
             <div className="container">

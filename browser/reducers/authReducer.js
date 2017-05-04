@@ -38,14 +38,30 @@ export const signup = (name, email, password) =>
         .then( () => browserHistory.push('/signupsuccess') )
         
 
+// /* ============ REDUCER =============== */
+
+// export default function(state = {}, action) {
+//     switch (action.type) {
+//         case AUTHENTICATED:
+//         return action.user;
+//     }
+//     return state;
+// }
+
+
 /* ============ REDUCER =============== */
 
-export default function(state = null, action) {
+export default function(state = {}, action) {
+
+    let newState = Object.assign({}, state);
+
     switch (action.type) {
         case AUTHENTICATED:
-        return action.user;
-    default:
-        return state;
+            newState = { id: action.user }
+            break;
+        default:
+            return state;
     }
-    return state;
+    return newState;
 }
+

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default function AddBookMessage () {
+export default function SignUpMessage () {
 	return (
 		<div className="jumbotron">
-			<h1>Thanks for signing up!</h1>
-			<h2>Please log in to begin using Bookshelf today.</h2>
+			<h1>Welcome to Bookshelf!</h1>
+			<h2>Please <Link to={`/signup`}>sign up</Link> to begin using Bookshelf today.</h2>
 		</div>
 	);
 }
+

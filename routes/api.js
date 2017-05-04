@@ -5,35 +5,47 @@ const Book = require('../db').Book;
 const User = require('../db').User;
 const MonthRead = require('../db').MonthRead;
 
-// var getUserPromise = User.findOne({
-//     where: {
-//         id: req.session.userId
-//     }
-// });
-
-router.post('/books', function(req, res, next) {
-     User.findOne({
+function findBookPromise(userId, bookId){
+    return User.findOne({
         where: {
-            id: req.session.userId
+            id: userId
         }
     })
     .then(function(user){
-        if (!user){
-            //make a new error;
-        } else {
-            var date = req.body.date ? new Date(req.body.date) : new Date();
-            var year = date.getFullYear();
-            var month = date.getMonth();
-            var monthRead = MonthRead.findOrCreate({
-                where: {
-                    time: new Date(year, month)
-                }
-            });
+        return Book.findOne({
+            where: {
+                id: bookId,
+                userId: user.id
+            },
+            include: [{all: true}]
+        });
+    });
+}
+
+function findUserAndMonth(userId, date){
+    return User.findOne({
+        where: {
+            id: userId
         }
+    })
+    .then(function(user){
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var monthRead = MonthRead.findOrCreate({
+            where: {
+                time: new Date(year, month)
+            }
+        });
         return Promise.all([user, monthRead[0]]);
     })
+}
+
+router.post('/books', function(req, res, next) {
+    if (!req.session.userId) return;
+    var userId = req.session.userId;
+    var date = req.body.date ? new Date(req.body.date) : new Date();
+    findUserAndMonth(userId, date)
     .spread(function(user, monthRead){
-        var date = req.body.date ? new Date(req.body.date) : new Date(); // figure out how to consolidate this
         var book = Book.create({
             title: req.body.title,
             author: req.body.author,
@@ -57,19 +69,17 @@ router.post('/books', function(req, res, next) {
 });
 
 router.put('/books', function(req, res, next) {
-    var date = new Date(req.body.date);
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    MonthRead.findOrCreate({
-        where: {
-            time: new Date(year, month)
-        }
-    })
-    .spread(function(monthRead){
+    if (!req.session.userId) return;
+    var userId = req.session.userId;
+    var date = req.body.date ? new Date(req.body.date) : new Date();
+    findUserAndMonth(userId, date)
+    .spread(function(user, monthRead){
         var book = Book.findOne({
             where: {
-            id: req.body.id
-            }
+                id: req.body.id,
+                userId: user.id
+            },
+            include: [{all: true}]
         });
         return Promise.all([monthRead, book]);
     })
@@ -86,76 +96,47 @@ router.put('/books', function(req, res, next) {
 });
 
 router.get('/books/:id', function(req, res){
-    var id = req.params.id;
-    Book.findOne({
-        where: {
-            id: id
-        }
-    })
+    if (!req.session.userId) return;
+    var userId = req.session.userId;
+    var bookId = req.params.id;
+    findBookPromise(userId, bookId)
     .then(function(book){
         res.send(book);
     });
 });
 
 router.delete('/books/:id', function(req, res){
-    var id = req.params.id;
-    Book.findOne({
-        where: {
-            id: id
-        }
-    })
+    if (!req.session.userId) return;
+    var userId = req.session.userId;
+    var bookId = req.params.id;
+    findBookPromise(userId, bookId)
     .then(function(book){
         book.destroy();
     })
     .then(function(){
-        res.send(id);
+        res.send(bookId);
     });
 });
 
 router.get('/books', function(req, res){
+    if (!req.session.userId) return;
     User.findOne({
         where: {
             id: req.session.userId
         }
     })
     .then(function(user){
-        console.log("USER IS", user);
         Book.findAll({
             where: {
                 userId: user.id
-            }, 
+            },
             include: [{all: true}]
         })
         .then(function(books){
-            //console.log('************BOOKS WITH USERS ARE**************', books);
             res.send(books);
-        })
-    })
+        });
+    });
 });
-
-
-//     Book.findAll({ include: [ User ] })
-//     .then(function(books){
-//         console.log('************BOOKS WITH USERS ARE**************', books);
-//         res.send(books);
-//     })
-//     .then(function(books){
-//         var user = User.findOne({
-//             where: {
-//                 id: req.session.userId
-//             }
-//         });
-//         return Promise.all([user, books]);
-//     })
-//     .spread(function (user, books){
-
-//     }
-
-
-
-//     })
-// });
-
 
 router.get('/months', function(req, res){
     MonthRead.findAll({

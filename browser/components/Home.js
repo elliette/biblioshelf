@@ -1,6 +1,7 @@
 import React from 'react';
 import Month from './Month';
 import WelcomeMessage from './WelcomeMessage';
+import SignUpMessage from './SignUpMessage';
 
 function groupByMonthAndYear(listOfBooks) {
     var result = [];
@@ -24,18 +25,20 @@ function groupByMonthAndYear(listOfBooks) {
     return result.sort( (monthObj1, monthObj2) => monthObj1.time < monthObj2.time ? 1 : ((monthObj2.time < monthObj1.time) ? -1 : 0) );
 }
 
-export default function Home ({ books }) {
-
+export default function Home ({ books, user }) {
     var booksByMonth = groupByMonthAndYear( books );
-
-    return (
-        <div>
-            {booksByMonth.length === 0
-                ? <WelcomeMessage />
-                : booksByMonth.map(function(monthObj){
-                    return <Month key={monthObj.monthYear} title={monthObj.monthYear} books={monthObj.books} />;
-                })
-            }
-        </div>
-    );
+    if (!user.id){
+       return ( <SignUpMessage /> ) 
+    } else {
+        return (
+            <div>
+                {booksByMonth.length === 0
+                    ? <WelcomeMessage />
+                    : booksByMonth.map(function(monthObj){
+                        return <Month key={monthObj.monthYear} title={monthObj.monthYear} books={monthObj.books} />;
+                    })
+                }
+            </div>
+        );     
+    }
 }
