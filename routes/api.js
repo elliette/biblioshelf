@@ -5,8 +5,14 @@ const Book = require('../db').Book;
 const User = require('../db').User;
 const MonthRead = require('../db').MonthRead;
 
+// var getUserPromise = User.findOne({
+//     where: {
+//         id: req.session.userId
+//     }
+// });
+
 router.post('/books', function(req, res, next) {
-    User.findOne({
+     User.findOne({
         where: {
             id: req.session.userId
         }
@@ -107,15 +113,49 @@ router.delete('/books/:id', function(req, res){
 });
 
 router.get('/books', function(req, res){
-    Book.findAll({
+    User.findOne({
         where: {
-            userId: req.session.userId
+            id: req.session.userId
         }
     })
-    .then(function(books){
-        res.send(books);
-    });
+    .then(function(user){
+        console.log("USER IS", user);
+        Book.findAll({
+            where: {
+                userId: user.id
+            }, 
+            include: [{all: true}]
+        })
+        .then(function(books){
+            //console.log('************BOOKS WITH USERS ARE**************', books);
+            res.send(books);
+        })
+    })
 });
+
+
+//     Book.findAll({ include: [ User ] })
+//     .then(function(books){
+//         console.log('************BOOKS WITH USERS ARE**************', books);
+//         res.send(books);
+//     })
+//     .then(function(books){
+//         var user = User.findOne({
+//             where: {
+//                 id: req.session.userId
+//             }
+//         });
+//         return Promise.all([user, books]);
+//     })
+//     .spread(function (user, books){
+
+//     }
+
+
+
+//     })
+// });
+
 
 router.get('/months', function(req, res){
     MonthRead.findAll({

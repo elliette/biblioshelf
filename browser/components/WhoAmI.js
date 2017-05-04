@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import { authenticated } from '../reducers/authReducer';
-import { browserHistory } from 'react-router';
+//import { browserHistory } from 'react-router';
 
 export const WhoAmI = ({ user, logout }) => (
   <div className="whoami">
@@ -14,7 +14,7 @@ export const logout = () => {
     return (dispatch) =>  {
         axios.post('api/auth/logout')
         .then(() => dispatch(authenticated(null)))
-        .then(() => browserHistory.push('/home'));
+        .then(() => window.location.reload());
     };
 };
 

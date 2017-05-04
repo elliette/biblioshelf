@@ -10,7 +10,7 @@ const login = (email, password) => {
 		axios.post('/api/auth/login', {email, password})
 		.then((res) => res.data)
 		.then((user) => dispatch(authenticated(user.id)))
-		.then(() => browserHistory.push('/home'));
+		.then(() => window.location.reload());
 	};
 };
 

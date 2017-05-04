@@ -15,8 +15,8 @@ import UserSignUpContainer from './containers/UserSignUpContainer';
 import store from './store';
 import axios from 'axios';
 // comment back in:
-//import { setBooks } from './reducers/booksReducer';
-//import { setBook } from './reducers/singleBookReducer';
+import { setBooks } from './reducers/booksReducer';
+import { setBook } from './reducers/singleBookReducer';
 import { authenticated } from './reducers/authReducer';
 
 
@@ -24,7 +24,7 @@ const onLoadBooks = function() {
     axios.get('/api/books')
         .then(res => res.data)
         .then((books) => {store.dispatch(setBooks(books));})
-        .catch(err => console.error(err));
+        .catch(err => console.error(err))
 };
 
 const onLoadBook = function(nextRouterState) {
