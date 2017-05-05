@@ -66,19 +66,23 @@ const BookShelf = function(props) {
                     <div className="navbar-header">
                         <Link className="navbar-brand" to="/">Book Shelf</Link>
                     </div>
-                    <ul className="nav navbar-nav">
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/add">Add a Book</Link></li>
-                        <li><Link to="/stats">Reading Stats</Link></li>
-                        <li><Link to="/about">About</Link></li>
-                    </ul>
-                    <form className="navbar-form navbar-left">
-                        <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Search" />
-                        </div>
-                        <button type="submit" className="btn btn-default">Submit</button>
-                    </form>
-                    { props.auth.id ? <WhoAmI /> : <ul className="nav navbar-nav navbar-right"><li><LoginContainer /></li><li><Link to="/signup"><button className="btn btn-info navbar-right" type="submit">Sign Up</button></Link></li></ul>}
+                    { props.auth.id ?  
+                    <div> 
+                        <ul className="nav navbar-nav">
+                            <li><Link to="/">Home</Link></li>
+                            <li><Link to="/add">Add a Book</Link></li>
+                            <li><Link to="/stats">Reading Stats</Link></li>
+                            <li><Link to="/about">About</Link></li>
+                        </ul>
+                        <form className="navbar-form navbar-left">
+                            <div className="form-group">
+                                <input type="text" className="form-control" placeholder="Search" />
+                            </div>
+                            <button type="submit" className="btn btn-default">Submit</button>
+                        </form>
+                        <WhoAmI /> 
+                    </div> 
+                    :  <ul className="nav navbar-nav navbar-right"><li><LoginContainer /></li><li><Link to="/signup"><button className="btn btn-info navbar-right" type="submit">Sign Up</button></Link></li></ul>}
                 </div>
             </nav>
             <div className="container">
