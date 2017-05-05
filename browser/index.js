@@ -12,6 +12,7 @@ import AddBookMessage from './components/AddBookMessage';
 import DeletedBookMessage from './components/DeletedBookMessage';
 import SignUpMessage from './components/SignUpMessage';
 import UserSignUpContainer from './containers/UserSignUpContainer';
+import InvalidRequestMessage from './components/InvalidRequestMessage';
 import store from './store';
 import axios from 'axios';
 // comment back in:
@@ -109,7 +110,7 @@ render(
                 <Route path="/books/delete/:bookId" component={DeletedBookMessage} />
                 <Route path ="/signup" component={UserSignUpContainer} />
                 <Route path = "/signupsuccess" component={SignUpMessage} />
-
+                <Route path="*" component={InvalidRequestMessage} />
             </Route>
         </Router>
     </Provider>,
