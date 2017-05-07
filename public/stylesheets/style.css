@@ -185,6 +185,11 @@ h1, h2, h3 {
 	overflow: hidden;
 }
 
+.side-note {
+	display: inline-block;
+	float: right;
+	margin: 0px;
+}
 
 
 

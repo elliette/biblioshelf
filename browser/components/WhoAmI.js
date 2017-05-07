@@ -3,12 +3,12 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import { authenticated } from '../reducers/authReducer';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 
 const WhoAmI = ({ logout }) => (
   <div className="whoami nav navbar-nav navbar-right">
     <DropdownButton bsStyle="primary" title="Your Account"  >
-	    <Link to="/add"><MenuItem key="1">Add a Book</MenuItem></Link>
+	    <MenuItem key="1" onClick={() => browserHistory.push('/add')}>Add a Book</MenuItem>
 	    <MenuItem key="2">Reading Stats</MenuItem>
 	    <MenuItem key="3">Manage Account</MenuItem>
 	    <MenuItem key="4" onClick={logout}>Logout</MenuItem>

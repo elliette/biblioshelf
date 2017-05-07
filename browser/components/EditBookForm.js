@@ -53,7 +53,7 @@ export default class EditBook extends Component {
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="notes" className="col-sm-2 control-label">Notes</label>
+                        <label htmlFor="notes" className="col-sm-2 control-label">Notes *</label>
                         <div className="col-sm-10">
                             <textarea name="notes" rows="5" type="text" className="form-control" value={this.state.notes || ''} onChange={this.handleChange} />
                         </div>
@@ -74,6 +74,7 @@ export default class EditBook extends Component {
                             </select>
                         </div>
                     </div>
+                    <p className="side-note">* Bookshelf supports notes written in Markdown!</p>
                     <div className="col-sm-offset-2 col-sm-10">
                         <button type="submit" className="btn btn-primary">Submit</button>
                     </div>
