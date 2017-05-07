@@ -112,6 +112,10 @@ i {
     color: #FF80AB; 
 }
 
+.navbar-nav.navbar-right:last-child {
+	margin-right: 0px;
+}
+
 .whoami {
 	padding: .75% 3% 0% 0%;
 }

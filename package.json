@@ -30,7 +30,7 @@
     "path": "^0.12.7",
     "pg": "^6.1.5",
     "react": "^15.3.2",
-    "react-bootstrap": "^0.30.7",
+    "react-bootstrap": "^0.30.10",
     "react-bootstrap-date-picker": "^4.0.0",
     "react-dom": "^15.3.2",
     "react-markdown": "^2.4.4",
