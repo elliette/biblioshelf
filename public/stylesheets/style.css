@@ -112,6 +112,14 @@ i {
     color: #FF80AB; 
 }
 
+.whoami {
+	padding: .75% 3% 0% 0%;
+}
+ 
+/*.ul.nav.navbar-nav.navbar-right {
+	padding-right: 2%;
+}*/
+
 ul {
 	display: inline-block;
 	padding-bottom: 10px; 

@@ -12,7 +12,6 @@ import AddBookMessage from './components/AddBookMessage';
 import DeletedBookMessage from './components/DeletedBookMessage';
 import SignUpMessage from './components/SignUpMessage';
 import UserSignUpContainer from './containers/UserSignUpContainer';
-import InvalidRequestMessage from './components/InvalidRequestMessage';
 import store from './store';
 import axios from 'axios';
 // comment back in:
@@ -66,23 +65,25 @@ const BookShelf = function(props) {
                     <div className="navbar-header">
                         <Link className="navbar-brand" to="/">Book Shelf</Link>
                     </div>
-                    { props.auth.id ?  
-                    <div> 
-                        <ul className="nav navbar-nav">
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to="/add">Add a Book</Link></li>
-                            <li><Link to="/stats">Reading Stats</Link></li>
-                            <li><Link to="/about">About</Link></li>
-                        </ul>
-                        <form className="navbar-form navbar-left">
-                            <div className="form-group">
-                                <input type="text" className="form-control" placeholder="Search" />
-                            </div>
-                            <button type="submit" className="btn btn-default">Submit</button>
-                        </form>
-                        <WhoAmI /> 
-                    </div> 
-                    :  <ul className="nav navbar-nav navbar-right"><li><LoginContainer /></li></ul>}
+                    <ul className="nav navbar-nav">
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/add">Add a Book</Link></li>
+                        <li><Link to="/stats">Reading Stats</Link></li>
+                        <li><Link to="/about">About</Link></li>
+                    </ul>
+                    <form className="navbar-form navbar-left">
+                        <div className="form-group">
+                            <input type="text" className="form-control" placeholder="Search" />
+                        </div>
+                        <button type="submit" className="btn btn-default">Submit</button>
+                    </form>
+                    { props.auth
+                        ? <WhoAmI />
+                        : <div>
+                            <LoginContainer />
+                            <Link to="/signup"><button className="btn btn-info" type="submit">Sign Up</button></Link>
+                        </div>
+                    }
                 </div>
             </nav>
             <div className="container">
@@ -114,7 +115,7 @@ render(
                 <Route path="/books/delete/:bookId" component={DeletedBookMessage} />
                 <Route path ="/signup" component={UserSignUpContainer} />
                 <Route path = "/signupsuccess" component={SignUpMessage} />
-                <Route path="*" component={InvalidRequestMessage} />
+
             </Route>
         </Router>
     </Provider>,

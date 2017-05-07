@@ -22,7 +22,7 @@ export default class Login extends Component {
 
     render(){
         return (
-        <form className="navbar-form navbar-right" role="login" onSubmit={this.handleSubmit}>
+        <form className="navbar-form" role="login" onSubmit={this.handleSubmit}>
     <div className="form-group">
         <input type="text" className="form-control" name="email" placeholder="Email" />
     </div>

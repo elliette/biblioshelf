@@ -12,7 +12,6 @@ import AddBookMessage from './components/AddBookMessage';
 import DeletedBookMessage from './components/DeletedBookMessage';
 import SignUpMessage from './components/SignUpMessage';
 import UserSignUpContainer from './containers/UserSignUpContainer';
-import InvalidRequestMessage from './components/InvalidRequestMessage';
 import store from './store';
 import axios from 'axios';
 // comment back in:
@@ -44,21 +43,8 @@ const setUser = () =>
         store.dispatch(authenticated(userId));
     })
 
-// export const whoami = () =>
-//     dispatch =>
-//         axios.get('/api/auth/whoami')
-//         .then(user => {
-//             let userId = user.data.id;
-//             console.log('Setting the user on state:', userId);
-//             dispatch(authenticated(userId));
-//       });
-      //.catch(failed => dispatch(authenticated(null)));
-
-
-const currUser = null;
 
 const BookShelf = function(props) {
-    console.log("props are ", props);
     return (
         <div>
             <nav className="navbar navbar-default">
@@ -66,27 +52,31 @@ const BookShelf = function(props) {
                     <div className="navbar-header">
                         <Link className="navbar-brand" to="/">Book Shelf</Link>
                     </div>
-                    { props.auth.id ?  
-                    <div> 
-                        <ul className="nav navbar-nav">
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to="/add">Add a Book</Link></li>
-                            <li><Link to="/stats">Reading Stats</Link></li>
-                            <li><Link to="/about">About</Link></li>
-                        </ul>
-                        <form className="navbar-form navbar-left">
-                            <div className="form-group">
-                                <input type="text" className="form-control" placeholder="Search" />
-                            </div>
-                            <button type="submit" className="btn btn-default">Submit</button>
-                        </form>
-                        <WhoAmI /> 
-                    </div> 
-                    :  <ul className="nav navbar-nav navbar-right"><li><LoginContainer /></li></ul>}
+                    <ul className="nav navbar-nav">
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/add">Add a Book</Link></li>
+                        <li><Link to="/stats">Reading Stats</Link></li>
+                        <li><Link to="/about">About</Link></li>
+                    </ul>
+                    <form className="navbar-form navbar-left">
+                        <div className="form-group">
+                            <input type="text" className="form-control" placeholder="Search" />
+                        </div>
+                        <button type="submit" className="btn btn-default">Submit</button>
+                    </form>
+                    { props.auth
+                        ? <WhoAmI />
+                        : <div>
+                            <LoginContainer />
+                        </div>
+                    }
                 </div>
             </nav>
             <div className="container">
-                  { props.children }
+                  { props.auth
+                    ? props.children
+                    : <SignUpMessage />
+                }
             </div>
             <div className="footer"><strong>Book Shelf</strong> by Elliott Brooks</div>
         </div>
@@ -114,7 +104,7 @@ render(
                 <Route path="/books/delete/:bookId" component={DeletedBookMessage} />
                 <Route path ="/signup" component={UserSignUpContainer} />
                 <Route path = "/signupsuccess" component={SignUpMessage} />
-                <Route path="*" component={InvalidRequestMessage} />
+
             </Route>
         </Router>
     </Provider>,

@@ -5,7 +5,7 @@ import { authenticated } from '../reducers/authReducer';
 //import { browserHistory } from 'react-router';
 
 export const WhoAmI = ({ user, logout }) => (
-  <div className="whoami">
+  <div className="whoami nav navbar-nav navbar-right">
     <button className="btn btn-primary" onClick={logout}>Logout</button>
   </div>
 );
