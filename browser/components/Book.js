@@ -6,7 +6,7 @@ import InvalidRequestMessage from './InvalidRequestMessage';
 
 export default function Book ( {book, handleDelete}) {
     if (Object.keys(book).length === 0){
-        return ( <InvalidRequestMessage /> )
+        return ( <InvalidRequestMessage /> );
     } else {
         return (
             <div>

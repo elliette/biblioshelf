@@ -5,7 +5,7 @@ import { authenticated } from '../reducers/authReducer';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { Link } from 'react-router';
 
-export const WhoAmI = ({ user, logout }) => (
+const WhoAmI = ({ logout }) => (
   <div className="whoami nav navbar-nav navbar-right">
     <DropdownButton bsStyle="primary" title="Your Account"  >
 	    <Link to="/add"><MenuItem key="1">Add a Book</MenuItem></Link>
@@ -16,16 +16,11 @@ export const WhoAmI = ({ user, logout }) => (
   </div>
 );
 
-export const logout = () => {
+const logout = () => {
     return (dispatch) =>  {
         axios.post('api/auth/logout')
-        .then(() => dispatch(authenticated(null)))
-        .then(() => window.location.reload());
+        .then(() => dispatch(authenticated(null)));
     };
 };
 
-const mapStateToProps = (state) => {
-	return {user: state.auth};
-};
-
-export default connect(mapStateToProps, {logout})(WhoAmI);
+export default connect(null, {logout})(WhoAmI);
