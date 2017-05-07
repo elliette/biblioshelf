@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default function WelcomeMessage() {
+export default function PleaseSignUp() {
 	return (
 		<div className="jumbotron">
 			<h1>Welcome to Bookshelf!</h1>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default function DeletedBookMessage() {
+export default function DeletedBookSuccess() {
     return (
         <div className="jumbotron">
 			<h1>Success!</h1>

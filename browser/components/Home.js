@@ -1,7 +1,7 @@
 import React from 'react';
 import Month from './Month';
-import WelcomeMessage from './WelcomeMessage';
-import SignUpMessage from './SignUpMessage';
+import PleaseAddBooks from '../messages/PleaseAddBooks';
+import PleaseSignUp from '../messages/PleaseSignUp';
 
 function groupByMonthAndYear(listOfBooks) {
     var result = [];
@@ -22,23 +22,27 @@ function groupByMonthAndYear(listOfBooks) {
             result.push(newMonthObj);
         }
     });
-    return result.sort( (monthObj1, monthObj2) => monthObj1.time < monthObj2.time ? 1 : ((monthObj2.time < monthObj1.time) ? -1 : 0) );
+    return result.sort( (monthObj1, monthObj2) => {
+        if (monthObj1.time < monthObj2.time) return 1;
+        if (monthObj2.time < monthObj1.time) return -1;
+        return 0;
+    });
 }
 
 export default function Home ({ books, user }) {
     var booksByMonth = groupByMonthAndYear( books );
     if (!user.id){
-       return ( <SignUpMessage /> ) 
+       return ( <PleaseSignUp /> );
     } else {
         return (
             <div>
                 {booksByMonth.length === 0
-                    ? <WelcomeMessage />
+                    ? <PleaseAddBooks />
                     : booksByMonth.map(function(monthObj){
                         return <Month key={monthObj.monthYear} title={monthObj.monthYear} books={monthObj.books} />;
                     })
                 }
             </div>
-        );     
+        );
     }
 }

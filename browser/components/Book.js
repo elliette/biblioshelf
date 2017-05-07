@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router';
 import dateFormat from 'dateformat';
 import Markdown from 'react-markdown';
-import InvalidRequestMessage from './InvalidRequestMessage';
+import InvalidRequest from '../messages/InvalidRequest';
 
 export default function Book ( {book, handleDelete}) {
     if (Object.keys(book).length === 0){
-        return ( <InvalidRequestMessage /> );
+        return ( <InvalidRequest /> );
     } else {
         return (
             <div>

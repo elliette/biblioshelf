@@ -8,11 +8,11 @@ import HomeContainer from './containers/HomeContainer';
 import BookContainer from './containers/BookContainer';
 import AddBookContainer from './containers/AddBookContainer';
 import EditBookContainer from './containers/EditBookContainer';
-import AddBookMessage from './components/AddBookMessage';
-import DeletedBookMessage from './components/DeletedBookMessage';
-import SignUpMessage from './components/SignUpMessage';
+import AddedBookSuccess from './messages/AddedBookSuccess';
+import DeletedBookSuccess from './messages/DeletedBookSuccess';
+import SignUpSuccess from './messages/SignUpSuccess';
 import UserSignUpContainer from './containers/UserSignUpContainer';
-import InvalidRequestMessage from './components/InvalidRequestMessage';
+import InvalidRequest from './messages/InvalidRequest';
 import store from './store';
 import axios from 'axios';
 import { setBooks } from './reducers/booksReducer';
@@ -93,11 +93,11 @@ render(
                 <Route path="/books/:bookId" component={BookContainer} onEnter={onLoadBook} />
                 <Route path="/books/edit/:bookId" component={EditBookContainer} />
                 <Route path="/add" component={AddBookContainer} />
-                <Route path="/message" component={AddBookMessage} />
-                <Route path="/books/delete/:bookId" component={DeletedBookMessage} />
+                <Route path="/message" component={AddedBookSuccess} />
+                <Route path="/books/delete/:bookId" component={DeletedBookSuccess} />
                 <Route path ="/signup" component={UserSignUpContainer} />
-                <Route path = "/signupsuccess" component={SignUpMessage} />
-                <Route path="*" component={InvalidRequestMessage} />
+                <Route path = "/signupsuccess" component={SignUpSuccess} />
+                <Route path="*" component={InvalidRequest} />
             </Route>
         </Router>
     </Provider>,
