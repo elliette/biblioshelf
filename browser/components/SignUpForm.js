@@ -1,6 +1,6 @@
 import React from 'react';
-import axios from 'axios';
 import { browserHistory } from 'react-router';
+import axios from 'axios';
 
 const signup = (event) => {
     event.preventDefault();

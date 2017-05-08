@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { connect } from 'react-redux';
 import React from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
 import { authenticated } from '../reducers/authReducer';
 
 const LoginForm = ( { login }) => {

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import DatePicker from 'react-bootstrap-date-picker';
+import axios from 'axios';
+import { addBook } from '../reducers/booksReducer';
 
-export default class AddBookForm extends Component {
+class AddBookForm extends Component {
 
     constructor(props) {
         super(props);
@@ -84,3 +88,18 @@ export default class AddBookForm extends Component {
         );
     }
 }
+
+const addBookToDB = (book) => {
+	return (dispatch) => {
+		axios.post(`/api/books`, book)
+		.then((res) => res.data)
+		.then((newBook) => dispatch(addBook(newBook)))
+		.then(() => browserHistory.push('/addedbooksuccess'));
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return { handleAddBook: (book) => dispatch(addBookToDB(book)) };
+};
+
+export default connect(null, mapDispatchToProps)(AddBookForm);

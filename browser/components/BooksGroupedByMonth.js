@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default function Month ({ title, books }) {
+export default function BooksGroupedByMonth ({ title, books }) {
 	return (
 		<div>
 			<h1> {title} </h1>
@@ -10,7 +10,8 @@ export default function Month ({ title, books }) {
 				{
 					books
 					.sort( (book1, book2) => {return (book1.date < book2.date) ? 1 : ((book2.date < book1.date) ? -1 : 0);} )
-					.map((book) => { return (
+					.map((book) => {
+						return (
 							<ul key={book.id} >
 								<Link to={`/books/${book.id}`}>
 									<img src={book.url} height="250" />
@@ -21,7 +22,8 @@ export default function Month ({ title, books }) {
 									<li className="author">{book.author}</li>
 								</Link>
 							</ul>
-					);})
+						);
+					})
 				}
 		    </ul>
 		</div>

@@ -1,13 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import { browserHistory } from 'react-router';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 import axios from 'axios';
 import { authenticated } from '../reducers/authReducer';
 import { setBooks } from '../reducers/booksReducer';
 import { setBook } from '../reducers/singleBookReducer';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
-import { browserHistory } from 'react-router';
 
-const WhoAmI = ({ logout }) => (
+const UserAccount = ({ logout }) => (
   <div className="whoami nav navbar-nav navbar-right">
     <DropdownButton bsStyle="primary" title="Your Account"  >
 	    <MenuItem key="1" onClick={() => browserHistory.push('/add')}>Add a Book</MenuItem>
@@ -28,4 +28,4 @@ const logout = () => {
     };
 };
 
-export default connect(null, {logout})(WhoAmI);
+export default connect(null, {logout})(UserAccount);

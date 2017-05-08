@@ -2,19 +2,19 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, browserHistory, IndexRedirect, Link} from 'react-router';
 import { Provider, connect } from 'react-redux';
-import LoginContainer from './containers/LoginContainer';
-import WhoAmI from './components/WhoAmI';
-import HomeContainer from './containers/HomeContainer';
-import BookContainer from './containers/BookContainer';
-import AddBookContainer from './containers/AddBookContainer';
-import EditBookContainer from './containers/EditBookContainer';
+import axios from 'axios';
+import store from './store';
+import Login from './components/Login';
+import UserAccount from './components/UserAccount';
+import Home from './components/Home';
+import SingleBook from './components/SingleBook';
+import AddBookForm from './components/AddBookForm';
+import EditBookForm from './components/EditBookForm';
+import SignUpForm from './components/SignUpForm';
 import AddedBookSuccess from './messages/AddedBookSuccess';
 import DeletedBookSuccess from './messages/DeletedBookSuccess';
 import SignUpSuccess from './messages/SignUpSuccess';
-import SignUpForm from './components/SignUpForm';
 import InvalidRequest from './messages/InvalidRequest';
-import store from './store';
-import axios from 'axios';
 import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
 import { authenticated } from './reducers/authReducer';
@@ -38,7 +38,13 @@ const setUser = () =>
     .then(user => {
         let userId = user.data.id;
         store.dispatch(authenticated(userId));
+        return user;
     });
+
+const loggedInCheck = (nextState, replace) => {
+    let user = store.getState().auth;
+    if (!user.id) replace({ pathname: '/home' });
+};
 
 const BookShelf = function({ user, children }) {
     return (
@@ -60,10 +66,10 @@ const BookShelf = function({ user, children }) {
                                     </div>
                                     <button type="submit" className="btn btn-default">Submit</button>
                                 </form>
-                                <WhoAmI />
+                                <UserAccount />
                             </div>
                             :  <div className="nav navbar-nav navbar-right">
-                                <LoginContainer />
+                                <Login />
                             </div>
                         }
                 </div>
@@ -89,12 +95,12 @@ render(
         <Router history={browserHistory} >
             <Route path="/" component={AppContainer} onEnter={setUser} >
                 <IndexRedirect to="/home" />
-                <Route path="/home" component={HomeContainer} onEnter={onLoadBooks} />
-                <Route path="/books/:bookId" component={BookContainer} onEnter={onLoadBook} />
-                <Route path="/books/edit/:bookId" component={EditBookContainer} />
-                <Route path="/add" component={AddBookContainer} />
-                <Route path="/message" component={AddedBookSuccess} />
-                <Route path="/books/delete/:bookId" component={DeletedBookSuccess} />
+                <Route path="/home" component={Home} onEnter={onLoadBooks} />
+                <Route path="/books/:bookId/edit" component={EditBookForm} onEnter={loggedInCheck} />
+                <Route path="/books/:bookId/delete" component={DeletedBookSuccess} onEnter={loggedInCheck} />
+                <Route path="/books/:bookId" component={SingleBook} onEnter={onLoadBook} />
+                <Route path="/add" component={AddBookForm} onEnter={loggedInCheck} />
+                <Route path="/addedbooksuccess" component={AddedBookSuccess} onEnter={loggedInCheck} />
                 <Route path ="/signup" component={SignUpForm} />
                 <Route path = "/signupsuccess" component={SignUpSuccess} />
                 <Route path="*" component={InvalidRequest} />

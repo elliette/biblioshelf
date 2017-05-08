@@ -1,5 +1,6 @@
 import React from 'react';
-import Month from './Month';
+import { connect } from 'react-redux';
+import BooksGroupedByMonth from '../components/BooksGroupedByMonth';
 import PleaseAddBooks from '../messages/PleaseAddBooks';
 import PleaseSignUp from '../messages/PleaseSignUp';
 
@@ -29,7 +30,7 @@ function groupByMonthAndYear(listOfBooks) {
     });
 }
 
-export default function Home ({ books, user }) {
+function Home ({ books, user }) {
     var booksByMonth = groupByMonthAndYear( books );
     if (!user.id){
        return ( <PleaseSignUp /> );
@@ -39,10 +40,16 @@ export default function Home ({ books, user }) {
                 {booksByMonth.length === 0
                     ? <PleaseAddBooks />
                     : booksByMonth.map(function(monthObj){
-                        return <Month key={monthObj.monthYear} title={monthObj.monthYear} books={monthObj.books} />;
+                        return <BooksGroupedByMonth key={monthObj.monthYear} title={monthObj.monthYear} books={monthObj.books} />;
                     })
                 }
             </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return { books: state.books, user: state.auth };
+}
+
+export default connect(mapStateToProps)(Home);

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { browserHistory} from 'react-router';
 import DatePicker from 'react-bootstrap-date-picker';
+import axios from 'axios';
+import { editBook } from '../reducers/booksReducer';
 
-export default class EditBook extends Component {
+class EditBookForm extends Component {
     constructor (props) {
         super(props);
         this.state = this.props.book;
@@ -83,3 +87,24 @@ export default class EditBook extends Component {
         );
     }
 }
+
+const editBookInDB = (book) => {
+	return (dispatch) => {
+		axios.put(`/api/books`, book)
+		.then((res) => res.data)
+		.then((updatedBook) => {
+			dispatch(editBook(updatedBook));
+		})
+		.then(() => browserHistory.push(`/home`));
+	};
+};
+
+const mapStateToProps = (state) => {
+	return {book: state.selectedBook};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return { handleEditBook: (book) => dispatch(editBookInDB(book)) };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditBookForm);

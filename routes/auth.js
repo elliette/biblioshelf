@@ -7,7 +7,7 @@ auth.get('/whoami', (req, res, next) => {
       let userId = req.session.userId;
       res.send({id: userId});
     } else {
-      res.send(null)
+      res.send(null);
     }
 });
 
@@ -44,7 +44,7 @@ auth.post('/signup', (req, res) => {
 
 auth.post('/logout', (req, res) => {
   req.session.destroy();
-  res.redirect('/api/auth/whoami')
-})
+  res.redirect('/api/auth/whoami');
+});
 
 module.exports = auth;
