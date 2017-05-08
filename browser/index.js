@@ -18,6 +18,7 @@ import axios from 'axios';
 import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
 import { authenticated } from './reducers/authReducer';
+//import { loadBooks } from './reducers/booksReducer';
 
 const onLoadBooks = () =>
     axios.get('/api/books')

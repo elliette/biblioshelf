@@ -26,18 +26,18 @@ const LoginForm = ( { login }) => {
 };
 
 const login = (email, password) => {
-	return (dispatch) => {
-		axios.post('/api/auth/login', {email, password})
-		.then((res) => res.data)
-		.then((user) => dispatch(authenticated(user.id)))
-        .then(() => window.location.reload());
-	};
+    return (dispatch) => {
+        axios.post('/api/auth/login', {email, password})
+        .then((res) => res.data)
+        .then((user) => dispatch(authenticated(user.id)))
+        .then( () => window.location.reload() );
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-	return {
-		login: (email, password) => dispatch(login(email, password))
-	};
+    return {
+        login: (email, password) => dispatch(login(email, password))
+    };
 };
 
 export default connect(null, mapDispatchToProps)(LoginForm);
