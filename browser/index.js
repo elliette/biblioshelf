@@ -11,14 +11,13 @@ import EditBookContainer from './containers/EditBookContainer';
 import AddedBookSuccess from './messages/AddedBookSuccess';
 import DeletedBookSuccess from './messages/DeletedBookSuccess';
 import SignUpSuccess from './messages/SignUpSuccess';
-import UserSignUpContainer from './containers/UserSignUpContainer';
+import SignUpForm from './components/SignUpForm';
 import InvalidRequest from './messages/InvalidRequest';
 import store from './store';
 import axios from 'axios';
 import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
 import { authenticated } from './reducers/authReducer';
-//import { loadBooks } from './reducers/booksReducer';
 
 const onLoadBooks = () =>
     axios.get('/api/books')
@@ -96,7 +95,7 @@ render(
                 <Route path="/add" component={AddBookContainer} />
                 <Route path="/message" component={AddedBookSuccess} />
                 <Route path="/books/delete/:bookId" component={DeletedBookSuccess} />
-                <Route path ="/signup" component={UserSignUpContainer} />
+                <Route path ="/signup" component={SignUpForm} />
                 <Route path = "/signupsuccess" component={SignUpSuccess} />
                 <Route path="*" component={InvalidRequest} />
             </Route>

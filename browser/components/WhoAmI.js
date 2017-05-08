@@ -20,10 +20,11 @@ const WhoAmI = ({ logout }) => (
 
 const logout = () => {
     return (dispatch) =>  {
-        axios.post('api/auth/logout')
+        axios.post('/api/auth/logout')
         .then(() => dispatch(setBooks([])))
         .then(() => dispatch(setBook({})))
-        .then(() => dispatch(authenticated(null)));
+        .then(() => dispatch(authenticated(null)))
+        .then(() => window.location.replace('/'));
     };
 };
 

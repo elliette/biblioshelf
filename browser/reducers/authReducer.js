@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
 
 /* ============ CONSTANTS =============== */
 
@@ -32,21 +31,11 @@ export const login = (email, password) =>
 //         .then(() => dispatch(whoami()))
 //         .catch(() => dispatch(whoami()));
 
-export const signup = (name, email, password) =>
-    dispatch =>
-        axios.post('/api/auth/signup', {name, email, password})
-        .then( () => browserHistory.push('/signupsuccess') )
+// export const signup = (name, email, password) =>
+//     dispatch =>
+//         axios.post('/api/auth/signup', {name, email, password})
+//         .then( () => browserHistory.push('/signupsuccess') )
         
-
-// /* ============ REDUCER =============== */
-
-// export default function(state = {}, action) {
-//     switch (action.type) {
-//         case AUTHENTICATED:
-//         return action.user;
-//     }
-//     return state;
-// }
 
 
 /* ============ REDUCER =============== */
