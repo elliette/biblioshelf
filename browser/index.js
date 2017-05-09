@@ -16,6 +16,8 @@ import AddedBookSuccess from './messages/AddedBookSuccess';
 import DeletedBookSuccess from './messages/DeletedBookSuccess';
 import SignUpSuccess from './messages/SignUpSuccess';
 import InvalidRequest from './messages/InvalidRequest';
+import DeleteAccount from './messages/DeleteAccount';
+import NoBooksFound from './messages/NoBooksFound';
 import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
 import { authenticated } from './reducers/authReducer';
@@ -100,6 +102,8 @@ render(
                 <Route path="/addedbooksuccess" component={AddedBookSuccess} onEnter={loggedInCheck} />
                 <Route path ="/signup" component={SignUpForm} />
                 <Route path = "/signupsuccess" component={SignUpSuccess} />
+                <Route path = "/nobooksfound" component={NoBooksFound} onEnter={loggedInCheck} />
+                <Route path = "/account" component={DeleteAccount} onEnter={loggedInCheck} />
                 <Route path="*" component={InvalidRequest} />
             </Route>
         </Router>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { filterBooks, setBooks } from '../reducers/booksReducer';
+import { browserHistory } from 'react-router';
 
 class SearchBar extends Component {
     constructor (props) {
@@ -18,12 +19,18 @@ class SearchBar extends Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
+		if (!this.state.query && !this.state.submitted) return;
 		if (!this.state.submitted){
 			this.setState({submitted: true});
 			let query = this.state.query;
 			axios.get(`/api/books/search/${query}`)
-			.then(books => books.data)
-			.then(booksArr => booksArr.map( book => book.id) )
+			.then(res => res.data)
+			.then(books => {
+				if (books.length) return books.map(book => book.id);
+				browserHistory.push('/nobooksfound');
+				this.setState({submitted: false});
+				this.setState({query: ''});
+			})
 			.then(this.props.filterFoundBooks);
 		} else {
 			this.setState({submitted: false});
