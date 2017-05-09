@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
-const  SESSION_SECRET = require('./secrets.js');
+const SESSION_SECRET = require('./secrets.js').SESSION_SECRET;
 
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');

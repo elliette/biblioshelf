@@ -10,6 +10,7 @@ import Home from './components/Home';
 import SearchBar from './components/SearchBar';
 import SingleBook from './components/SingleBook';
 import AddBookForm from './components/AddBookForm';
+import GoogleBooksSearch from './components/GoogleBooksSearch';
 import EditBookForm from './components/EditBookForm';
 import SignUpForm from './components/SignUpForm';
 import AddedBookSuccess from './messages/AddedBookSuccess';
@@ -64,7 +65,7 @@ const BookShelf = function({ user, children }) {
                         </ul>
                         { user.id
                             ? <div>
-                            <SearchBar /> 
+                            <SearchBar />
                             <UserAccount />
                             </div>
                             :  <div className="nav navbar-nav navbar-right">
@@ -98,7 +99,7 @@ render(
                 <Route path="/books/:bookId/edit" component={EditBookForm} onEnter={loggedInCheck} />
                 <Route path="/books/:bookId/delete" component={DeletedBookSuccess} onEnter={loggedInCheck} />
                 <Route path="/books/:bookId" component={SingleBook} onEnter={onLoadBook} />
-                <Route path="/add" component={AddBookForm} onEnter={loggedInCheck} />
+                <Route path="/add" component={GoogleBooksSearch} onEnter={loggedInCheck} />
                 <Route path="/addedbooksuccess" component={AddedBookSuccess} onEnter={loggedInCheck} />
                 <Route path ="/signup" component={SignUpForm} />
                 <Route path = "/signupsuccess" component={SignUpSuccess} />
