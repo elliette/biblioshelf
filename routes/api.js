@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Sequelize = require('sequelize');
 
 const Book = require('../db').Book;
 const User = require('../db').User;
@@ -93,6 +94,44 @@ router.put('/books', function(req, res, next) {
     .then(function(editedBook){
         res.send(editedBook);
     });
+});
+
+
+router.get('/books/search/:query', function(req, res){
+    if (!req.session.userId) return;
+    var userId = req.session.userId;
+    var query = req.params.query.toLowerCase();
+    User.findOne({
+        where: {
+            id: userId
+        }
+    })
+    .then(function(user){
+        return Book.findAll({
+          where: {
+            userId: user.id,
+            $or: [
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('title')),
+                    {
+                        $like: `%${query}%`
+                    }
+                ),
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('author')),
+                    {
+                        $like: `%${query}%`
+                    }
+                ),
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('notes')),
+                    {
+                        $like: `%${query}%`
+                    }
+                )
+              ]
+            },
+            include: [{all: true}]
+        });
+    })
+    .then(books => res.json(books));
 });
 
 router.get('/books/:id', function(req, res){

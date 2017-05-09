@@ -4,6 +4,7 @@ export const SET_BOOKS = 'SET_BOOKS';
 export const ADD_BOOK = 'ADD_BOOK';
 export const EDIT_BOOK = 'EDIT_BOOK';
 export const DELETE_BOOK = 'DELETE_BOOK';
+export const FILTER_BOOKS = 'FILTER_BOOKS';
 
 /* ============ ACTION CREATORS =============== */
 
@@ -31,6 +32,11 @@ export const editBook = book => ({
   editedBook: book
 });
 
+export const filterBooks = (books) => ({
+    type: FILTER_BOOKS,
+    books: books
+});
+
 /* ============ REDUCER =============== */
 
 export default function(state = [], action) {
@@ -49,6 +55,9 @@ let newState = state.slice();
             break;
         case DELETE_BOOK:
             newState = newState.filter( (book) => book.id !== action.deletedId);
+            break;
+        case FILTER_BOOKS:
+            newState = newState.filter( (book) => action.books.includes(book.id) );
             break;
         default:
             return state;

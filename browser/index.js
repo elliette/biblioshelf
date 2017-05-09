@@ -7,6 +7,7 @@ import store from './store';
 import Login from './components/Login';
 import UserAccount from './components/UserAccount';
 import Home from './components/Home';
+import SearchBar from './components/SearchBar';
 import SingleBook from './components/SingleBook';
 import AddBookForm from './components/AddBookForm';
 import EditBookForm from './components/EditBookForm';
@@ -18,6 +19,7 @@ import InvalidRequest from './messages/InvalidRequest';
 import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
 import { authenticated } from './reducers/authReducer';
+
 
 const onLoadBooks = () =>
     axios.get('/api/books')
@@ -60,13 +62,8 @@ const BookShelf = function({ user, children }) {
                         </ul>
                         { user.id
                             ? <div>
-                                <form className="navbar-form navbar-left">
-                                    <div className="form-group">
-                                        <input type="text" className="form-control" placeholder="Search" />
-                                    </div>
-                                    <button type="submit" className="btn btn-default">Submit</button>
-                                </form>
-                                <UserAccount />
+                            <SearchBar /> 
+                            <UserAccount />
                             </div>
                             :  <div className="nav navbar-nav navbar-right">
                                 <Login />
