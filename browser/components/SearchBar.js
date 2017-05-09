@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import { filterBooks, setBooks } from '../reducers/booksReducer';
 
 class SearchBar extends Component {
     constructor (props) {
         super(props);
-        this.state = {query: ''};
+        this.state = {query: '', submitted: false};
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -14,13 +16,22 @@ class SearchBar extends Component {
 		this.setState( {query: event.target.value} );
 	}
 
-
 	handleSubmit(event) {
 		event.preventDefault();
-		let searchQuery = this.state.query; 
-		axios.get()
-
-
+		if (!this.state.submitted){
+			this.setState({submitted: true});
+			let query = this.state.query;
+			axios.get(`/api/books/search/${query}`)
+			.then(books => books.data)
+			.then(booksArr => booksArr.map( book => book.id) )
+			.then(this.props.filterFoundBooks);
+		} else {
+			this.setState({submitted: false});
+			this.setState({query: ''});
+			axios.get('/api/books')
+			.then(books => books.data)
+			.then(this.props.setAllBooks);
+		}
 	}
 
 	render() {
@@ -29,7 +40,7 @@ class SearchBar extends Component {
 		        <div className="form-group">
 		            <input type="text" className="form-control" placeholder="Search" onChange={this.handleChange} value={this.state.query} />
 		        </div>
-		        <button type="submit" className="btn btn-default">Submit</button>
+		        <button type="submit" className= {this.state.submitted ? 'btn btn-default' : 'btn btn-primary'} >{this.state.submitted ? 'Clear Search' : 'Search'}</button>
 		    </form>
 		);
 	}
@@ -39,9 +50,11 @@ function mapStateToProps(state) {
     return { books: state.books };
 }
 
+const mapDispatchToProps = (dispatch) => {
+	return {
+		filterFoundBooks: (bookIds) => dispatch(filterBooks(bookIds)),
+		setAllBooks: (books) => dispatch(setBooks(books))
+	};
+};
 
-// const mapDispatchToProps = (dispatch) => {
-// 	return { handleEditBook: (book) => dispatch(editBookInDB(book)) };
-// };
-
-export default connect(mapStateToProps)(SearchBar);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
