@@ -191,7 +191,13 @@ h1, h2, h3 {
 	margin: 0px;
 }
 
+.add-book-form {
+	padding-bottom: 35%;
+}
 
+.btn-lg {
+	margin-top: 5%;
+}
 
 
 
