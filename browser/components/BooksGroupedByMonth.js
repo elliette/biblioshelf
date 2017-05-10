@@ -14,9 +14,9 @@ export default function BooksGroupedByMonth ({ title, books }) {
 						return (
 							<ul key={book.id} >
 								<Link to={`/books/${book.id}`}>
-									<img src={book.url} height="250" />
+									<img src={book.url} height="200" />
 									{book.starred === 'yes'
-									? <li className="title"> <i className="fa fa-heart" aria-hidden="true" />{book.title}</li>
+									? <li className="title"> <i className="fa fa-heart" aria-hidden="true" />{' ' + book.title}</li>
 									: <li className="title">{book.title}</li>
 									}
 									<li className="author">{book.author}</li>

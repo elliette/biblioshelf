@@ -12,18 +12,22 @@ function SingleBook ( {book, handleDelete}) {
         return ( <InvalidRequest /> );
     } else {
         return (
-            <div>
+            <div className="jumbotron">
                 <img className="book-image" src={book.url} />
                 <div className="book-box">
                     {book.starred === 'yes'
-                        ? <h1>{book.title} <i className="fa fa-heart" aria-hidden="true" /></h1>
-                        : <h1>{book.title}</h1>
+                        ? <h2>{book.title} <i className="fa fa-heart" aria-hidden="true" /></h2>
+                        : <h2>{book.title}</h2>
                     }
-                    <h4><i>by {book.author}</i></h4>
+                    <h3><i>by {book.author}</i></h3>
                     <p><b>Read on:</b> {dateFormat(book.date, 'dddd, mmmm dS, yyyy')}</p>
-                    <div className="bookNotes">
-                        <Markdown source={book.notes ? book.notes : 'There are no notes for this book yet.'} />
-                    </div>
+                    {book.notes
+                        ?
+                        <div className="bookNotes">
+                            <Markdown source={book.notes} />
+                        </div>
+                        : null
+                    }
                     <div className="bottom-buttons">
                         <Link to={`/books/${book.id}/edit`}><button type="button" className="btn btn-link">[Edit Book]</button></Link>
                         <button type="button" className="btn btn-link" onClick={() => handleDelete(book.id)}>[Delete Book]</button>

@@ -11,9 +11,7 @@ const UserAccount = ({ logout }) => (
   <div className="whoami nav navbar-nav navbar-right">
     <DropdownButton bsStyle="primary" title="Your Account"  >
 	    <MenuItem key="1" onClick={() => browserHistory.push('/add')}>Add a Book</MenuItem>
-        <MenuItem divider />
 	    <MenuItem key="2" onClick={() => browserHistory.push('/account')}>Manage Account</MenuItem>
-        <MenuItem divider />
 	    <MenuItem key="3" onClick={logout}>Logout</MenuItem>
 	</DropdownButton>
   </div>

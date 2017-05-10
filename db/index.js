@@ -13,9 +13,6 @@ const updateAndCreateChecks = function(book){
 		var randomNum = Math.floor(Math.random() * 4) + 1;
 		book.url = `https://www.mobileread.com/forums/attachment.php?attachmentid=11128${randomNum}&d=1378756884`;
 	}
-	if (!book.notes) {
-		book.notes = 'There are no notes for this book yet.';
-	}
 
 	let date = new Date(book.date);
 	let month = date.getMonth();
