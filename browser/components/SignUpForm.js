@@ -1,41 +1,58 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
+import validator from 'email-validator';
 
 const signup = (event) => {
     event.preventDefault();
     var name = event.target.name.value;
     var email = event.target.email.value;
     var password = event.target.password.value;
+    var confirmPassword = event.target.confirm.value;
+    var signupErrorsArr = [];
+    axios.get(`api/auth/user/${email}`)
+    .then((user )=> user.data)
+    .then(user => user ? signupErrorsArr.push('* There is already a user with that email address.') : null );
+    if (!name){
+        signupErrorsArr.push('* Name cannot be empty.');
+    }
+    if (!validator.validate(email)) {
+        signupErrorsArr.push('* Invalid email address.');
+    }
+    if (password.length < 8) {
+        signupErrorsArr.push('* Password must be at least 8-characters long.');
+    }
+    if (password !== confirmPassword) {
+        signupErrorsArr.push('* Your passwords did not match.');
+    }
+    if (signupErrorsArr.length){
+        let invalidSignUpMessage = `The following problems were found with your signup attempt:\n\n${signupErrorsArr.join('\n')}\n\nPlease try again.`
+        alert(invalidSignUpMessage);
+        return;
+    }
+
     axios.post('/api/auth/signup', {name, email, password})
     .then(() => browserHistory.push('/signupsuccess'));
 };
 
 const SignUpForm = () => {
     return (
-        <div>
-            <h3>Sign Up</h3>
-            <hr />
+        <div className="jumbotron signup-form">
+            <h1>Sign Up:</h1>
             <form onSubmit={(event) => signup(event)}>
                 <div className="form-group">
-                    <label htmlFor="title" className="col-sm-2 control-label">Name</label>
-                    <div className="col-sm-10">
-                        <input name="name" type="text" className="form-control" />
-                    </div>
+                    <input name="name" type="text" placeholder="Name" className="form-control" />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="author" className="col-sm-2 control-label">Email</label>
-                    <div className="col-sm-10">
-                        <input name="email" type="text" className="form-control" />
-                    </div>
+                    <input name="email" type="text" placeholder="Email" className="form-control" />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="url" className="col-sm-2 control-label">Password</label>
-                    <div className="col-sm-10">
-                        <input name="password" type="password" className="form-control" />
-                    </div>
+                    <input name="password" type="password" placeholder="Password" className="form-control" />
                 </div>
-                <div className="col-sm-offset-2 col-sm-10">
+                <div className="form-group">
+                    <input name="confirm" type="password" placeholder="Confirm password" className="form-control" />
+                </div>
+                <div>
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </div>
             </form>

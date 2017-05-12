@@ -11,6 +11,15 @@ auth.get('/whoami', (req, res, next) => {
     }
 });
 
+auth.get('/user/:email', (req, res, next) => {
+  User.findOne({
+    where: {
+      email: req.params.email
+    }
+  })
+  .then( user => res.send(user));
+});
+
 auth.post('/login', (req, res, next) => {
     User.findOne({
         where: {

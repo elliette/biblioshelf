@@ -200,3 +200,9 @@ h1, h2, h3 {
 a:active {
 	opacity: .5;
 }
+
+.signup-form {
+	width: 50%;
+	margin: auto;
+	text-align: center;
+}
