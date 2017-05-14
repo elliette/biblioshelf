@@ -20,11 +20,11 @@ function FilterButtons ({ visibilityFilter, handleFilterBooks, handleGetFavBooks
     }
 
     return (
-        <div className="navbar-left">
-        <button type="button" className={toggleButton(allBooks)} onClick={() => handleFilterBooks(allBooks) } >[Show All Books]</button>
-        <button type="button" className={toggleButton(byYear)} onClick={() => handleFilterBooks(byYear)} >[Group Books By Year]</button>
-        <button type="button" className={toggleButton(byMonth)} onClick={() => handleFilterBooks(byMonth)}>[Group Books by Month]</button>
-        <button type="button" className={toggleButton(favBooks)} onClick={() => handleGetFavBooks() }>[Show Favorited Books]</button>
+        <div className="navbar-left filter-buttons">
+            <button type="button" className={toggleButton(allBooks)} onClick={() => handleFilterBooks(allBooks) } >[Show All Books]</button>
+            <button type="button" className={toggleButton(byYear)} onClick={() => handleFilterBooks(byYear)} >[Group Books By Year]</button>
+            <button type="button" className={toggleButton(byMonth)} onClick={() => handleFilterBooks(byMonth)}>[Group Books by Month]</button>
+            <button type="button" className={toggleButton(favBooks)} onClick={() => handleGetFavBooks() }>[Show Favorited Books]</button>
         </div>
     );
 }

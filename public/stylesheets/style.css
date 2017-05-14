@@ -214,3 +214,7 @@ a:active {
 .unselected {
 	color: white;
 }
+
+.filter-buttons {
+	margin-top: .5%;
+}

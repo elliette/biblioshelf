@@ -6,6 +6,7 @@ export const EDIT_BOOK = 'EDIT_BOOK';
 export const DELETE_BOOK = 'DELETE_BOOK';
 export const FILTER_BOOKS = 'FILTER_BOOKS';
 export const FAV_BOOKS_ONLY = 'FAV_BOOKS_ONLY';
+export const QUERIED_BOOKS = 'QUERIED_BOOKS';
 
 /* ============ ACTION CREATORS =============== */
 
@@ -42,6 +43,11 @@ export const setFavBooks = () => ({
     type: FAV_BOOKS_ONLY
 });
 
+export const setQueriedBooks = (books) => ({
+    type: QUERIED_BOOKS,
+    books: books
+});
+
 /* ============ REDUCER =============== */
 
 export default function(state = [], action) {
@@ -59,6 +65,9 @@ let newState = state.slice();
             break;
         case DELETE_BOOK:
             newState = newState.filter( (book) => book.id !== action.deletedId);
+            break;
+        case QUERIED_BOOKS:
+            newState = action.books;
             break;
         case FILTER_BOOKS:
             newState = newState.filter( (book) => action.books.includes(book.id) );

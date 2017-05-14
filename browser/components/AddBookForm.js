@@ -13,7 +13,7 @@ const getBookInfo = (bookObj) => {
 	let key = bookObj.id;
 	let bookInfo = bookObj.volumeInfo;
 	let author = bookInfo.authors ? bookInfo.authors.join(', ') : 'Unknown';
-	let imageURL = bookInfo.imageLinks ? bookInfo.imageLinks.thumbnail : 'generic_book.jpg';
+	let imageURL = bookInfo.imageLinks ? bookInfo.imageLinks.thumbnail : '/generic_book.jpg';
 	let title = bookInfo.title ? bookInfo.title : 'Unknown';
 	return {key, author, imageURL, title};
 };

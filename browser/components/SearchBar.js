@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { filterBooks, setBooks } from '../reducers/booksReducer';
+import { setQueriedBooks, setBooks } from '../reducers/booksReducer';
 import { browserHistory } from 'react-router';
+import { setVisibility } from '../reducers/visibilityFilterReducer';
+
+const queriedBook = 'queried book';
 
 class SearchBar extends Component {
     constructor (props) {
         super(props);
-        this.state = {query: '', submitted: false};
+        this.state = {query: ''};
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -19,26 +22,16 @@ class SearchBar extends Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
-		if (!this.state.query && !this.state.submitted) return;
-		if (!this.state.submitted){
-			this.setState({submitted: true});
+		if (!this.state.query) return;
 			let query = this.state.query;
 			axios.get(`/api/books/search/${query}`)
 			.then(res => res.data)
 			.then(books => {
-				if (books.length) return books.map(book => book.id);
+				if (books.length) return books;
 				browserHistory.push('/nobooksfound');
-				this.setState({submitted: false});
-				this.setState({query: ''});
 			})
-			.then(this.props.filterFoundBooks);
-		} else {
-			this.setState({submitted: false});
-			this.setState({query: ''});
-			axios.get('/api/books')
-			.then(books => books.data)
-			.then(this.props.setAllBooks);
-		}
+			.then(books => this.props.handleQueriedBooks(books))
+			.then(this.setState({query: ''}));
 	}
 
 	render() {
@@ -47,7 +40,7 @@ class SearchBar extends Component {
 		        <div className="form-group">
 		            <input type="text" className="form-control" placeholder="Search" onChange={this.handleChange} value={this.state.query} />
 		        </div>
-		        <button type="submit" className= {this.state.submitted ? 'btn btn-default' : 'btn btn-primary'} >{this.state.submitted ? 'Clear Search' : 'Search'}</button>
+		        <button type="submit" className="btn btn-primary">Search</button>
 		    </form>
 		);
 	}
@@ -57,9 +50,23 @@ function mapStateToProps(state) {
     return { books: state.books };
 }
 
+// const getFavBooks = () => {
+//     return (dispatch) => {
+//         dispatch(setFavBooks());
+//         dispatch(setVisibility(favBooks));
+//     };
+// };
+
+const queryBooks = (books) => {
+    return (dispatch) => {
+        dispatch(setQueriedBooks(books));
+        dispatch(setVisibility(queriedBook));
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
 	return {
-		filterFoundBooks: (bookIds) => dispatch(filterBooks(bookIds)),
+		handleQueriedBooks: (books) => dispatch(queryBooks(books)),
 		setAllBooks: (books) => dispatch(setBooks(books))
 	};
 };

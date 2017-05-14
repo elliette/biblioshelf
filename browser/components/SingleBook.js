@@ -8,6 +8,7 @@ import InvalidRequest from '../messages/InvalidRequest';
 import { deleteBook } from '../reducers/booksReducer';
 
 function SingleBook ( {book, handleDelete}) {
+    console.log('book is', book);
     if (Object.keys(book).length === 0){
         return ( <InvalidRequest /> );
     } else {

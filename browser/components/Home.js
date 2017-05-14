@@ -7,6 +7,8 @@ import Books from './Books';
 import PleaseSignUp from '../messages/PleaseSignUp';
 import { allBooks, byYear, byMonth, favBooks } from './FilterButtons';
 
+const queriedBook = 'queried book';
+
 
 function Home ({ books, user, visibilityFilter }) {
 
@@ -32,6 +34,12 @@ function Home ({ books, user, visibilityFilter }) {
         return (
             <div>
                 <Books title="Favorite Books" books={books} />;
+            </div>
+        );
+    } else if (visibilityFilter === queriedBook) {
+        return (
+            <div>
+                <Books title="Search Results" books={books} />;
             </div>
         );
     }

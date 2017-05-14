@@ -20,15 +20,22 @@ import DeleteAccount from './messages/DeleteAccount';
 import NoBooksFound from './messages/NoBooksFound';
 import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
+import { setVisibility } from './reducers/visibilityFilterReducer';
 import { authenticated } from './reducers/authReducer';
 
 import FilterButtons from './components/FilterButtons';
 
 
-const getAllBooks = () =>
+const onLoadBooks = () =>
     axios.get('/api/books')
     .then(res => res.data)
     .then((books) => {store.dispatch(setBooks(books));})
+    .then(() => {
+        var visibilityFilter = store.getState().visibilityFilter;
+        if (visibilityFilter === 'queried book'){
+            store.dispatch(setVisibility('show all books'));
+        }
+    })
     .catch(err => console.error(err));
 
 const onLoadBook = (nextRouterState) => {
@@ -97,7 +104,7 @@ render(
         <Router history={browserHistory} >
             <Route path="/" component={AppContainer} onEnter={setUser} >
                 <IndexRedirect to="/home" />
-                <Route path="/home" component={Home} onEnter={getAllBooks} />
+                <Route path="/home" component={Home} onEnter={onLoadBooks} />
                 <Route path="/books/:bookId/edit" component={EditBookForm} onEnter={loggedInCheck} />
                 <Route path="/books/:bookId/delete" component={DeletedBookSuccess} onEnter={loggedInCheck} />
                 <Route path="/books/:bookId" component={SingleBook} onEnter={onLoadBook} />
