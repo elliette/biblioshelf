@@ -1,55 +1,53 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import BooksGroupedByMonth from '../components/BooksGroupedByMonth';
+import MonthGrouping from './MonthGrouping';
+import YearGrouping from './YearGrouping';
 import PleaseAddBooks from '../messages/PleaseAddBooks';
+import Books from './Books';
 import PleaseSignUp from '../messages/PleaseSignUp';
+import { allBooks, byYear, byMonth, favBooks } from './FilterButtons';
 
-function groupByMonthAndYear(listOfBooks) {
-    var result = [];
-    listOfBooks.forEach(function(book){
-        var newMonth = true;
-        result.forEach(function(monthObj){
-            if (monthObj.monthYear === book.monthYear){
-                monthObj.books.push(book);
-                newMonth = false;
-            }
-        });
-        if (newMonth === true){
-            var newMonthObj = {
-                monthYear: book.monthYear,
-                time: book.date,
-                books: [book]
-            };
-            result.push(newMonthObj);
-        }
-    });
-    return result.sort( (monthObj1, monthObj2) => {
-        if (monthObj1.time < monthObj2.time) return 1;
-        if (monthObj2.time < monthObj1.time) return -1;
-        return 0;
-    });
-}
 
-function Home ({ books, user }) {
-    var booksByMonth = groupByMonthAndYear( books );
+function Home ({ books, user, visibilityFilter }) {
+
     if (!user.id){
        return ( <PleaseSignUp /> );
-    } else {
+    } else if (!books.length){
+        return (
+            <PleaseAddBooks />
+        );
+    } else if (visibilityFilter === byMonth) {
         return (
             <div>
-                {booksByMonth.length === 0
-                    ? <PleaseAddBooks />
-                    : booksByMonth.map(function(monthObj){
-                        return <BooksGroupedByMonth key={monthObj.monthYear} title={monthObj.monthYear} books={monthObj.books} />;
-                    })
-                }
+                <MonthGrouping />
+            </div>
+        );
+    } else if (visibilityFilter === byYear){
+        return (
+            <div>
+                <YearGrouping />
+            </div>
+        );
+    } else if (visibilityFilter === favBooks) {
+        return (
+            <div>
+                <Books title="Favorite Books" books={books} />;
+            </div>
+        );
+    }
+
+    else if (visibilityFilter === allBooks) {
+        return (
+            <div>
+                <Books title="All Books" books={books} />;
             </div>
         );
     }
 }
 
+
 function mapStateToProps(state) {
-    return { books: state.books, user: state.auth };
+    return { books: state.books, user: state.auth, visibilityFilter: state.visibilityFilter };
 }
 
 export default connect(mapStateToProps)(Home);

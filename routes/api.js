@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Sequelize = require('sequelize');
+var Promise = require('bluebird');
 
 const Book = require('../db').Book;
 const User = require('../db').User;
-const MonthRead = require('../db').MonthRead;
+//const MonthRead = require('../db').MonthRead;
 
 function findBookPromise(userId, bookId){
     return User.findOne({
@@ -23,46 +24,60 @@ function findBookPromise(userId, bookId){
     });
 }
 
-function findUserAndMonth(userId, date){
-    return User.findOne({
-        where: {
-            id: userId
-        }
-    })
-    .then(function(user){
-        var year = date.getFullYear();
-        var month = date.getMonth();
-        var monthRead = MonthRead.findOrCreate({
-            where: {
-                time: new Date(year, month)
-            }
-        });
-        return Promise.all([user, monthRead[0]]);
-    })
-}
+// function findUserAndMonth(userId, date){
+//     return User.findOne({
+//         where: {
+//             id: userId
+//         }
+//     })
+//     .then(function(user){
+//         var year = date.getFullYear();
+//         var month = date.getMonth();
+//         var monthRead = MonthRead.findOrCreate({
+//             where: {
+//                 time: new Date(year, month)
+//             }
+//         });
+//         return Promise.all([user, monthRead[0]]);
+//     });
+// }
 
 router.post('/books', function(req, res, next) {
     if (!req.session.userId) return;
     var userId = req.session.userId;
     var date = req.body.date ? new Date(req.body.date) : new Date();
-    findUserAndMonth(userId, date)
-    .spread(function(user, monthRead){
-        var book = Book.create({
+    //findUserAndMonth(userId, date)
+    // var user = User.findOne({
+    //     where: {
+    //         id: userId
+    //     }
+    // });
+    // var book = Book.create({
+    //         title: req.body.title,
+    //         author: req.body.author,
+    //         url: req.body.url,
+    //         notes: req.body.notes,
+    //         starred: req.body.starred,
+    //         date: date,
+    // });
+    
+    Promise.all([
+        User.findOne({
+            where: {
+                id: userId
+            }
+        }),
+        Book.create({
             title: req.body.title,
             author: req.body.author,
             url: req.body.url,
             notes: req.body.notes,
             starred: req.body.starred,
             date: date,
-        });
-        return Promise.all([user, monthRead, book]);
-    })
-    .spread(function(user, monthRead, book){
-        var bookWithMonth = book.setMonthRead(monthRead);
-        return Promise.all([user, bookWithMonth]);
-    })
-    .spread(function(user, bookWithMonth){
-        return bookWithMonth.setUser(user);
+        })
+    ])
+    .spread(function(foundUser, createdBook){
+        return createdBook.setUser(foundUser);
     })
     .then(function(bookWithUser){
         res.send(bookWithUser);
@@ -177,13 +192,13 @@ router.get('/books', function(req, res){
     });
 });
 
-router.get('/months', function(req, res){
-    MonthRead.findAll({
-        include: [{ all: true }]
-    })
-    .then(function(months){
-        res.send(months);
-    });
-});
+// router.get('/months', function(req, res){
+//     MonthRead.findAll({
+//         include: [{ all: true }]
+//     })
+//     .then(function(months){
+//         res.send(months);
+//     });
+// });
 
 module.exports = router;

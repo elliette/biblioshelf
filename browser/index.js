@@ -22,8 +22,10 @@ import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
 import { authenticated } from './reducers/authReducer';
 
+import FilterButtons from './components/FilterButtons';
 
-const onLoadBooks = () =>
+
+const getAllBooks = () =>
     axios.get('/api/books')
     .then(res => res.data)
     .then((books) => {store.dispatch(setBooks(books));})
@@ -50,13 +52,13 @@ const loggedInCheck = (nextState, replace) => {
     if (!user.id) replace({ pathname: '/home' });
 };
 
-const BookShelf = function({ user, children }) {
+const Biblioshelf = function({ user, children }) {
     return (
         <div>
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <Link className="navbar-brand" to="/">Book Shelf</Link>
+                        <Link className="navbar-brand" to="/">Biblioshelf</Link>
                     </div>
                         <ul className="nav navbar-nav">
                             <li><Link to="/">Home</Link></li>
@@ -65,6 +67,7 @@ const BookShelf = function({ user, children }) {
                         { user.id
                             ? <div>
                             <SearchBar />
+                            <FilterButtons />
                             <UserAccount />
                             </div>
                             :  <div className="nav navbar-nav navbar-right">
@@ -87,14 +90,14 @@ const mapStateToProps = (state) => {
     };
 };
 
-const AppContainer = connect(mapStateToProps)(BookShelf);
+const AppContainer = connect(mapStateToProps)(Biblioshelf);
 
 render(
     <Provider store={store}>
         <Router history={browserHistory} >
             <Route path="/" component={AppContainer} onEnter={setUser} >
                 <IndexRedirect to="/home" />
-                <Route path="/home" component={Home} onEnter={onLoadBooks} />
+                <Route path="/home" component={Home} onEnter={getAllBooks} />
                 <Route path="/books/:bookId/edit" component={EditBookForm} onEnter={loggedInCheck} />
                 <Route path="/books/:bookId/delete" component={DeletedBookSuccess} onEnter={loggedInCheck} />
                 <Route path="/books/:bookId" component={SingleBook} onEnter={onLoadBook} />

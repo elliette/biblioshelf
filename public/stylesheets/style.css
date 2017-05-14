@@ -87,6 +87,10 @@ i {
  	color: #C51162;
  }
 
+ .btn-link:focus {
+ 	color: #C51162;
+ }
+
 /* navbar */
 .navbar-default {
     background-color: #303F9F;
@@ -205,4 +209,8 @@ a:active {
 	width: 50%;
 	margin: auto;
 	text-align: center;
+}
+
+.unselected {
+	color: white;
 }

@@ -5,6 +5,7 @@ export const ADD_BOOK = 'ADD_BOOK';
 export const EDIT_BOOK = 'EDIT_BOOK';
 export const DELETE_BOOK = 'DELETE_BOOK';
 export const FILTER_BOOKS = 'FILTER_BOOKS';
+export const FAV_BOOKS_ONLY = 'FAV_BOOKS_ONLY';
 
 /* ============ ACTION CREATORS =============== */
 
@@ -37,12 +38,15 @@ export const filterBooks = (books) => ({
     books: books
 });
 
+export const setFavBooks = () => ({
+    type: FAV_BOOKS_ONLY
+});
+
 /* ============ REDUCER =============== */
 
 export default function(state = [], action) {
 
 let newState = state.slice();
-
     switch (action.type) {
         case SET_BOOKS:
             newState = action.books;
@@ -58,6 +62,9 @@ let newState = state.slice();
             break;
         case FILTER_BOOKS:
             newState = newState.filter( (book) => action.books.includes(book.id) );
+            break;
+        case FAV_BOOKS_ONLY:
+            newState = newState.filter( (book) => book.starred === 'yes');
             break;
         default:
             return state;

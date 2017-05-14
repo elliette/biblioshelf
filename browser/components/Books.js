@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default function BooksGroupedByMonth ({ title, books }) {
+export default function Books ({ title, books }) {
 	return (
 		<div>
 			<h1> {title} </h1>

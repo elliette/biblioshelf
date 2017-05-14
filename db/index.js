@@ -80,11 +80,11 @@ const Book = db.define('book', {
 	}
 });
 
-const MonthRead = db.define('monthRead', {
-	time: {
-		type: Sequelize.DATE
-	},
-});
+// const MonthRead = db.define('monthRead', {
+// 	time: {
+// 		type: Sequelize.DATE
+// 	},
+// });
 
 const User = db.define('user', {
     name: Sequelize.STRING,
@@ -121,9 +121,9 @@ const User = db.define('user', {
 */
 
 Book.belongsTo(User);
-Book.belongsTo(MonthRead);
-MonthRead.hasMany(Book, {onDelete: 'CASCADE'});
-User.hasMany(Book);
+//Book.belongsTo(MonthRead);
+//MonthRead.hasMany(Book, {onDelete: 'CASCADE'});
+User.hasMany(Book, {onDelete: 'CASCADE'});
 
-module.exports = {db, Book, MonthRead, User};
+module.exports = {db, Book, User};
 

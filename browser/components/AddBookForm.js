@@ -46,7 +46,7 @@ class AddBookForm extends Component {
 		axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&orderBy=relevance&key=${GOOGLE_BOOKS_API}`)
 		.then(res => res.data.items)
 		.then(books => books.map(book => getBookInfo(book)))
-		.then(bookInfo => this.props.setBooks(bookInfo));
+		.then(bookInfo => this.props.setGoogleBooks(bookInfo));
 	}
 
 
@@ -65,9 +65,6 @@ class AddBookForm extends Component {
         var starred = event.target.starred.value;
         var reqObj = { title, author, url, notes, date, starred };
         this.props.handleAddBook(reqObj);
-        this.props.setBooks([]);
-        this.props.removeBook();
-        browserHistory.push('/addedbooksuccess');
     }
 
 	render() {
@@ -140,7 +137,10 @@ const addBookToDB = (book) => {
 	return (dispatch) => {
 		axios.post(`/api/books`, book)
 		.then((res) => res.data)
-		.then((newBook) => dispatch(addBook(newBook)));
+		.then((newBook) => dispatch(addBook(newBook)))
+		.then(() => dispatch(setGoogleBooks([])))
+		.then(() => dispatch(removeGoogleBook()))
+		.then(() => browserHistory.push('/addedbooksuccess'));
 	};
 };
 
@@ -150,11 +150,11 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setBooks: (books) => dispatch(setGoogleBooks(books)),
+		setGoogleBooks: (books) => dispatch(setGoogleBooks(books)),
 		setSingleBook: (book) => dispatch(setGoogleBook(book)),
-		removeBook: () => dispatch(removeGoogleBook()),
 		handleAddBook: (book) => dispatch(addBookToDB(book))
 	};
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddBookForm);
