@@ -33,6 +33,8 @@ class SearchBar extends Component {
 	}
 
 	render() {
+		if (!this.props.books.length) return null;
+
 		return (
 		    <form className="navbar-form navbar-left" onSubmit={this.handleSubmit} >
 		        <div className="form-group">

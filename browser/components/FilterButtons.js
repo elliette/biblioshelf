@@ -5,11 +5,13 @@ import { setVisibility, allBooks, favBooks, byYear, byMonth } from '../reducers/
 import { setBooks, setFavBooks } from '../reducers/booksReducer';
 import axios from 'axios';
 
-function FilterButtons ({ visibilityFilter, handleFilterBooks, handleGetFavBooks }) {
+function FilterButtons ({ visibilityFilter, books, handleFilterBooks, handleGetFavBooks }) {
 
     function toggleButton (selectedOption) {
         return visibilityFilter === selectedOption ? 'btn btn-link' : 'btn btn-link unselected';
     }
+
+    if (!books.length) return null;
 
     return (
         <div className="navbar-left filter-buttons">
@@ -38,7 +40,7 @@ const getFavBooks = () => {
 };
 
 function mapStateToProps(state) {
-    return { visibilityFilter: state.visibilityFilter };
+    return { visibilityFilter: state.visibilityFilter, books: state.books };
 }
 
 const mapDispatchToProps = (dispatch) => {

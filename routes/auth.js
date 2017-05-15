@@ -54,10 +54,9 @@ auth.post('/signup', (req, res, next) => {
     .catch(next);
 });
 
-auth.post('/logout', (req, res, next) => {
-  req.session.destroy()
-  .then( () => res.redirect('/api/auth/whoami'))
-  .catch(next);
+auth.post('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/api/auth/whoami');
 });
 
 module.exports = auth;

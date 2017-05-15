@@ -17,14 +17,29 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-img {
+.book-list-image {
 	box-shadow: 0px 10px 5px grey;
 	margin: 0px 0px 10px 0px;
+	height: 200px;
+}
+
+.bookshelf-image {
+	height: 400px;
+	margin-bottom: 3%;
+	display: inline-block;
+	float: right;
+	padding-left: 10%;
 }
 
 .jumbotron {
 	background-color: #E8EAF6; 
 	margin-top: 15px;
+}
+
+.jumbo-with-image {
+	background-color: #E8EAF6; 
+	margin-top: 15px;
+	display:inline-block;
 }
 
 .book-image {

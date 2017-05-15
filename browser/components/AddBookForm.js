@@ -75,7 +75,7 @@ class AddBookForm extends Component {
 					<hr />
 					{ this.props.books.map( book =>
 						<a className="book-option" key={book.key} ><ul onClick={this.handleClick.bind(this, book)}>
-							<img src={book.imageURL} height="200" />
+							<img className="book-list-image" src={book.imageURL} />
 								<li className="title">{book.title}</li>
 								<li className="author">{book.author}</li>
 						</ul></a>
