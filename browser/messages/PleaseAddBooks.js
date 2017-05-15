@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default function PleaseAddBooks() {
+const PleaseAddBooks = () => {
 	return (
 		<div className="jumbotron jumbo-with-image">
 			<h1>Welcome to Biblioshelf!</h1>
@@ -12,4 +12,6 @@ export default function PleaseAddBooks() {
 			<h2>Your shelf is currently empty.But not to worry! You can start adding books right <Link className="link" to={'/add'}>here.</Link></h2>
 		</div>
 	);
-}
+};
+
+export default PleaseAddBooks;

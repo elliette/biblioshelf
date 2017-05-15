@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default function NoBooksFound () {
+const NoBooksFound = () => {
 	return (
 		<div className="jumbotron">
 			<h1>Sorry!</h1>
@@ -9,4 +9,6 @@ export default function NoBooksFound () {
 			<Link to={`/`}><button type="button" className="btn btn-link"><h3>[Return Home]</h3></button></Link>
 		</div>
 	);
-}
+};
+
+export default NoBooksFound;

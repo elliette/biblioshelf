@@ -9,7 +9,7 @@ import { setBook } from '../reducers/singleBookReducer';
 
 const UserAccount = ({ logout }) => (
   <div className="whoami nav navbar-nav navbar-right">
-    <DropdownButton bsStyle="primary" title="Your Account"  >
+    <DropdownButton bsStyle="primary" title="Your Account" id="dropdownButton" >
 	    <MenuItem key="1" onClick={() => browserHistory.push('/add')}>Add a Book</MenuItem>
 	    <MenuItem key="2" onClick={() => browserHistory.push('/account')}>Manage Account</MenuItem>
 	    <MenuItem key="3" onClick={logout}>Logout</MenuItem>

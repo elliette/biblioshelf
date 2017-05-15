@@ -1,3 +1,5 @@
+'use strict';
+
 /* ============ CONSTANTS =============== */
 
 const AUTHENTICATED = 'AUTHENTICATED';
@@ -13,7 +15,7 @@ export const authenticated = function(user) {
 
 /* ============ REDUCER =============== */
 
-export default function(state = {}, action) {
+export default (state = {}, action) => {
 
     let newState = Object.assign({}, state);
 
@@ -25,5 +27,4 @@ export default function(state = {}, action) {
             return state;
     }
     return newState;
-}
-
+};

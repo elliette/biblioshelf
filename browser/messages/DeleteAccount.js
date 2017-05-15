@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function DeleteAccount() {
+const DeleteAccount = () => {
     return (
         <div className="jumbotron">
 			<h1>Manage Account</h1>
@@ -8,4 +8,6 @@ export default function DeleteAccount() {
 			<button type="button" className="btn btn-link" onClick={() => console.log('clicked!')}><h3>[Delete Account]</h3></button>
 		</div>
     );
-}
+};
+
+export default DeleteAccount;

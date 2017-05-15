@@ -1,3 +1,5 @@
+'use strict';
+
 /* ============ CONSTANTS =============== */
 
 const SET_GOOGLE_BOOK = 'SET_GOOGLE_BOOK';
@@ -20,7 +22,7 @@ export const removeGoogleBook = function() {
 
 /* ============ REDUCER =============== */
 
-export default function(state = {}, action) {
+export default (state = {}, action) => {
 
     let newState = Object.assign({}, state);
 
@@ -35,4 +37,4 @@ export default function(state = {}, action) {
             return state;
     }
     return newState;
-}
+};

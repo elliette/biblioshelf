@@ -1,3 +1,5 @@
+'use strict';
+
 /* ============ FILTERS =============== */
 
 export const allBooks = 'show all books';
@@ -21,7 +23,7 @@ export const setVisibility = function(filter) {
 
 /* ============ REDUCER =============== */
 
-export default function(state = 'show all books', action) {
+export default (state = 'show all books', action) => {
 
     let newState = state.slice(0);
 
@@ -33,4 +35,4 @@ export default function(state = 'show all books', action) {
             return state;
     }
     return newState;
-}
+};

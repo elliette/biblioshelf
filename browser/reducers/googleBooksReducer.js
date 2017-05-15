@@ -1,3 +1,5 @@
+'use strict';
+
 /* ============ CONSTANTS =============== */
 
 export const SET_GOOGLE_BOOKS = 'SET_GOOGLE_BOOKS';
@@ -11,9 +13,9 @@ export const setGoogleBooks = function (books) {
     };
 };
 
-export default function(state = [], action) {
+export default (state = [], action) => {
 
-let newState = state.slice();
+    let newState = state.slice();
 
     switch (action.type) {
         case SET_GOOGLE_BOOKS:
@@ -23,4 +25,4 @@ let newState = state.slice();
             return state;
     }
     return newState;
-}
+};

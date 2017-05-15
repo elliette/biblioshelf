@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setVisibility, allBooks, favBooks, byYear, byMonth } from '../reducers/visibilityFilterReducer';
-
-import { setBooks, setFavBooks } from '../reducers/booksReducer';
 import axios from 'axios';
+import { setVisibility, allBooks, favBooks, byYear, byMonth } from '../reducers/visibilityFilterReducer';
+import { setBooks, setFavBooks } from '../reducers/booksReducer';
 
-function FilterButtons ({ visibilityFilter, books, handleFilterBooks, handleGetFavBooks }) {
+const FilterButtons = ({ visibilityFilter, books, filterBooks, getFavBooks }) => {
 
     function toggleButton (selectedOption) {
         return visibilityFilter === selectedOption ? 'btn btn-link' : 'btn btn-link unselected';
@@ -15,13 +14,13 @@ function FilterButtons ({ visibilityFilter, books, handleFilterBooks, handleGetF
 
     return (
         <div className="navbar-left filter-buttons">
-            <button type="button" className={toggleButton(allBooks)} onClick={() => handleFilterBooks(allBooks) } >[Show All Books]</button>
-            <button type="button" className={toggleButton(byYear)} onClick={() => handleFilterBooks(byYear)} >[Group Books By Year]</button>
-            <button type="button" className={toggleButton(byMonth)} onClick={() => handleFilterBooks(byMonth)}>[Group Books by Month]</button>
-            <button type="button" className={toggleButton(favBooks)} onClick={() => handleGetFavBooks() }>[Show Favorited Books]</button>
+            <button type="button" className={toggleButton(allBooks)} onClick={() => filterBooks(allBooks) } >[Show All Books]</button>
+            <button type="button" className={toggleButton(byYear)} onClick={() => filterBooks(byYear)} >[Group Books By Year]</button>
+            <button type="button" className={toggleButton(byMonth)} onClick={() => filterBooks(byMonth)}>[Group Books by Month]</button>
+            <button type="button" className={toggleButton(favBooks)} onClick={() => getFavBooks() }>[Show Favorited Books]</button>
         </div>
     );
-}
+};
 
 const filterBooks = (filter) => {
     return (dispatch) => {
@@ -39,15 +38,8 @@ const getFavBooks = () => {
     };
 };
 
-function mapStateToProps(state) {
-    return { visibilityFilter: state.visibilityFilter, books: state.books };
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        handleFilterBooks: (filter) => dispatch(filterBooks(filter)),
-        handleGetFavBooks: () => dispatch(getFavBooks())
-    };
+const mapStateToProps = ({ visibilityFilter, books }) =>  {
+    return { visibilityFilter, books };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterButtons);
+export default connect(mapStateToProps, { filterBooks, getFavBooks })(FilterButtons);

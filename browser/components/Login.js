@@ -30,7 +30,6 @@ const login = (email, password) => {
         axios.post('/api/auth/login', {email, password})
         .then((res) => res.data)
         .then((user) => {
-            console.log('user is', user);
             dispatch(authenticated(user.id));
         })
         .then(() => window.location.assign('/'));

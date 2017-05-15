@@ -8,7 +8,7 @@ import { editBook } from '../reducers/booksReducer';
 class EditBookForm extends Component {
     constructor (props) {
         super(props);
-        this.state = this.props.book;
+        this.state = this.props.selectedBook;
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
@@ -29,7 +29,7 @@ class EditBookForm extends Component {
     handleSubmit(event){
         event.preventDefault();
         const editedBook = this.state;
-        this.props.handleEditBook(editedBook);
+        this.props.editBookInDB(editedBook);
     }
 
     render () {
@@ -99,12 +99,8 @@ const editBookInDB = (book) => {
 	};
 };
 
-const mapStateToProps = (state) => {
-	return {book: state.selectedBook};
+const mapStateToProps = ({ selectedBook }) => {
+	return { selectedBook };
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return { handleEditBook: (book) => dispatch(editBookInDB(book)) };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditBookForm);
+export default connect(mapStateToProps, { editBookInDB })(EditBookForm);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { setQueriedBooks, setBooks } from '../reducers/booksReducer';
+import { setQueriedBooks } from '../reducers/booksReducer';
 import { browserHistory } from 'react-router';
 import { setVisibility, queriedBook } from '../reducers/visibilityFilterReducer';
 
@@ -28,7 +28,7 @@ class SearchBar extends Component {
 				if (books.length) return books;
 				browserHistory.push('/nobooksfound');
 			})
-			.then(books => this.props.handleQueriedBooks(books))
+			.then(books => this.props.queryBooks(books))
 			.then(this.setState({query: ''}));
 	}
 
@@ -46,22 +46,15 @@ class SearchBar extends Component {
 	}
 }
 
-function mapStateToProps(state) {
-    return { books: state.books };
-}
-
 const queryBooks = (books) => {
     return (dispatch) => {
-        dispatch(setQueriedBooks(books));
+        dispatch(setQueriedBooks(books || []));
         dispatch(setVisibility(queriedBook));
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		handleQueriedBooks: (books) => dispatch(queryBooks(books)),
-		setAllBooks: (books) => dispatch(setBooks(books))
-	};
+const mapStateToProps = ({ books }) => {
+    return { books };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+export default connect(mapStateToProps, { queryBooks })(SearchBar);

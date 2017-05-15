@@ -6,8 +6,8 @@ import DatePicker from 'react-bootstrap-date-picker';
 import { setGoogleBooks } from '../reducers/googleBooksReducer';
 import { setGoogleBook, removeGoogleBook } from '../reducers/singleGoogleBookReducer';
 import { addBook } from '../reducers/booksReducer';
-import { GOOGLE_BOOKS_API } from '../../secrets';
 import { getBookInfo } from '../utilities';
+import { GOOGLE_BOOKS_API } from '../../secrets';
 
 class AddBookForm extends Component {
     constructor (props) {
@@ -37,24 +37,23 @@ class AddBookForm extends Component {
 		axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&orderBy=relevance&key=${GOOGLE_BOOKS_API}`)
 		.then(res => res.data.items)
 		.then(books => books.map(book => getBookInfo(book)))
-		.then(bookInfo => this.props.setGoogleBooks(bookInfo));
+		.then(booksWithInfo => this.props.setGoogleBooks(booksWithInfo));
 	}
 
 	handleClick(book) {
-		this.props.setSingleBook(book);
+		this.props.setGoogleBook(book);
 	}
 
 	finalSubmit(event) {
         event.preventDefault();
-        var bookToAdd = this.props.selectedGoogleBook;
-        var title = bookToAdd.title;
-        var author = bookToAdd.author;
-        var url = bookToAdd.imageURL;
-        var notes = event.target.notes.value;
-        var date = this.state.date;
-        var starred = event.target.starred.value;
-        var reqObj = { title, author, url, notes, date, starred };
-        this.props.handleAddBook(reqObj);
+        const bookToAdd = this.props.selectedGoogleBook;
+        const title = bookToAdd.title;
+        const author = bookToAdd.author;
+        const url = bookToAdd.imageURL;
+        const notes = event.target.notes.value;
+        const date = this.state.date;
+        const starred = event.target.starred.value;
+        this.props.addBookToDB({ title, author, url, notes, date, starred });
     }
 
 	render() {
@@ -69,11 +68,11 @@ class AddBookForm extends Component {
 						<button type="submit" className= {this.state.submitted ? 'btn btn-default' : 'btn btn-primary'} >{this.state.submitted ? 'Clear Search' : 'Search'}</button>
 					</form>
 			    </div>
-			    {this.props.books.length
+			    {this.props.googleBooks.length
 			    ? <div>
 					<h1>Select a book:</h1>
 					<hr />
-					{ this.props.books.map( book =>
+					{ this.props.googleBooks.map( book =>
 						<a className="book-option" key={book.key} ><ul onClick={this.handleClick.bind(this, book)}>
 							<img className="book-list-image" src={book.imageURL} />
 								<li className="title">{book.title}</li>
@@ -134,16 +133,8 @@ const addBookToDB = (book) => {
 	};
 };
 
-function mapStateToProps(state) {
-    return { books: state.googleBooks, selectedGoogleBook: state.selectedGoogleBook };
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setGoogleBooks: (books) => dispatch(setGoogleBooks(books)),
-		setSingleBook: (book) => dispatch(setGoogleBook(book)),
-		handleAddBook: (book) => dispatch(addBookToDB(book))
-	};
+const mapStateToProps = ({ googleBooks, selectedGoogleBook }) => {
+    return { googleBooks, selectedGoogleBook };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBookForm);
+export default connect(mapStateToProps, { setGoogleBooks, setGoogleBook, addBookToDB })(AddBookForm);

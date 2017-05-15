@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, browserHistory, IndexRedirect, Link} from 'react-router';
@@ -37,7 +39,7 @@ const onLoadBooks = () =>
     .catch(err => console.error(err));
 
 const onLoadBook = (nextRouterState) => {
-    var id = nextRouterState.params.bookId;
+    let id = nextRouterState.params.bookId;
     axios.get(`/api/books/${id}`)
     .then(res => res.data)
     .then((book) => {store.dispatch(setBook(book));})
@@ -53,11 +55,11 @@ const setUser = () =>
     });
 
 const loggedInCheck = (nextState, replace) => {
-    let user = store.getState().auth;
+    let user = store.getState().user;
     if (!user.id) replace({ pathname: '/home' });
 };
 
-const Biblioshelf = function({ user, children }) {
+const Biblioshelf = ({ user, children }) => {
     return (
         <div>
             <nav className="navbar navbar-default">
@@ -89,10 +91,8 @@ const Biblioshelf = function({ user, children }) {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.auth,
-    };
+const mapStateToProps = ({ user }) => {
+    return { user };
 };
 
 const AppContainer = connect(mapStateToProps)(Biblioshelf);

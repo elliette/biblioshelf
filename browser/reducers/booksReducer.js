@@ -1,3 +1,5 @@
+'use strict';
+
 /* ============ CONSTANTS =============== */
 
 export const SET_BOOKS = 'SET_BOOKS';
@@ -50,9 +52,10 @@ export const setQueriedBooks = (books) => ({
 
 /* ============ REDUCER =============== */
 
-export default function(state = [], action) {
+export default (state = [], action) =>  {
 
-let newState = state.slice();
+    let newState = state.slice();
+      
     switch (action.type) {
         case SET_BOOKS:
             newState = action.books;
@@ -79,4 +82,4 @@ let newState = state.slice();
             return state;
     }
     return newState;
-}
+};

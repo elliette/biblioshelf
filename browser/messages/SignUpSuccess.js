@@ -1,11 +1,12 @@
 import React from 'react';
 
-export default function SignUpSuccess () {
+const SignUpSuccess = () => {
 	return (
 		<div className="jumbotron">
 			<h1>Welcome to Biblioshelf!</h1>
 			<h2>Please log in to begin using Biblioshelf today.</h2>
 		</div>
 	);
-}
+};
 
+export default SignUpSuccess;

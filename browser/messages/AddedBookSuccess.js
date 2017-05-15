@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default function AddBookSuccess () {
+const AddBookSuccess = () => {
 	return (
 		<div className="jumbotron">
 			<h1>Congratulations!</h1>
@@ -10,4 +10,6 @@ export default function AddBookSuccess () {
 			<Link to={`/`}><button type="button" className="btn btn-link"><h3>[Return Home]</h3></button></Link>
 		</div>
 	);
-}
+};
+
+export default AddBookSuccess;

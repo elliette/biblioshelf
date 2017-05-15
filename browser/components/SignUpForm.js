@@ -5,11 +5,11 @@ import validator from 'email-validator';
 
 const signup = (event) => {
     event.preventDefault();
-    var name = event.target.name.value;
-    var email = event.target.email.value;
-    var password = event.target.password.value;
-    var confirmPassword = event.target.confirm.value;
-    var signupErrorsArr = [];
+    const name = event.target.name.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+    const confirmPassword = event.target.confirm.value;
+    const signupErrorsArr = [];
     axios.get(`api/auth/user/${email}`)
     .then(res => res.data)
     .then( (user) => {
@@ -17,7 +17,7 @@ const signup = (event) => {
         if (!name) signupErrorsArr.push('* Name cannot be empty.');
         if (!validator.validate(email)) signupErrorsArr.push('* Invalid email address.');
         if (password.length < 8) signupErrorsArr.push('* Password must be at least 8-characters long.');
-        if (password !== confirmPassword) signupErrorsArr.push('* Your passwords did not match.');        
+        if (password !== confirmPassword) signupErrorsArr.push('* Your passwords did not match.');
         if (signupErrorsArr.length){
             let invalidSignUpMessage = `The following problems were found with your signup attempt:\n\n${signupErrorsArr.join('\n')}\n\nPlease try again.`;
             alert(invalidSignUpMessage);

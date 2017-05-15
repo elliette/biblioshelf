@@ -1,3 +1,5 @@
+'use strict';
+
 export const getBookInfo = (bookObj) => {
 	let key = bookObj.id;
 	let bookInfo = bookObj.volumeInfo;
@@ -19,7 +21,7 @@ export const sortBooks = (listOfBooks) => {
 };
 
 export const groupByMonth = (listOfBooks) => {
-    var months = [
+    const months = [
         'January',
         'February',
         'March',
@@ -33,11 +35,11 @@ export const groupByMonth = (listOfBooks) => {
         'November',
         'December'
     ];
-    var booksByMonthObj = listOfBooks.reduce((booksGroupedByMonth, book) => {
-        var date = new Date(book.date);
-        var month = months[date.getMonth()];
-        var year = date.getFullYear();
-        var monthYear = `${month} ${year}`;
+    const booksByMonthObj = listOfBooks.reduce((booksGroupedByMonth, book) => {
+        let date = new Date(book.date);
+        let month = months[date.getMonth()];
+        let year = date.getFullYear();
+        let monthYear = `${month} ${year}`;
         if (!booksGroupedByMonth[monthYear]){
             booksGroupedByMonth[monthYear] = {monthYear: monthYear, books: [] };
         }
@@ -45,7 +47,7 @@ export const groupByMonth = (listOfBooks) => {
         return booksGroupedByMonth;
     }, {});
 
-    var sortedMonthArray = Object.keys(booksByMonthObj).sort( (monthA, monthB) => {
+    const sortedMonthArray = Object.keys(booksByMonthObj).sort( (monthA, monthB) => {
         if (new Date(monthA) < new Date(monthB))  return 1;
         if (new Date(monthB) < new Date(monthA)) return -1;
         return 0;
@@ -58,8 +60,8 @@ export const groupByMonth = (listOfBooks) => {
 };
 
 export const groupByYear = (listOfBooks) => {
-    var booksByYearObj = listOfBooks.reduce((booksGroupedByYear, book) => {
-        var year = new Date(book.date).getFullYear();
+    const booksByYearObj = listOfBooks.reduce((booksGroupedByYear, book) => {
+        let year = new Date(book.date).getFullYear();
         if (!booksGroupedByYear[year]){
             booksGroupedByYear[year] = {year: year, books: [] };
         }
@@ -67,7 +69,7 @@ export const groupByYear = (listOfBooks) => {
         return booksGroupedByYear;
     }, {});
 
-    var sortedYearArray = Object.keys(booksByYearObj).sort( (yearA, yearB) => {
+    const sortedYearArray = Object.keys(booksByYearObj).sort( (yearA, yearB) => {
         if (yearA < yearB) return 1;
         if (yearB < yearA) return -1;
         return 0;
