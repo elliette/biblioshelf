@@ -27,4 +27,4 @@ const logout = () => {
     };
 };
 
-export default connect(null, {logout})(UserAccount);
+export default connect(null, { logout })(UserAccount);

@@ -11,28 +11,21 @@ const signup = (event) => {
     var confirmPassword = event.target.confirm.value;
     var signupErrorsArr = [];
     axios.get(`api/auth/user/${email}`)
-    .then((user )=> user.data)
-    .then(user => user ? signupErrorsArr.push('* There is already a user with that email address.') : null );
-    if (!name){
-        signupErrorsArr.push('* Name cannot be empty.');
-    }
-    if (!validator.validate(email)) {
-        signupErrorsArr.push('* Invalid email address.');
-    }
-    if (password.length < 8) {
-        signupErrorsArr.push('* Password must be at least 8-characters long.');
-    }
-    if (password !== confirmPassword) {
-        signupErrorsArr.push('* Your passwords did not match.');
-    }
-    if (signupErrorsArr.length){
-        let invalidSignUpMessage = `The following problems were found with your signup attempt:\n\n${signupErrorsArr.join('\n')}\n\nPlease try again.`
-        alert(invalidSignUpMessage);
-        return;
-    }
-
-    axios.post('/api/auth/signup', {name, email, password})
-    .then(() => browserHistory.push('/signupsuccess'));
+    .then(res => res.data)
+    .then( (user) => {
+        if (user) signupErrorsArr.push('* There is already a user with that email address.');
+        if (!name) signupErrorsArr.push('* Name cannot be empty.');
+        if (!validator.validate(email)) signupErrorsArr.push('* Invalid email address.');
+        if (password.length < 8) signupErrorsArr.push('* Password must be at least 8-characters long.');
+        if (password !== confirmPassword) signupErrorsArr.push('* Your passwords did not match.');        
+        if (signupErrorsArr.length){
+            let invalidSignUpMessage = `The following problems were found with your signup attempt:\n\n${signupErrorsArr.join('\n')}\n\nPlease try again.`;
+            alert(invalidSignUpMessage);
+            return;
+        }
+        axios.post('/api/auth/signup', {name, email, password})
+        .then(() => browserHistory.push('/signupsuccess'));
+    });
 };
 
 const SignUpForm = () => {

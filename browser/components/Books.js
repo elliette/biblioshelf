@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { sortBooks } from '../utilities';
 
 export default function Books ({ title, books }) {
 	return (
@@ -8,8 +9,7 @@ export default function Books ({ title, books }) {
 		    <hr />
 		    <ul>
 				{
-					books
-					.sort( (book1, book2) => {return (book1.date < book2.date) ? 1 : ((book2.date < book1.date) ? -1 : 0);} )
+					sortBooks(books)
 					.map((book) => {
 						return (
 							<ul key={book.id} >

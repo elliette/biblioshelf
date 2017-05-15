@@ -5,54 +5,26 @@ import YearGrouping from './YearGrouping';
 import PleaseAddBooks from '../messages/PleaseAddBooks';
 import Books from './Books';
 import PleaseSignUp from '../messages/PleaseSignUp';
-import { allBooks, byYear, byMonth, favBooks } from './FilterButtons';
-
-const queriedBook = 'queried book';
-
+import { allBooks, byYear, byMonth, favBooks, queriedBook } from '../reducers/visibilityFilterReducer';
 
 function Home ({ books, user, visibilityFilter }) {
 
     if (!user.id){
        return ( <PleaseSignUp /> );
     } else if (!books.length){
-        return (
-            <PleaseAddBooks />
-        );
+        return ( <PleaseAddBooks /> );
     } else if (visibilityFilter === byMonth) {
-        return (
-            <div>
-                <MonthGrouping />
-            </div>
-        );
+        return ( <MonthGrouping /> );
     } else if (visibilityFilter === byYear){
-        return (
-            <div>
-                <YearGrouping />
-            </div>
-        );
+        return ( <YearGrouping /> );
     } else if (visibilityFilter === favBooks) {
-        return (
-            <div>
-                <Books title="Favorite Books" books={books} />;
-            </div>
-        );
+        return ( <Books title="Favorite Books" books={books} /> );
     } else if (visibilityFilter === queriedBook) {
-        return (
-            <div>
-                <Books title="Search Results" books={books} />;
-            </div>
-        );
-    }
-
-    else if (visibilityFilter === allBooks) {
-        return (
-            <div>
-                <Books title="All Books" books={books} />;
-            </div>
-        );
+        return ( <Books title="Search Results" books={books} /> );
+    } else if (visibilityFilter === allBooks) {
+        return ( <Books title="All Books" books={books} /> );
     }
 }
-
 
 function mapStateToProps(state) {
     return { books: state.books, user: state.auth, visibilityFilter: state.visibilityFilter };

@@ -1,22 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setVisibility } from '../reducers/visibilityFilterReducer';
+import { setVisibility, allBooks, favBooks, byYear, byMonth } from '../reducers/visibilityFilterReducer';
 
 import { setBooks, setFavBooks } from '../reducers/booksReducer';
 import axios from 'axios';
 
-export const allBooks = 'show all books';
-export const byYear = 'group books by year';
-export const byMonth = 'group books by month';
-export const favBooks = 'show favorite books';
-
-const selectedBtn = 'btn btn-link';
-const normalBtn = 'btn btn-link unselected';
-
 function FilterButtons ({ visibilityFilter, handleFilterBooks, handleGetFavBooks }) {
 
     function toggleButton (selectedOption) {
-        return visibilityFilter === selectedOption ? selectedBtn : normalBtn;
+        return visibilityFilter === selectedOption ? 'btn btn-link' : 'btn btn-link unselected';
     }
 
     return (

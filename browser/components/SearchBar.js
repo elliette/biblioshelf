@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { setQueriedBooks, setBooks } from '../reducers/booksReducer';
 import { browserHistory } from 'react-router';
-import { setVisibility } from '../reducers/visibilityFilterReducer';
-
-const queriedBook = 'queried book';
+import { setVisibility, queriedBook } from '../reducers/visibilityFilterReducer';
 
 class SearchBar extends Component {
     constructor (props) {
@@ -49,13 +47,6 @@ class SearchBar extends Component {
 function mapStateToProps(state) {
     return { books: state.books };
 }
-
-// const getFavBooks = () => {
-//     return (dispatch) => {
-//         dispatch(setFavBooks());
-//         dispatch(setVisibility(favBooks));
-//     };
-// };
 
 const queryBooks = (books) => {
     return (dispatch) => {

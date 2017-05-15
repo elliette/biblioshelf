@@ -12,6 +12,7 @@ import SingleBook from './components/SingleBook';
 import AddBookForm from './components/AddBookForm';
 import EditBookForm from './components/EditBookForm';
 import SignUpForm from './components/SignUpForm';
+import FilterButtons from './components/FilterButtons';
 import AddedBookSuccess from './messages/AddedBookSuccess';
 import DeletedBookSuccess from './messages/DeletedBookSuccess';
 import SignUpSuccess from './messages/SignUpSuccess';
@@ -22,9 +23,6 @@ import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
 import { setVisibility } from './reducers/visibilityFilterReducer';
 import { authenticated } from './reducers/authReducer';
-
-import FilterButtons from './components/FilterButtons';
-
 
 const onLoadBooks = () =>
     axios.get('/api/books')

@@ -12,6 +12,8 @@ const apiRoutes = require('./routes/api');
 
 const app = express();
 
+const db = require('./db').db;
+
 app.use(session({
   // this mandatory configuration ensures that session IDs are not predictable
   secret: SESSION_SECRET || 'an insecure secret key', // or whatever you like
@@ -19,11 +21,6 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-
-// app.use(function (req, res, next) {
-//   console.log('session', req.session);
-//   next();
-// });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -45,8 +42,6 @@ app.get('/*', function (req, res) {
 app.use((err, req, res, next) => {
     console.error(err);
   });
-
-var db = require('./db').db;
 
 db.sync({force: false})
     .then(function() {

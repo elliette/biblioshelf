@@ -1,3 +1,11 @@
+/* ============ FILTERS =============== */
+
+export const allBooks = 'show all books';
+export const favBooks = 'show favorite books';
+export const byYear = 'group books by year';
+export const byMonth = 'group books by month';
+export const queriedBook = 'queried book';
+
 /* ============ CONSTANTS =============== */
 
 const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
