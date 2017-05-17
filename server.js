@@ -41,6 +41,12 @@ app.get('/*', function (req, res) {
 
 app.use((err, req, res, next) => {
     console.error(err);
+    if (err.message){
+      res.statusMessage = err.message;
+      res.status(400).end();
+    } else {
+      res.status(500).send(err);
+    }
   });
 
 db.sync({force: false})

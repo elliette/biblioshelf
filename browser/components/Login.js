@@ -32,7 +32,11 @@ const login = (email, password) => {
         .then((user) => {
             dispatch(authenticated(user.id));
         })
-        .then(() => window.location.assign('/'));
+        .then(() => window.location.assign('/'))
+        .catch(err => {
+            if (!err.response.statusText) console.error(err);
+            else alert(err.response.statusText);
+        });
     };
 };
 

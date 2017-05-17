@@ -21,6 +21,7 @@ import SignUpSuccess from './messages/SignUpSuccess';
 import InvalidRequest from './messages/InvalidRequest';
 import DeleteAccount from './messages/DeleteAccount';
 import NoBooksFound from './messages/NoBooksFound';
+import About from './messages/About';
 import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
 import { setVisibility } from './reducers/visibilityFilterReducer';
@@ -86,7 +87,7 @@ const Biblioshelf = ({ user, children }) => {
             <div className="container">
                   { children }
             </div>
-            <div className="footer"><strong>Book Shelf</strong> by Elliott Brooks</div>
+            <div className="footer"><strong>Biblioshelf</strong> by Elliott Brooks</div>
         </div>
     );
 };
@@ -109,6 +110,7 @@ render(
                 <Route path="/add" component={AddBookForm} onEnter={loggedInCheck} />
                 <Route path="/addedbooksuccess" component={AddedBookSuccess} onEnter={loggedInCheck} />
                 <Route path ="/signup" component={SignUpForm} />
+                <Route path ="/about" component={About} onEnter={loggedInCheck} />
                 <Route path = "/signupsuccess" component={SignUpSuccess} />
                 <Route path = "/nobooksfound" component={NoBooksFound} onEnter={loggedInCheck} />
                 <Route path = "/account" component={DeleteAccount} onEnter={loggedInCheck} />

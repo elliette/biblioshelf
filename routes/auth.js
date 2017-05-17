@@ -34,12 +34,9 @@ auth.post('/login', (req, res, next) => {
         return [user, isCorrectPW];
     })
     .spread( (user, isCorrectPW) => {
-        if (isCorrectPW) {
-            req.session.userId = user.id;
-            res.send({id: user.id});
-        } else {
-            throw new Error('Incorrect password.');
-        }
+        if (!isCorrectPW) throw new Error('Incorrect password.');
+        req.session.userId = user.id;
+        res.send({id: user.id});
     })
     .catch(next);
 });
