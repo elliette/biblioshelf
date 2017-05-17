@@ -12,10 +12,11 @@ import { GOOGLE_BOOKS_API } from '../../secrets';
 class AddBookForm extends Component {
     constructor (props) {
         super(props);
-        this.state = {query: '', date: null };
+        this.state = {query: '', date: null, toRead: null};
         this.handleChange = this.handleChange.bind(this);
         this.searchSubmit = this.searchSubmit.bind(this);
-        this.finalSubmit = this.finalSubmit.bind(this);
+        this.haveReadSubmit = this.haveReadSubmit.bind(this);
+        this.toReadSubmit = this.toReadSubmit.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
     }
 
@@ -44,7 +45,17 @@ class AddBookForm extends Component {
 		this.props.setGoogleBook(book);
 	}
 
-	finalSubmit(event) {
+	toReadSubmit(event) {
+		event.preventDefault();
+		const bookToAdd = this.props.selectedGoogleBook;
+		const title = bookToAdd.title;
+        const author = bookToAdd.author;
+        const url = bookToAdd.imageURL;
+        const toRead = 'yes';
+        this.props.addBookToDB({ title, author, url, toRead });
+	}
+
+	haveReadSubmit(event) {
         event.preventDefault();
         const bookToAdd = this.props.selectedGoogleBook;
         const title = bookToAdd.title;
@@ -53,7 +64,8 @@ class AddBookForm extends Component {
         const notes = event.target.notes.value;
         const date = this.state.date;
         const starred = event.target.starred.value;
-        this.props.addBookToDB({ title, author, url, notes, date, starred });
+        const toRead = 'no';
+        this.props.addBookToDB({ title, author, url, notes, date, starred, toRead });
     }
 
 	render() {
@@ -68,7 +80,7 @@ class AddBookForm extends Component {
 						<button type="submit" className= {this.state.submitted ? 'btn btn-default' : 'btn btn-primary'} >{this.state.submitted ? 'Clear Search' : 'Search'}</button>
 					</form>
 			    </div>
-			    {this.props.googleBooks.length
+			{this.props.googleBooks.length
 			    ? <div>
 					<h1>Select a book:</h1>
 					<hr />
@@ -84,10 +96,28 @@ class AddBookForm extends Component {
 			}
 			{Object.keys(this.props.selectedGoogleBook).length
 				?
+				<div className="jumbotron">
+					<h2>Is this a book that you've already read or that you want to save to read later?</h2>
+					<div className="bottom-buttons">
+                        <button type="button" className="btn btn-link" onClick={() => this.setState({toRead: 'no'})}><h3>[Already Read]</h3></button>
+                        <button type="button" className="btn btn-link" onClick={() => this.setState({toRead: 'yes'})}><h3>[Read Later]</h3></button>
+					</div>
+                </div>
+                : null
+            }
+			{Object.keys(this.props.selectedGoogleBook).length  && this.state.toRead === 'yes'
+				?
+				<div className="col-sm-offset-10 col-sm-10">
+					<button onClick={this.toReadSubmit} className="btn btn-primary btn-lg">Add to Read Later List</button>
+				</div>
+				: null
+			}
+			{Object.keys(this.props.selectedGoogleBook).length  && this.state.toRead === 'no'
+				?
 				<div>
 					<h1>Add notes to <i>{this.props.selectedGoogleBook.title}:</i></h1>
 					<hr />
-					<form className="add-book-form" onSubmit={this.finalSubmit}>
+					<form className="add-book-form" onSubmit={this.haveReadSubmit}>
 						<div className="form-group">
 							<label htmlFor="notes" className="col-sm-2 control-label">Notes *</label>
 							<div className="col-sm-10">
@@ -111,13 +141,13 @@ class AddBookForm extends Component {
 						</div>
 						<p className="side-note">* Bookshelf supports notes written in Markdown!</p>
 	                    <div className="col-sm-offset-10 col-sm-10">
-	                        <button type="submit" className="btn btn-primary btn-lg">Submit</button>
+	                        <button type="submit" className="btn btn-primary btn-lg">Add to Books Read List</button>
 	                    </div>
 					</form>
 				</div>
-				: null
+			: null
 			}
-		    </div>
+			</div>
 		);
 	}
 }

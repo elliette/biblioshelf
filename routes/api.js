@@ -39,6 +39,7 @@ router.post('/books', function(req, res, next) {
             url: req.body.url,
             notes: req.body.notes,
             starred: req.body.starred,
+            toRead: req.body.toRead,
             date: date,
         })
     ])

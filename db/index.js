@@ -38,6 +38,9 @@ const Book = db.define('book', {
 	starred: {
 		type: Sequelize.ENUM('yes', 'no')
 	},
+    toRead: {
+        type: Sequelize.ENUM('yes', 'no')
+    },
 	date: {
 		type: Sequelize.DATE
 	}
