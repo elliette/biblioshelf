@@ -3,28 +3,63 @@ import { connect } from 'react-redux';
 import Books from './Books';
 import MonthGrouping from './MonthGrouping';
 import YearGrouping from './YearGrouping';
+import FilterButtons from './FilterButtons';
 import PleaseAddBooks from '../messages/PleaseAddBooks';
 import PleaseSignUp from '../messages/PleaseSignUp';
 import { readBooks, toReadBooks, byYear, byMonth, favBooks, queriedBook } from '../reducers/visibilityFilterReducer';
 
 const Home = ({ books, user, visibilityFilter }) => {
-
     if (!user.id){
        return ( <PleaseSignUp /> );
     } else if (!books.length){
-        return ( <PleaseAddBooks title={visibilityFilter} /> );
+        return (
+            <div>
+                <FilterButtons />
+                <PleaseAddBooks title={visibilityFilter} />
+            </div>
+        );
     } else if (visibilityFilter === toReadBooks) {
-        return ( <Books title="To Read:" books={books} /> );
+        return (
+            <div>
+                <FilterButtons />
+                <Books title="Your To-Read Books:" books={books} />
+            </div>
+        );
     } else if (visibilityFilter === byMonth) {
-        return ( <MonthGrouping /> );
+        return (
+        <div>
+            <FilterButtons />
+            <MonthGrouping />
+        </div>
+        );
     } else if (visibilityFilter === byYear){
-        return ( <YearGrouping /> );
+        return (
+        <div>
+            <FilterButtons />
+            <YearGrouping />
+        </div>
+        );
     } else if (visibilityFilter === favBooks) {
-        return ( <Books title="Favorite Books" books={books} /> );
+        return (
+        <div>
+            <FilterButtons />
+            <Books title="Your Favorited Books:" books={books} />
+        </div>
+        );
     } else if (visibilityFilter === queriedBook) {
-        return ( <Books title="Search Results" books={books} /> );
+        return (
+        <div>
+            <FilterButtons />
+            <Books title="Search Results:" books={books} />
+        </div>
+        );
     } else if (visibilityFilter === readBooks) {
-        return ( <Books title="All Read Books:" books={books} /> );
+        return (
+        <div>
+            <FilterButtons />
+            <Books title="Your Read Books:" books={books} />
+        </div>
+        );
     }
 };
 

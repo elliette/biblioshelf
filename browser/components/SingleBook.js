@@ -37,6 +37,7 @@ const SingleBook = ({selectedBook, deleteBookFromDB, markAsRead}) => {
                     }
                         <button type="button" className="btn btn-link" onClick={() => deleteBookFromDB(selectedBook.id)}>[Delete Book]</button>
                     </div>
+                    <Link to={`/`}><button type="button" className="btn btn-link"><h4>Return Home</h4></button></Link>
                 </div>
             </div>
         );
@@ -59,7 +60,7 @@ const markAsRead = (book) => {
         axios.put(`/api/books/${book.id}`, book)
         .then((res) => res.data)
         .then((updatedBook) => dispatch(editBook(updatedBook)))
-        .then(() => browserHistory.push(`/home`))
+        .then(() => browserHistory.push(`/readbooksuccess`))
         .catch(err => console.error(err));
     };
 };

@@ -66,7 +66,7 @@ class EditBookForm extends Component {
                     <div className="form-group">
                         <label htmlFor="date" className="col-sm-2 control-label">Date Read</label>
                         <div className="col-sm-10">
-                            <DatePicker onChange={this.handleDateChange} value={this.state.date} />
+                            <DatePicker onChange={this.handleDateChange} value={this.state.date || null} />
                         </div>
                     </div>
                     <div className="form-group">

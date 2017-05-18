@@ -14,7 +14,7 @@ import SingleBook from './components/SingleBook';
 import AddBookForm from './components/AddBookForm';
 import EditBookForm from './components/EditBookForm';
 import SignUpForm from './components/SignUpForm';
-import FilterButtons from './components/FilterButtons';
+import MarkedAsReadSuccess from './messages/MarkedAsReadSuccess';
 import AddedBookSuccess from './messages/AddedBookSuccess';
 import DeletedBookSuccess from './messages/DeletedBookSuccess';
 import SignUpSuccess from './messages/SignUpSuccess';
@@ -81,7 +81,6 @@ const Biblioshelf = ({ user, children }) => {
                         { user.id
                             ? <div>
                             <SearchBar />
-                            <FilterButtons />
                             <UserAccount />
                             </div>
                             :  <div className="nav navbar-nav navbar-right">
@@ -120,6 +119,7 @@ render(
                 <Route path = "/signupsuccess" component={SignUpSuccess} />
                 <Route path = "/nobooksfound" component={NoBooksFound} onEnter={loggedInCheck} />
                 <Route path = "/account" component={DeleteAccount} onEnter={loggedInCheck} />
+                <Route path = "/readbooksuccess" component={MarkedAsReadSuccess} onEnter={loggedInCheck} />
                 <Route path="*" component={InvalidRequest} />
             </Route>
         </Router>

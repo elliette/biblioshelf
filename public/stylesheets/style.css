@@ -33,7 +33,7 @@ body {
 
 .jumbotron {
 	background-color: #E8EAF6; 
-	margin-top: 15px;
+	margin-top: 3%;
 }
 
 .jumbo-with-image {
@@ -81,6 +81,9 @@ i {
 	display: inline; 
 }
 
+.btn:focus,.btn:active {
+	outline: none !important;
+}
 
 .btn-primary {
 	background-color: #EC407A; 
@@ -88,9 +91,17 @@ i {
 	color: white;
 }
 
-.btn-primary:hover {
-	background-color: #C51162; 
-	border-color: #C51162;
+.btn-primary:hover, .btn-primary:active {
+	outline: none !important;
+	background-color: #C51162 !important; 
+	border-color: #C51162  !important;
+	color: white;
+}
+
+.btn-primary.disabled {
+	outline: none !important;
+	background-color: #303F9F !important; 
+	border-color: #303F9F !important;
 	color: white;
 }
 
@@ -226,10 +237,30 @@ a:active {
 	text-align: center;
 }
 
-.unselected {
-	color: white;
+.btn-link.unselected {
+	color: #303F9F;
 }
 
 .filter-buttons {
-	margin-top: .5%;
+	width: 100%;
+	text-align: right;
+	margin-bottom: 1%;
+}
+
+#toggle-left {
+	margin-left: 1%;
+	border-radius: 0px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	background-color: #303F9F !important; 
+	border-color: #303F9F !important;
+
+}
+
+#toggle-right {
+	border-radius: 0px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	background-color: #303F9F !important; 
+	border-color: #303F9F !important;
 }

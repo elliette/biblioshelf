@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { favBooks, readBooks, toReadBooks } from '../reducers/visibilityFilterReducer';
+import { favBooks, toReadBooks } from '../reducers/visibilityFilterReducer';
 
 const PleaseAddBooks = ({ title }) => {
 	var option;
@@ -8,13 +8,13 @@ const PleaseAddBooks = ({ title }) => {
 		option = 'favorited any books';
 	} else if (title === toReadBooks) {
 		option = 'added any books to your to-read list';
-	} else if (title === readBooks) {
+	} else {
 		option = 'read any books';
 	}
 	return (
 		<div className="jumbotron jumbo-with-image">
 			<h1>You haven't {option} yet!</h1>
-			<img className="bookshelf-image" src="./bookshelf.png" alt="bookshelf image" />
+
 			<br />
 			<h2>But not to worry! You can start adding books right <Link className="link" to={'/add'}>here.</Link></h2>
 		</div>

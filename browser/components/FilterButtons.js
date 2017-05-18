@@ -13,22 +13,23 @@ const FilterButtons = ({ visibilityFilter, filterBooks, getFavBooks, getToReadBo
 
     if (visibilityFilter === toReadBooks){
         return (
-            <div className="navbar-left filter-buttons">
-                <button type="button" className="btn btn-default" onClick={() => filterBooks(readBooks) } >Already Read List</button>
-            </div>
+        <div className="navbar-left filter-buttons">
+            <button type="button" className="btn btn-primary" id="toggle-left" onClick={() => filterBooks(readBooks) } >Have Read List</button>
+            <button type="button" className="btn btn-primary disabled" id="toggle-right" >To Read List</button>
+        </div>
         );
     } else {
         return (
             <div className="navbar-left filter-buttons">
-                <button type="button" className="btn btn-default" onClick={() => getToReadBooks(toReadBooks) }>To Read List</button>
                 <button type="button" className={toggleButton(readBooks)} onClick={() => filterBooks(readBooks) } >[Show All Books]</button>
-                <button type="button" className={toggleButton(byYear)} onClick={() => filterBooks(byYear)} >[Group By Year]</button>
-                <button type="button" className={toggleButton(byMonth)} onClick={() => filterBooks(byMonth)}>[Group by Month]</button>
-                <button type="button" className={toggleButton(favBooks)} onClick={() => getFavBooks() }>[Show Favorite Books]</button>
+                <button type="button" className={toggleButton(byYear)} onClick={() => filterBooks(byYear)} >[Group Books By Year]</button>
+                <button type="button" className={toggleButton(byMonth)} onClick={() => filterBooks(byMonth)}>[Group Books by Month]</button>
+                <button type="button" className={toggleButton(favBooks)} onClick={() => getFavBooks() }>[Show Favorited Books]</button>
+                <button type="button" className="btn btn-primary disabled" id="toggle-left">Have Read List</button>
+                <button type="button" className="btn btn-primary" id="toggle-right" onClick={() => getToReadBooks(toReadBooks) }>To Read List</button>
             </div>
         );
     }
-
 };
 
 const filterBooks = (filter) => {
