@@ -5,13 +5,11 @@ import {setVisibility, readBooks, favBooks, byYear, byMonth, toReadBooks } from 
 import { setToReadBooks, setBooks, setFavBooks } from '../reducers/booksReducer';
 
 
-const FilterButtons = ({ visibilityFilter, books, filterBooks, getFavBooks, getToReadBooks }) => {
+const FilterButtons = ({ visibilityFilter, filterBooks, getFavBooks, getToReadBooks }) => {
 
     function toggleButton (selectedOption) {
         return visibilityFilter === selectedOption ? 'btn btn-link' : 'btn btn-link unselected';
     }
-
-    //if (!books.length) return null;
 
     if (visibilityFilter === toReadBooks){
         return (
@@ -58,8 +56,8 @@ const getFavBooks = () => {
     };
 };
 
-const mapStateToProps = ({ visibilityFilter, books }) =>  {
-    return { visibilityFilter, books };
+const mapStateToProps = ({ visibilityFilter }) =>  {
+    return { visibilityFilter };
 };
 
 export default connect(mapStateToProps, { filterBooks, getFavBooks, getToReadBooks })(FilterButtons);

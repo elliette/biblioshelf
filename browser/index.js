@@ -42,6 +42,7 @@ const onLoadBooks = () =>
             store.dispatch(setBooks(books));
         }
     })
+    .then( () => store.dispatch(setBook({})))
     .catch(err => console.error(err));
 
 const onLoadBook = (nextRouterState) => {

@@ -14,7 +14,7 @@ const Home = ({ books, user, visibilityFilter }) => {
     } else if (!books.length){
         return ( <PleaseAddBooks title={visibilityFilter} /> );
     } else if (visibilityFilter === toReadBooks) {
-        return ( <Books title="To Read List" books={books} /> );
+        return ( <Books title="To Read:" books={books} /> );
     } else if (visibilityFilter === byMonth) {
         return ( <MonthGrouping /> );
     } else if (visibilityFilter === byYear){
@@ -24,7 +24,7 @@ const Home = ({ books, user, visibilityFilter }) => {
     } else if (visibilityFilter === queriedBook) {
         return ( <Books title="Search Results" books={books} /> );
     } else if (visibilityFilter === readBooks) {
-        return ( <Books title="Already Read Books" books={books} /> );
+        return ( <Books title="All Read Books:" books={books} /> );
     }
 };
 
