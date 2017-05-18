@@ -5,9 +5,9 @@ import Markdown from 'react-markdown';
 import dateFormat from 'dateformat';
 import axios from 'axios';
 import InvalidRequest from '../messages/InvalidRequest';
-import { deleteBook } from '../reducers/booksReducer';
+import { deleteBook, editBook } from '../reducers/booksReducer';
 
-const SingleBook = ({selectedBook, deleteBookFromDB}) => {
+const SingleBook = ({selectedBook, deleteBookFromDB, markAsRead}) => {
     if (Object.keys(selectedBook).length === 0){
         return ( <InvalidRequest /> );
     } else {
@@ -20,7 +20,7 @@ const SingleBook = ({selectedBook, deleteBookFromDB}) => {
                         : <h2>{selectedBook.title}</h2>
                     }
                     <h3><i>by {selectedBook.author}</i></h3>
-                    <p><b>Read on:</b> {dateFormat(selectedBook.date, 'dddd, mmmm dS, yyyy')}</p>
+                    <p><b>{selectedBook.toRead === 'yes' ? 'Added on:' : 'Read on:'}</b> {dateFormat(selectedBook.date, 'dddd, mmmm dS, yyyy')}</p>
                     {selectedBook.notes
                         ?
                         <div className="bookNotes">
@@ -29,7 +29,12 @@ const SingleBook = ({selectedBook, deleteBookFromDB}) => {
                         : null
                     }
                     <div className="bottom-buttons">
+                    {selectedBook.toRead === 'yes'
+                        ?
+                        <button type="button" className="btn btn-link" onClick={() => markAsRead(selectedBook)}>[Mark As Read]</button>
+                        :
                         <Link to={`/books/${selectedBook.id}/edit`}><button type="button" className="btn btn-link">[Edit Book]</button></Link>
+                    }
                         <button type="button" className="btn btn-link" onClick={() => deleteBookFromDB(selectedBook.id)}>[Delete Book]</button>
                     </div>
                 </div>
@@ -47,8 +52,20 @@ const deleteBookFromDB = (bookId) => {
 	};
 };
 
+const markAsRead = (book) => {
+    book.toRead = 'no';
+    book.date = new Date();
+    return (dispatch) => {
+        axios.put(`/api/books/${book.id}`, book)
+        .then((res) => res.data)
+        .then((updatedBook) => dispatch(editBook(updatedBook)))
+        .then(() => browserHistory.push(`/home`))
+        .catch(err => console.error(err));
+    };
+};
+
 const mapStateToProps = ({ selectedBook }) => {
 	return { selectedBook };
 };
 
-export default connect(mapStateToProps, { deleteBookFromDB })(SingleBook);
+export default connect(mapStateToProps, { deleteBookFromDB, markAsRead })(SingleBook);

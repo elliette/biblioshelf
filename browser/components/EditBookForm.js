@@ -90,12 +90,11 @@ class EditBookForm extends Component {
 
 const editBookInDB = (book) => {
 	return (dispatch) => {
-		axios.put(`/api/books`, book)
+		axios.put(`/api/books/${book.id}`, book)
 		.then((res) => res.data)
-		.then((updatedBook) => {
-			dispatch(editBook(updatedBook));
-		})
-		.then(() => browserHistory.push(`/home`));
+		.then((updatedBook) => dispatch(editBook(updatedBook)))
+		.then(() => browserHistory.push(`/home`))
+        .catch(err => console.error(err));
 	};
 };
 

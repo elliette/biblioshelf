@@ -52,10 +52,10 @@ router.post('/books', function(req, res, next) {
     .catch(next);
 });
 
-router.put('/books', function(req, res, next){
+router.put('/books/:id', function(req, res, next){
     if (!req.session.userId) return;
     var userId = req.session.userId;
-    var bookId = req.body.id;
+    var bookId = req.params.id;
     findBookPromise(userId, bookId)
     .then(function(book){
         book.update(req.body);
