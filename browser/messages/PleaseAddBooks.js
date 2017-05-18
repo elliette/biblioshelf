@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const PleaseAddBooks = () => {
+const PleaseAddBooks = ({ title }) => {
 	return (
 		<div className="jumbotron jumbo-with-image">
-			<h1>Welcome to Biblioshelf!</h1>
+			<h1>You haven't added any {title} books yet!</h1>
 			<img className="bookshelf-image" src="./bookshelf.png" alt="bookshelf image" />
 			<br />
 			<h2>Biblioshelf is an easy way to keep track of all the books that you have read. </h2>

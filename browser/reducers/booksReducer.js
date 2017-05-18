@@ -9,6 +9,7 @@ export const DELETE_BOOK = 'DELETE_BOOK';
 export const FILTER_BOOKS = 'FILTER_BOOKS';
 export const FAV_BOOKS_ONLY = 'FAV_BOOKS_ONLY';
 export const QUERIED_BOOKS = 'QUERIED_BOOKS';
+export const TO_READ_ONLY = 'TO_READ_ONLY';
 
 /* ============ ACTION CREATORS =============== */
 
@@ -45,6 +46,11 @@ export const setFavBooks = () => ({
     type: FAV_BOOKS_ONLY
 });
 
+export const setToReadBooks = (books) => ({
+    type: TO_READ_ONLY,
+    books: books
+});
+
 export const setQueriedBooks = (books) => ({
     type: QUERIED_BOOKS,
     books: books
@@ -58,7 +64,7 @@ export default (state = [], action) =>  {
       
     switch (action.type) {
         case SET_BOOKS:
-            newState = action.books;
+            newState = action.books.filter( (book) => book.toRead === 'no');
             break;
         case ADD_BOOK:
             newState = [...newState, action.newBook ];
@@ -77,6 +83,9 @@ export default (state = [], action) =>  {
             break;
         case FAV_BOOKS_ONLY:
             newState = newState.filter( (book) => book.starred === 'yes');
+            break;
+        case TO_READ_ONLY:
+            newState = action.books.filter( (book) => book.toRead === 'yes');
             break;
         default:
             return state;

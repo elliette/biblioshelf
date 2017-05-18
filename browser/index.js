@@ -22,19 +22,24 @@ import InvalidRequest from './messages/InvalidRequest';
 import DeleteAccount from './messages/DeleteAccount';
 import NoBooksFound from './messages/NoBooksFound';
 import About from './messages/About';
-import { setBooks } from './reducers/booksReducer';
+import { setBooks, setToReadBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
-import { setVisibility } from './reducers/visibilityFilterReducer';
+import { setVisibility, readBooks, toReadBooks, queriedBook } from './reducers/visibilityFilterReducer';
 import { authenticated } from './reducers/authReducer';
+
 
 const onLoadBooks = () =>
     axios.get('/api/books')
     .then(res => res.data)
-    .then((books) => {store.dispatch(setBooks(books));})
-    .then(() => {
-        var visibilityFilter = store.getState().visibilityFilter;
-        if (visibilityFilter === 'queried book'){
-            store.dispatch(setVisibility('show all books'));
+    .then( (books) => {
+        let filter = store.getState().visibilityFilter;
+        if (filter === toReadBooks){
+            store.dispatch(setToReadBooks(books));
+        } else if (filter === readBooks){
+            store.dispatch(setBooks(books));
+        } else if (filter === queriedBook) {
+            store.dispatch(setVisibility(readBooks));
+            store.dispatch(setBooks(books));
         }
     })
     .catch(err => console.error(err));

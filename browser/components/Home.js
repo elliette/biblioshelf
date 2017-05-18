@@ -5,14 +5,16 @@ import MonthGrouping from './MonthGrouping';
 import YearGrouping from './YearGrouping';
 import PleaseAddBooks from '../messages/PleaseAddBooks';
 import PleaseSignUp from '../messages/PleaseSignUp';
-import { allBooks, byYear, byMonth, favBooks, queriedBook } from '../reducers/visibilityFilterReducer';
+import { readBooks, toReadBooks, byYear, byMonth, favBooks, queriedBook } from '../reducers/visibilityFilterReducer';
 
 const Home = ({ books, user, visibilityFilter }) => {
 
     if (!user.id){
        return ( <PleaseSignUp /> );
     } else if (!books.length){
-        return ( <PleaseAddBooks /> );
+        return ( <PleaseAddBooks title={visibilityFilter} /> );
+    } else if (visibilityFilter === toReadBooks) {
+        return ( <Books title="To Read List" books={books} /> );
     } else if (visibilityFilter === byMonth) {
         return ( <MonthGrouping /> );
     } else if (visibilityFilter === byYear){
@@ -21,8 +23,8 @@ const Home = ({ books, user, visibilityFilter }) => {
         return ( <Books title="Favorite Books" books={books} /> );
     } else if (visibilityFilter === queriedBook) {
         return ( <Books title="Search Results" books={books} /> );
-    } else if (visibilityFilter === allBooks) {
-        return ( <Books title="All Books" books={books} /> );
+    } else if (visibilityFilter === readBooks) {
+        return ( <Books title="Already Read Books" books={books} /> );
     }
 };
 

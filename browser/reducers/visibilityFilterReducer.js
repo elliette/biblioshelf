@@ -2,11 +2,12 @@
 
 /* ============ FILTERS =============== */
 
-export const allBooks = 'show all books';
+export const readBooks = 'show already read books';
 export const favBooks = 'show favorite books';
 export const byYear = 'group books by year';
 export const byMonth = 'group books by month';
 export const queriedBook = 'queried book';
+export const toReadBooks = 'show to read books';
 
 /* ============ CONSTANTS =============== */
 
@@ -23,7 +24,7 @@ export const setVisibility = function(filter) {
 
 /* ============ REDUCER =============== */
 
-export default (state = 'show all books', action) => {
+export default (state = readBooks, action) => {
 
     let newState = state.slice(0);
 

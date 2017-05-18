@@ -1,25 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { setVisibility, allBooks, favBooks, byYear, byMonth } from '../reducers/visibilityFilterReducer';
-import { setBooks, setFavBooks } from '../reducers/booksReducer';
+import {setVisibility, readBooks, favBooks, byYear, byMonth, toReadBooks } from '../reducers/visibilityFilterReducer';
+import { setToReadBooks, setBooks, setFavBooks } from '../reducers/booksReducer';
 
-const FilterButtons = ({ visibilityFilter, books, filterBooks, getFavBooks }) => {
+
+const FilterButtons = ({ visibilityFilter, books, filterBooks, getFavBooks, getToReadBooks }) => {
 
     function toggleButton (selectedOption) {
         return visibilityFilter === selectedOption ? 'btn btn-link' : 'btn btn-link unselected';
     }
 
-    if (!books.length) return null;
+    //if (!books.length) return null;
 
-    return (
-        <div className="navbar-left filter-buttons">
-            <button type="button" className={toggleButton(allBooks)} onClick={() => filterBooks(allBooks) } >[Show All Books]</button>
-            <button type="button" className={toggleButton(byYear)} onClick={() => filterBooks(byYear)} >[Group Books By Year]</button>
-            <button type="button" className={toggleButton(byMonth)} onClick={() => filterBooks(byMonth)}>[Group Books by Month]</button>
-            <button type="button" className={toggleButton(favBooks)} onClick={() => getFavBooks() }>[Show Favorited Books]</button>
-        </div>
-    );
+    if (visibilityFilter === toReadBooks){
+        return (
+            <div className="navbar-left filter-buttons">
+                <button type="button" className="btn btn-default" onClick={() => filterBooks(readBooks) } >Already Read List</button>
+            </div>
+        );
+    } else {
+        return (
+            <div className="navbar-left filter-buttons">
+                <button type="button" className="btn btn-default" onClick={() => getToReadBooks(toReadBooks) }>To Read List</button>
+                <button type="button" className={toggleButton(readBooks)} onClick={() => filterBooks(readBooks) } >[Show All Books]</button>
+                <button type="button" className={toggleButton(byYear)} onClick={() => filterBooks(byYear)} >[Group By Year]</button>
+                <button type="button" className={toggleButton(byMonth)} onClick={() => filterBooks(byMonth)}>[Group by Month]</button>
+                <button type="button" className={toggleButton(favBooks)} onClick={() => getFavBooks() }>[Show Favorite Books]</button>
+            </div>
+        );
+    }
+
 };
 
 const filterBooks = (filter) => {
@@ -27,6 +38,15 @@ const filterBooks = (filter) => {
         axios.get('/api/books')
         .then( res => res.data)
         .then(books => dispatch(setBooks(books)))
+        .then(() => dispatch(setVisibility(filter)));
+    };
+};
+
+const getToReadBooks = (filter) => {
+    return (dispatch) => {
+        axios.get('/api/books')
+        .then( res => res.data)
+        .then(books => dispatch(setToReadBooks(books)))
         .then(() => dispatch(setVisibility(filter)));
     };
 };
@@ -42,4 +62,4 @@ const mapStateToProps = ({ visibilityFilter, books }) =>  {
     return { visibilityFilter, books };
 };
 
-export default connect(mapStateToProps, { filterBooks, getFavBooks })(FilterButtons);
+export default connect(mapStateToProps, { filterBooks, getFavBooks, getToReadBooks })(FilterButtons);
