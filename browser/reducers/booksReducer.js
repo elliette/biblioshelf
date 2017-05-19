@@ -2,20 +2,28 @@
 
 /* ============ CONSTANTS =============== */
 
-export const SET_READ_BOOKS = 'SET_READ_BOOKS';
+//export const SET_READ_BOOKS = 'SET_READ_BOOKS';
+export const SET_BOOKS = 'SET_BOOKS';
 export const ADD_BOOK = 'ADD_BOOK';
 export const EDIT_BOOK = 'EDIT_BOOK';
 export const DELETE_BOOK = 'DELETE_BOOK';
-export const FILTER_BOOKS = 'FILTER_BOOKS';
-export const FAV_BOOKS_ONLY = 'FAV_BOOKS_ONLY';
-export const QUERIED_BOOKS = 'QUERIED_BOOKS';
-export const TO_READ_ONLY = 'TO_READ_ONLY';
+//export const FILTER_BOOKS = 'FILTER_BOOKS';
+//export const FAV_BOOKS_ONLY = 'FAV_BOOKS_ONLY';
+//export const QUERIED_BOOKS = 'QUERIED_BOOKS';
+//export const TO_READ_ONLY = 'TO_READ_ONLY';
 
 /* ============ ACTION CREATORS =============== */
 
-export const setHaveReadBooks = function (books) {
+// export const setHaveReadBooks = function (books) {
+//     return {
+//         type: SET_READ_BOOKS,
+//         books: books
+//     };
+// };
+
+export const setBooks = function (books) {
     return {
-        type: SET_READ_BOOKS,
+        type: SET_BOOKS,
         books: books
     };
 };
@@ -37,24 +45,24 @@ export const editBook = book => ({
   editedBook: book
 });
 
-export const filterBooks = (books) => ({
-    type: FILTER_BOOKS,
-    books: books
-});
+// export const filterBooks = (books) => ({
+//     type: FILTER_BOOKS,
+//     books: books
+// });
 
-export const setFavBooks = () => ({
-    type: FAV_BOOKS_ONLY
-});
+// export const setFavBooks = () => ({
+//     type: FAV_BOOKS_ONLY
+// });
 
-export const setToReadBooks = (books) => ({
-    type: TO_READ_ONLY,
-    books: books
-});
+// export const setToReadBooks = (books) => ({
+//     type: TO_READ_ONLY,
+//     books: books
+// });
 
-export const setQueriedBooks = (books) => ({
-    type: QUERIED_BOOKS,
-    books: books
-});
+// export const setQueriedBooks = (books) => ({
+//     type: QUERIED_BOOKS,
+//     books: books
+// });
 
 /* ============ REDUCER =============== */
 
@@ -63,8 +71,8 @@ export default (state = [], action) =>  {
     let newState = state.slice();
       
     switch (action.type) {
-        case SET_READ_BOOKS:
-            newState = action.books.filter( (book) => book.toRead === 'no');
+        case SET_BOOKS:
+            newState = action.books;
             break;
         case ADD_BOOK:
             newState = [...newState, action.newBook ];
@@ -75,18 +83,18 @@ export default (state = [], action) =>  {
         case DELETE_BOOK:
             newState = newState.filter( (book) => book.id !== action.deletedId);
             break;
-        case QUERIED_BOOKS:
-            newState = action.books;
-            break;
-        case FILTER_BOOKS:
-            newState = newState.filter( (book) => action.books.includes(book.id) );
-            break;
-        case FAV_BOOKS_ONLY:
-            newState = newState.filter( (book) => book.starred === 'yes');
-            break;
-        case TO_READ_ONLY:
-            newState = action.books.filter( (book) => book.toRead === 'yes');
-            break;
+        // case QUERIED_BOOKS:
+        //     newState = action.books;
+        //     break;
+        // case FILTER_BOOKS:
+        //     newState = newState.filter( (book) => action.books.includes(book.id) );
+        //     break;
+        // case FAV_BOOKS_ONLY:
+        //     newState = newState.filter( (book) => book.starred === 'yes');
+        //     break;
+        // case TO_READ_ONLY:
+        //     newState = action.books.filter( (book) => book.toRead === 'yes');
+        //     break;
         default:
             return state;
     }

@@ -22,35 +22,25 @@ import InvalidRequest from './messages/InvalidRequest';
 import DeleteAccount from './messages/DeleteAccount';
 import NoBooksFound from './messages/NoBooksFound';
 import About from './messages/About';
-import { setHaveReadBooks, setToReadBooks } from './reducers/booksReducer';
+import { setBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
-import { setVisibility, readBooks, toReadBooks, queriedBook } from './reducers/visibilityFilterReducer';
+//import { setVisibility, readBooks, toReadBooks, queriedBook } from './reducers/visibilityFilterReducer';
 import { authenticated } from './reducers/authReducer';
 
-
-const onLoadBooks = () =>
+const onLoadBooks = () => {
     axios.get('/api/books')
     .then(res => res.data)
-    .then( (books) => {
-        let filter = store.getState().visibilityFilter;
-        if (filter === toReadBooks){
-            store.dispatch(setToReadBooks(books));
-        } else if (filter === readBooks){
-            store.dispatch(setHaveReadBooks(books));
-        } else if (filter === queriedBook) {
-            store.dispatch(setVisibility(readBooks));
-            store.dispatch(setHaveReadBooks(books));
-        }
-    })
+    .then((books) => store.dispatch(setBooks(books)))
     .then( () => store.dispatch(setBook({})))
-    .catch(err => console.error(err));
+    .catch(console.error);
+};
 
 const onLoadBook = (nextRouterState) => {
     let id = nextRouterState.params.bookId;
     axios.get(`/api/books/${id}`)
     .then(res => res.data)
-    .then((book) => {store.dispatch(setBook(book));})
-    .catch(err => console.error(err));
+    .then((book) => store.dispatch(setBook(book)))
+    .catch(console.error);
 };
 
 const setUser = () =>

@@ -6,6 +6,7 @@ const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
 const SESSION_SECRET = require('./secrets.js').SESSION_SECRET;
+const morgan = require('morgan');
 
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
@@ -13,6 +14,8 @@ const apiRoutes = require('./routes/api');
 const app = express();
 
 const db = require('./db').db;
+
+// app.use(morgan('combined', {stream: accessLogStream}))
 
 app.use(session({
   // this mandatory configuration ensures that session IDs are not predictable
