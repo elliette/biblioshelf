@@ -8,15 +8,7 @@ export const FILTER_BOOKS = 'FILTER_BOOKS';
 export const FAVORITES = 'FAVORITES';
 export const BY_YEAR = 'BY_YEAR';
 export const BY_MONTH = 'BY_MONTH';
-
 export const QUERIED = 'QUERIED';
-
-// export const readBooks = 'show already read books';
-// export const favBooks = 'show favorite books';
-// export const byYear = 'group books by year';
-// export const byMonth = 'group books by month';
-// export const queriedBook = 'queried book';
-// export const toReadBooks = 'show to read books';
 
 /* ============ CONSTANTS =============== */
 

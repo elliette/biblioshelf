@@ -12,9 +12,8 @@ const PleaseAddBooks = ({ title }) => {
 		option = 'read any books';
 	}
 	return (
-		<div className="jumbotron jumbo-with-image">
+		<div className="jumbotron">
 			<h1>You haven't {option} yet!</h1>
-
 			<br />
 			<h2>But not to worry! You can start adding books right <Link className="link" to={'/add'}>here.</Link></h2>
 		</div>

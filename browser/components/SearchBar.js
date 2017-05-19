@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { setQueriedBooks } from '../reducers/booksReducer';
-import { browserHistory } from 'react-router';
-import { setVisibility, queriedBook } from '../reducers/visibilityFilterReducer';
+import { setQueriedBooks } from '../reducers/queriedBooksReducer';
+import { setVisibility, QUERIED } from '../reducers/visibilityFilterReducer';
 
 class SearchBar extends Component {
     constructor (props) {
@@ -21,15 +20,12 @@ class SearchBar extends Component {
 	handleSubmit(event) {
 		event.preventDefault();
 		if (!this.state.query) return;
-			let query = this.state.query;
-			axios.get(`/api/books/search/${query}`)
-			.then(res => res.data)
-			.then(books => {
-				if (books.length) return books;
-				browserHistory.push('/nobooksfound');
-			})
-			.then(books => this.props.queryBooks(books))
-			.then(this.setState({query: ''}));
+		let query = this.state.query;
+		axios.get(`/api/books/search/${query}`)
+		.then(res => res.data)
+		.then(books => this.props.queryBooks(books))
+		.then(this.setState({query: ''}))
+		.catch(console.error);
 	}
 
 	render() {
@@ -48,7 +44,7 @@ class SearchBar extends Component {
 const queryBooks = (books) => {
     return (dispatch) => {
         dispatch(setQueriedBooks(books || []));
-        dispatch(setVisibility(queriedBook));
+        dispatch(setVisibility(QUERIED));
     };
 };
 

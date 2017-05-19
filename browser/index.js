@@ -23,15 +23,14 @@ import DeleteAccount from './messages/DeleteAccount';
 import NoBooksFound from './messages/NoBooksFound';
 import About from './messages/About';
 import { setBooks } from './reducers/booksReducer';
-import { setBook } from './reducers/singleBookReducer';
-//import { setVisibility, readBooks, toReadBooks, queriedBook } from './reducers/visibilityFilterReducer';
+import { setBook, removeBook } from './reducers/singleBookReducer';
 import { authenticated } from './reducers/authReducer';
 
 const onLoadBooks = () => {
     axios.get('/api/books')
     .then(res => res.data)
     .then((books) => store.dispatch(setBooks(books)))
-    .then( () => store.dispatch(setBook({})))
+    .then( () => store.dispatch(removeBook()))
     .catch(console.error);
 };
 

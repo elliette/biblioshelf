@@ -1,8 +1,8 @@
 'use strict';
 
-import {HAVE_READ, TO_READ, FAVORITES} from './reducers/visibilityFilterReducer';
+import {HAVE_READ, TO_READ, FAVORITES, QUERIED} from './reducers/visibilityFilterReducer';
 
-export const getVisibleBooks = (books, filter) => {
+export const getVisibleBooks = (books, filter, queriedBooks) => {
     switch (filter) {
         case HAVE_READ:
             return books.filter( book => book.toRead === 'no');
@@ -10,6 +10,8 @@ export const getVisibleBooks = (books, filter) => {
             return books.filter( book => book.toRead === 'yes');
         case FAVORITES:
             return books.filter( book => book.starrred === 'yes');
+        case QUERIED:
+            return queriedBooks;
         default:
             return books;
     }

@@ -7,6 +7,7 @@ import authReducer from './authReducer';
 import googleBooksReducer from './googleBooksReducer';
 import singleGoogleBookReducer from './singleGoogleBookReducer';
 import visibilityFilterReducer from './visibilityFilterReducer';
+import queriedBooksReducer from './queriedBooksReducer';
 
 const rootReducer = combineReducers({
 	books: booksReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
 	user: authReducer,
 	googleBooks: googleBooksReducer,
 	selectedGoogleBook: singleGoogleBookReducer,
-	visibilityFilter: visibilityFilterReducer
+	visibilityFilter: visibilityFilterReducer,
+	queriedBooks: queriedBooksReducer
 });
 
 export default rootReducer;
