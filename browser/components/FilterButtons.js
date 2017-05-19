@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {setVisibility, readBooks, favBooks, byYear, byMonth, toReadBooks } from '../reducers/visibilityFilterReducer';
-import { setToReadBooks, setBooks, setFavBooks } from '../reducers/booksReducer';
+import { setToReadBooks, setHaveReadBooks, setFavBooks } from '../reducers/booksReducer';
 
 
 const FilterButtons = ({ visibilityFilter, filterBooks, getFavBooks, getToReadBooks }) => {
@@ -36,7 +36,7 @@ const filterBooks = (filter) => {
     return (dispatch) => {
         axios.get('/api/books')
         .then( res => res.data)
-        .then(books => dispatch(setBooks(books)))
+        .then(books => dispatch(setHaveReadBooks(books)))
         .then(() => dispatch(setVisibility(filter)));
     };
 };

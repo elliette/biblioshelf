@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import axios from 'axios';
 import { authenticated } from '../reducers/authReducer';
-import { setBooks } from '../reducers/booksReducer';
+import { setHaveReadBooks } from '../reducers/booksReducer';
 import { setBook } from '../reducers/singleBookReducer';
 
 const UserAccount = ({ logout }) => (
@@ -20,7 +20,7 @@ const UserAccount = ({ logout }) => (
 const logout = () => {
     return (dispatch) =>  {
         axios.post('/api/auth/logout')
-        .then(() => dispatch(setBooks([])))
+        .then(() => dispatch(setHaveReadBooks([])))
         .then(() => dispatch(setBook({})))
         .then(() => dispatch(authenticated(null)))
         .then(() => window.location.replace('/'));

@@ -22,7 +22,7 @@ import InvalidRequest from './messages/InvalidRequest';
 import DeleteAccount from './messages/DeleteAccount';
 import NoBooksFound from './messages/NoBooksFound';
 import About from './messages/About';
-import { setBooks, setToReadBooks } from './reducers/booksReducer';
+import { setHaveReadBooks, setToReadBooks } from './reducers/booksReducer';
 import { setBook } from './reducers/singleBookReducer';
 import { setVisibility, readBooks, toReadBooks, queriedBook } from './reducers/visibilityFilterReducer';
 import { authenticated } from './reducers/authReducer';
@@ -36,10 +36,10 @@ const onLoadBooks = () =>
         if (filter === toReadBooks){
             store.dispatch(setToReadBooks(books));
         } else if (filter === readBooks){
-            store.dispatch(setBooks(books));
+            store.dispatch(setHaveReadBooks(books));
         } else if (filter === queriedBook) {
             store.dispatch(setVisibility(readBooks));
-            store.dispatch(setBooks(books));
+            store.dispatch(setHaveReadBooks(books));
         }
     })
     .then( () => store.dispatch(setBook({})))

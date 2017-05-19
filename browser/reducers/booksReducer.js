@@ -2,7 +2,7 @@
 
 /* ============ CONSTANTS =============== */
 
-export const SET_BOOKS = 'SET_BOOKS';
+export const SET_READ_BOOKS = 'SET_READ_BOOKS';
 export const ADD_BOOK = 'ADD_BOOK';
 export const EDIT_BOOK = 'EDIT_BOOK';
 export const DELETE_BOOK = 'DELETE_BOOK';
@@ -13,9 +13,9 @@ export const TO_READ_ONLY = 'TO_READ_ONLY';
 
 /* ============ ACTION CREATORS =============== */
 
-export const setBooks = function (books) {
+export const setHaveReadBooks = function (books) {
     return {
-        type: SET_BOOKS,
+        type: SET_READ_BOOKS,
         books: books
     };
 };
@@ -63,7 +63,7 @@ export default (state = [], action) =>  {
     let newState = state.slice();
       
     switch (action.type) {
-        case SET_BOOKS:
+        case SET_READ_BOOKS:
             newState = action.books.filter( (book) => book.toRead === 'no');
             break;
         case ADD_BOOK:
