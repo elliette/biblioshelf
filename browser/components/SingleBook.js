@@ -6,7 +6,6 @@ import dateFormat from 'dateformat';
 import axios from 'axios';
 import InvalidRequest from '../messages/InvalidRequest';
 import { deleteBook, editBook } from '../reducers/booksReducer';
-import { removeBook } from '../reducers/singleBookReducer';
 
 const SingleBook = ({selectedBook, deleteBookFromDB, markAsRead }) => {
     if (Object.keys(selectedBook).length === 0){
