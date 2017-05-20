@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { favBooks, toReadBooks } from '../reducers/visibilityFilterReducer';
+import { FAVORITES, TO_READ } from '../reducers/visibilityFilterReducer';
 
 const PleaseAddBooks = ({ title }) => {
 	var option;
-	if (title === favBooks){
+	if (title === FAVORITES){
 		option = 'favorited any books';
-	} else if (title === toReadBooks) {
+	} else if (title === TO_READ) {
 		option = 'added any books to your to-read list';
 	} else {
 		option = 'read any books';
