@@ -1,15 +1,9 @@
 'use strict';
 
-import {HAVE_READ, TO_READ, FAVORITES, QUERIED, BY_MONTH, BY_YEAR} from './reducers/visibilityFilterReducer';
+import { TO_READ, FAVORITES, QUERIED } from './reducers/visibilityFilterReducer';
 
 export const getVisibleBooks = (books, filter, queriedBooks) => {
     switch (filter) {
-        case HAVE_READ:
-            return books.filter( book => book.toRead === 'no');
-        case BY_MONTH:
-            return books.filter( book => book.toRead === 'no');
-        case BY_YEAR:
-            return books.filter( book => book.toRead === 'no');
         case TO_READ:
             return books.filter( book => book.toRead === 'yes');
         case FAVORITES:
@@ -17,7 +11,7 @@ export const getVisibleBooks = (books, filter, queriedBooks) => {
         case QUERIED:
             return queriedBooks;
         default:
-            return books;
+            return books.filter( book => book.toRead === 'no');
     }
 };
 
