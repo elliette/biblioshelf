@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import Books from './Books';
 import { groupByMonth } from '../utilities';
 
@@ -12,8 +12,12 @@ const MonthGrouping = ({ books }) => {
     );
 };
 
-const mapStateToProps = ({ books }) => {
-    return { books };
-};
+// const mapStateToProps = ({ books }) => {
+//     return { books };
+// };
 
-export default connect(mapStateToProps)(MonthGrouping);
+//export default connect(mapStateToProps)(MonthGrouping);
+
+export default MonthGrouping;
+
+

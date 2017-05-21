@@ -38,14 +38,14 @@ const Home = ({ books, queriedBooks, user, visibilityFilter }) => {
         return (
         <div>
             <FilterButtons />
-            <MonthGrouping />
+            <MonthGrouping books={books} />
         </div>
         );
     } else if (visibilityFilter === BY_YEAR){
         return (
         <div>
             <FilterButtons />
-            <YearGrouping />
+            <YearGrouping books={books} />
         </div>
         );
     } else if (visibilityFilter === FAVORITES) {
