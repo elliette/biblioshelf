@@ -8,6 +8,10 @@ import { setGoogleBook, removeGoogleBook } from '../reducers/singleGoogleBookRed
 import { addBook } from '../reducers/booksReducer';
 import { getBookInfo } from '../utilities';
 import { GOOGLE_BOOKS_API } from '../../secrets';
+import Scroll from 'react-scroll';
+import {HAVE_READ, TO_READ, setVisibility}  from '../reducers/visibilityFilterReducer';
+
+const scroll = Scroll.animateScroll;
 
 class AddBookForm extends Component {
     constructor (props) {
@@ -18,6 +22,7 @@ class AddBookForm extends Component {
         this.haveReadSubmit = this.haveReadSubmit.bind(this);
         this.toReadSubmit = this.toReadSubmit.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        //this.handleOption = this.handleOption.bind(this);
     }
 
 	handleChange(event) {
@@ -38,11 +43,18 @@ class AddBookForm extends Component {
 		axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&orderBy=relevance&key=${GOOGLE_BOOKS_API}`)
 		.then(res => res.data.items)
 		.then(books => books.map(book => getBookInfo(book)))
-		.then(booksWithInfo => this.props.setGoogleBooks(booksWithInfo));
+		.then(booksWithInfo => this.props.setGoogleBooks(booksWithInfo))
+		.then(() => scroll.scrollToBottom() );
 	}
 
 	handleClick(book) {
 		this.props.setGoogleBook(book);
+		scroll.scrollToBottom();
+	}
+
+	handleOption(option) {
+		this.setState({toRead: option});
+		scroll.scrollToBottom();
 	}
 
 	toReadSubmit(event) {
@@ -53,6 +65,7 @@ class AddBookForm extends Component {
         const url = bookToAdd.imageURL;
         const toRead = 'yes';
         this.props.addBookToDB({ title, author, url, toRead });
+        this.props.changeVisibility(TO_READ);
 	}
 
 	haveReadSubmit(event) {
@@ -66,6 +79,7 @@ class AddBookForm extends Component {
         const starred = event.target.starred.value;
         const toRead = 'no';
         this.props.addBookToDB({ title, author, url, notes, date, starred, toRead });
+        this.props.changeVisibility(HAVE_READ);
     }
 
 	render() {
@@ -99,8 +113,8 @@ class AddBookForm extends Component {
 				<div className="jumbotron">
 					<h2>Is this a book that you've already read or that you want to save to read later?</h2>
 					<div className="bottom-buttons">
-                        <button type="button" className="btn btn-link" onClick={() => this.setState({toRead: 'no'})}><h3>[Already Read]</h3></button>
-                        <button type="button" className="btn btn-link" onClick={() => this.setState({toRead: 'yes'})}><h3>[Read Later]</h3></button>
+                        <button type="button" className="btn btn-link" onClick={() => this.handleOption('no')}><h3>[Already Read]</h3></button>
+                        <button type="button" className="btn btn-link" onClick={() => this.handleOption('yes')}><h3>[Read Later]</h3></button>
 					</div>
                 </div>
                 : null
@@ -163,8 +177,14 @@ const addBookToDB = (book) => {
 	};
 };
 
+const changeVisibility = (filter) => {
+	return (dispatch) => {
+		dispatch(setVisibility(filter));
+	};
+};
+
 const mapStateToProps = ({ googleBooks, selectedGoogleBook }) => {
     return { googleBooks, selectedGoogleBook };
 };
 
-export default connect(mapStateToProps, { setGoogleBooks, setGoogleBook, addBookToDB })(AddBookForm);
+export default connect(mapStateToProps, { setGoogleBooks, setGoogleBook, addBookToDB, changeVisibility })(AddBookForm);

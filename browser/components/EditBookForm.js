@@ -73,8 +73,8 @@ class EditBookForm extends Component {
                         <label htmlFor="starred" className="col-sm-2 control-label">Favorited</label>
                         <div className="col-sm-10">
                             <select name="starred" value={this.state.starred || 'yes'} onChange={this.handleChange} >
-                                <option>yes</option>
                                 <option>no</option>
+                                <option>yes</option>
                             </select>
                         </div>
                     </div>

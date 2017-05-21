@@ -6,6 +6,7 @@ export const SET_BOOKS = 'SET_BOOKS';
 export const ADD_BOOK = 'ADD_BOOK';
 export const EDIT_BOOK = 'EDIT_BOOK';
 export const DELETE_BOOK = 'DELETE_BOOK';
+export const CLEAR_BOOKS = 'CLEAR_BOOKS';
 
 /* ============ ACTION CREATORS =============== */
 
@@ -13,6 +14,12 @@ export const setBooks = function (books) {
     return {
         type: SET_BOOKS,
         books: books
+    };
+};
+
+export const clearBooks = function () {
+    return {
+        type: CLEAR_BOOKS,
     };
 };
 
@@ -33,7 +40,6 @@ export const editBook = book => ({
   editedBook: book
 });
 
-
 /* ============ REDUCER =============== */
 
 export default (state = [], action) =>  {
@@ -42,6 +48,9 @@ export default (state = [], action) =>  {
     switch (action.type) {
         case SET_BOOKS:
             newState = action.books;
+            break;
+        case CLEAR_BOOKS:
+            newState = [];
             break;
         case ADD_BOOK:
             newState = [...newState, action.newBook ];

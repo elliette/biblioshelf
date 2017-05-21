@@ -4,8 +4,8 @@ import { browserHistory } from 'react-router';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import axios from 'axios';
 import { authenticated } from '../reducers/authReducer';
-import { setHaveReadBooks } from '../reducers/booksReducer';
-import { setBook } from '../reducers/singleBookReducer';
+import { clearBooks} from '../reducers/booksReducer';
+import { removeBook } from '../reducers/singleBookReducer';
 
 const UserAccount = ({ logout }) => (
   <div className="whoami nav navbar-nav navbar-right">
@@ -20,8 +20,8 @@ const UserAccount = ({ logout }) => (
 const logout = () => {
     return (dispatch) =>  {
         axios.post('/api/auth/logout')
-        .then(() => dispatch(setHaveReadBooks([])))
-        .then(() => dispatch(setBook({})))
+        .then(() => dispatch(clearBooks()))
+        .then(() => dispatch(removeBook()))
         .then(() => dispatch(authenticated(null)))
         .then(() => window.location.replace('/'));
     };
