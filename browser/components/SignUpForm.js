@@ -19,7 +19,7 @@ const signup = (event) => {
         if (password.length < 8) signupErrorsArr.push('* Password must be at least 8-characters long.');
         if (password !== confirmPassword) signupErrorsArr.push('* Your passwords did not match.');
         if (signupErrorsArr.length){
-            let invalidSignUpMessage = `The following problems were found with your signup attempt:\n\n${signupErrorsArr.join('\n')}\n\nPlease try again.`;
+            let invalidSignUpMessage = `The following problems were found with your sign up attempt:\n\n${signupErrorsArr.join('\n')}\n\nPlease try again.`;
             alert(invalidSignUpMessage);
             return;
         }

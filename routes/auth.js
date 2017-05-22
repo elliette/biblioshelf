@@ -17,7 +17,19 @@ auth.get('/user/:email', (req, res, next) => {
             email: req.params.email
         }
     })
-    .then( user => res.send(user))
+    .then(user => res.send(user))
+    .catch(next);
+});
+
+auth.delete('/user', (req, res, next) => {
+    if (!req.session.userId) throw new Error('No user saved on session.');
+    User.findOne({
+        where: {
+            id: req.session.userId
+        }
+    })
+    .then(user => user.destroy())
+    .then(() => res.sendStatus(200))
     .catch(next);
 });
 

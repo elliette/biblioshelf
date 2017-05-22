@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
+import Scroll from 'react-scroll';
 import DatePicker from 'react-bootstrap-date-picker';
 import { setGoogleBooks } from '../reducers/googleBooksReducer';
 import { setGoogleBook, removeGoogleBook } from '../reducers/singleGoogleBookReducer';
 import { addBook } from '../reducers/booksReducer';
 import { getBookInfo } from '../utilities';
 import { GOOGLE_BOOKS_API } from '../../secrets';
-import Scroll from 'react-scroll';
 import {HAVE_READ, TO_READ, setVisibility}  from '../reducers/visibilityFilterReducer';
 
 const scroll = Scroll.animateScroll;
@@ -22,7 +22,6 @@ class AddBookForm extends Component {
         this.haveReadSubmit = this.haveReadSubmit.bind(this);
         this.toReadSubmit = this.toReadSubmit.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
-        //this.handleOption = this.handleOption.bind(this);
     }
 
 	handleChange(event) {

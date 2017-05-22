@@ -1,4 +1,7 @@
 'use strict';
+import axios from 'axios';
+import { clearBooks} from './booksReducer';
+import { removeBook } from './singleBookReducer';
 
 /* ============ CONSTANTS =============== */
 
@@ -27,4 +30,16 @@ export default (state = {}, action) => {
             return state;
     }
     return newState;
+};
+
+/* ============ DISPATCHERS =============== */
+
+export const logout = () => {
+    return (dispatch) =>  {
+        axios.post('/api/auth/logout')
+        .then(() => dispatch(clearBooks()))
+        .then(() => dispatch(removeBook()))
+        .then(() => dispatch(authenticated(null)))
+        .then(() => window.location.replace('/'));
+    };
 };

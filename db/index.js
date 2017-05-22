@@ -81,6 +81,9 @@ const User = db.define('user', {
 */
 
 Book.belongsTo(User);
-User.hasMany(Book, {onDelete: 'CASCADE'});
+User.hasMany(Book, {
+    onDelete: 'CASCADE',
+    hooks: true
+});
 
 module.exports = {db, Book, User};

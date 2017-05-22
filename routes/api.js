@@ -6,6 +6,8 @@ var Promise = require('bluebird');
 const Book = require('../db').Book;
 const User = require('../db').User;
 
+const noUserErr = new Error('No user saved on session.');
+
 function findBookPromise(userId, bookId){
     return User.findOne({
         where: {
@@ -24,7 +26,7 @@ function findBookPromise(userId, bookId){
 }
 
 router.post('/books', function(req, res, next) {
-    if (!req.session.userId) return;
+    if (!req.session.userId) throw noUserErr;
     var userId = req.session.userId;
     var date = req.body.date ? new Date(req.body.date) : new Date();
     Promise.all([
@@ -53,7 +55,7 @@ router.post('/books', function(req, res, next) {
 });
 
 router.put('/books/:id', function(req, res, next){
-    if (!req.session.userId) return;
+    if (!req.session.userId) throw noUserErr;
     var userId = req.session.userId;
     var bookId = req.params.id;
     findBookPromise(userId, bookId)
@@ -67,7 +69,7 @@ router.put('/books/:id', function(req, res, next){
 });
 
 router.get('/books/search/:query', function(req, res, next){
-    if (!req.session.userId) return;
+    if (!req.session.userId) throw noUserErr;
     var userId = req.session.userId;
     var query = req.params.query.toLowerCase();
     User.findOne({
@@ -105,7 +107,7 @@ router.get('/books/search/:query', function(req, res, next){
 });
 
 router.get('/books/:id', function(req, res, next){
-    if (!req.session.userId) return;
+    if (!req.session.userId) throw noUserErr;
     var userId = req.session.userId;
     var bookId = req.params.id;
     findBookPromise(userId, bookId)
@@ -116,7 +118,7 @@ router.get('/books/:id', function(req, res, next){
 });
 
 router.delete('/books/:id', function(req, res, next){
-    if (!req.session.userId) return;
+    if (!req.session.userId) throw noUserErr;
     var userId = req.session.userId;
     var bookId = req.params.id;
     findBookPromise(userId, bookId)
@@ -130,7 +132,7 @@ router.delete('/books/:id', function(req, res, next){
 });
 
 router.get('/books', function(req, res, next){
-    if (!req.session.userId) return;
+    if (!req.session.userId) throw noUserErr;
     User.findOne({
         where: {
             id: req.session.userId

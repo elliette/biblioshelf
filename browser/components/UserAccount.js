@@ -1,11 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
-import axios from 'axios';
-import { authenticated } from '../reducers/authReducer';
-import { clearBooks} from '../reducers/booksReducer';
-import { removeBook } from '../reducers/singleBookReducer';
+import { logout } from '../reducers/authReducer';
 
 const UserAccount = ({ logout }) => (
   <div className="whoami nav navbar-nav navbar-right">
@@ -16,15 +13,5 @@ const UserAccount = ({ logout }) => (
 	</DropdownButton>
   </div>
 );
-
-const logout = () => {
-    return (dispatch) =>  {
-        axios.post('/api/auth/logout')
-        .then(() => dispatch(clearBooks()))
-        .then(() => dispatch(removeBook()))
-        .then(() => dispatch(authenticated(null)))
-        .then(() => window.location.replace('/'));
-    };
-};
 
 export default connect(null, { logout })(UserAccount);
