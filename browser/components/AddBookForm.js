@@ -10,7 +10,7 @@ import { addBook } from '../reducers/booksReducer';
 import { getBookInfo } from '../utilities';
 import {HAVE_READ, TO_READ, setVisibility}  from '../reducers/visibilityFilterReducer';
 
-const GOOGLE_BOOKS_API = process.env.GOOGLE_BOOKS_API || require('../../secrets.js').GOOGLE_BOOKS_API;
+const GOOGLE_BOOKS_API = process.env.GOOGLE_BOOKS_API;
 
 
 const scroll = Scroll.animateScroll;
