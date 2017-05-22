@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = new Sequelize('postgres://localhost:5432/biblioshelf');
+const db = new Sequelize(process.env.DATABASE || 'postgres://localhost:5432/biblioshelf');
 const bcrypt = require('bcryptjs');
 
 /*

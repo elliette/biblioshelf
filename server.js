@@ -16,7 +16,7 @@ const db = require('./db').db;
 
 app.use(session({
   // this mandatory configuration ensures that session IDs are not predictable
-  secret: SESSION_SECRET || 'an insecure secret key', // or whatever you like
+  secret: process.env.SESSION_SECRET || SESSION_SECRET || 'an insecure secret key', // or whatever you like
   // these options are recommended and reduce session concurrency issues
   resave: false,
   saveUninitialized: false
@@ -51,7 +51,7 @@ app.use((err, req, res, next) => {
 
 db.sync({force: false})
     .then(function() {
-        app.listen(3000, function() {
-            console.log('Server is listening on port 3000!');
+        app.listen(process.env.PORT || 3000, function() {
+            console.log(`Server is listening on port ${process.env.PORT || 3000} !`);
         });
 });

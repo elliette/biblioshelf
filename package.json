@@ -1,5 +1,5 @@
 {
-  "name": "bookshelf",
+  "name": "biblioshelf",
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
@@ -21,7 +21,6 @@
     "body-parser": "^1.16.1",
     "cookie-session": "^2.0.0-beta.1",
     "dateformat": "^2.0.0",
-    "debug": "^2.6.6",
     "email-validator": "^1.0.7",
     "express": "^4.14.1",
     "express-session": "^1.15.2",
@@ -42,7 +41,6 @@
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
     "sequelize": "^3.30.4",
-    "volleyball": "^1.3.0",
     "webpack": "^2.2.1",
     "webpack-livereload-plugin": "^0.11.0"
   },
