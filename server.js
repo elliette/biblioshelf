@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
-const SESSION_SECRET = require('./secrets.js').SESSION_SECRET;
+const SESSION_SECRET = process.env.SESSION_SECRET || require('./secrets.js').SESSION_SECRET;
 
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
@@ -16,7 +16,7 @@ const db = require('./db').db;
 
 app.use(session({
   // this mandatory configuration ensures that session IDs are not predictable
-  secret: process.env.SESSION_SECRET || SESSION_SECRET || 'an insecure secret key', // or whatever you like
+  secret: SESSION_SECRET || 'an insecure secret key', // or whatever you like
   // these options are recommended and reduce session concurrency issues
   resave: false,
   saveUninitialized: false
