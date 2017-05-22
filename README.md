@@ -7,7 +7,7 @@ Biblioshelf is an all-in-one tool that lets readers keep track of all the books 
 Biblioshelf is a single-page application built atop a RESTful API. Its backend was created with Node and Express, with a PostgreSQL database and Sequelize as its ORM. React, React Router, and React-Redux power Biblioshelf's frontend. Biblioshelf is integrated with the Google Books API to fetch book metadata for its users. Finally, Biblioshelf uses bcrypt for its user authentication.
 
 ## Images of the Application: 
-![View of Books Read List](books_read.jpg "View of Books Read List")
-![View of To Read List](to_read.jpg "View of To Read List")
-![View of Books Sorted by Year](by_year.jpg "Books Sorted by Year")
-![Book Detail View](book_detail.jpg "Book Detail View")
+![View of Books Read List](./public/books_read.jpg "View of Books Read List")
+![View of To Read List](./public/to_read.jpg "View of To Read List")
+![View of Books Sorted by Year](./public/by_year.jpg "Books Sorted by Year")
+![Book Detail View](./public/book_detail.jpg "Book Detail View")
