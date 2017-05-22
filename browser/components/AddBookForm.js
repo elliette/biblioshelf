@@ -9,7 +9,7 @@ import { setGoogleBook, removeGoogleBook } from '../reducers/singleGoogleBookRed
 import { addBook } from '../reducers/booksReducer';
 import { getBookInfo } from '../utilities';
 import {HAVE_READ, TO_READ, setVisibility}  from '../reducers/visibilityFilterReducer';
-import GOOGLE_BOOKS_API from '../../variables';
+const GOOGLE_BOOKS_API = require('../../variables');
 
 const scroll = Scroll.animateScroll;
 
