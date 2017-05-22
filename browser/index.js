@@ -104,7 +104,7 @@ render(
                 <Route path="/add" component={AddBookForm} onEnter={loggedInCheck} />
                 <Route path="/addedbooksuccess" component={AddedBookSuccess} onEnter={loggedInCheck} />
                 <Route path ="/signup" component={SignUpForm} />
-                <Route path ="/about" component={About} onEnter={loggedInCheck} />
+                <Route path ="/about" component={About} />
                 <Route path = "/signupsuccess" component={SignUpSuccess} />
                 <Route path = "/nobooksfound" component={NoBooksFound} onEnter={loggedInCheck} />
                 <Route path = "/account" component={DeleteAccount} onEnter={loggedInCheck} />
