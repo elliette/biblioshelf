@@ -1,6 +1,6 @@
 # Biblioshelf
 
-Biblioshelf is an all-in-one tool that lets readers keep track of all the books that they've read, and all the books that they hope to read. Readers can add a new book with just the click of a button, take notes on each book with Markdown, favorite books that they love, and toggle between viewing all the books that they've read and all the books that they've saved to read later.
+Biblioshelf is an all-in-one tool that lets readers keep track of all the books that they've read and all the books that they hope to read. Readers can add a new book with just the click of a button, take notes on each book with Markdown, favorite books that they love, and toggle between viewing all the books that they've read and all the books that they've saved to read later.
 
 ## Technologies: 
 

@@ -8,7 +8,8 @@ import { setGoogleBooks } from '../reducers/googleBooksReducer';
 import { setGoogleBook, removeGoogleBook } from '../reducers/singleGoogleBookReducer';
 import { addBook } from '../reducers/booksReducer';
 import { getBookInfo } from '../utilities';
-import {HAVE_READ, TO_READ, setVisibility}  from '../reducers/visibilityFilterReducer';
+import { HAVE_READ, TO_READ, setVisibility }  from '../reducers/visibilityFilterReducer';
+import { GOOGLE_BOOKS_API } from '../../secrets';
 
 const scroll = Scroll.animateScroll;
 
@@ -38,7 +39,7 @@ class AddBookForm extends Component {
 		event.preventDefault();
 		if (!this.state.query) return;
 		let query = this.state.query.split(' ').join('%20');
-		axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&orderBy=relevance&key=AIzaSyCScXMIHvY-1NqdW5ukCcB1IddsLXd7VJw`)
+		axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&orderBy=relevance&key=${GOOGLE_BOOKS_API}`)
 		.then(res => res.data.items)
 		.then(books => books.map(book => getBookInfo(book)))
 		.then(booksWithInfo => this.props.setGoogleBooks(booksWithInfo))
