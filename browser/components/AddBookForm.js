@@ -38,7 +38,7 @@ class AddBookForm extends Component {
 		event.preventDefault();
 		if (!this.state.query) return;
 		let query = this.state.query.split(' ').join('%20');
-		axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&orderBy=relevance&key=AIzaSyCScXMIHvY-1NqdW5ukCcB1IddsLXd7VJw`)
+		axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&orderBy=relevance&key=AIzaSyCScXMIHvY-1NqdW5ukCcB1IddsLXd7VJw`) // key is restricted to Biblioshelf only 
 		.then(res => res.data.items)
 		.then(books => books.map(book => getBookInfo(book)))
 		.then(booksWithInfo => this.props.setGoogleBooks(booksWithInfo))
