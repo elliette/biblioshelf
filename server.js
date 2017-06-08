@@ -3,25 +3,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const passport = require('passport');
 const session = require('express-session');
 const SESSION_SECRET = process.env.SESSION_SECRET || require('./secrets.js').SESSION_SECRET;
-
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
-
 const app = express();
-
 const db = require('./db').db;
-
-// pings Biblioshelf every 5 minutes to keep Heroku dyno from sleeping
-setInterval(() => {
-    app.get('http://www.biblioshelf.com');
-}, 300000);
 
 app.use(session({
   // this mandatory configuration ensures that session IDs are not predictable
-  secret: SESSION_SECRET || 'an insecure secret key', // or whatever you like
+  secret: SESSION_SECRET || 'piggly wiggly',
   // these options are recommended and reduce session concurrency issues
   resave: false,
   saveUninitialized: false
@@ -29,10 +20,6 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-//   // Authentication middleware
-// app.use(passport.initialize());
-// app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, './public')));
 app.use(express.static(path.join(__dirname, './node_modules')));

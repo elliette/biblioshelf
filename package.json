@@ -4,8 +4,8 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js", 
+    "test": "mocha --compilers js:babel-register --watch-extensions js,jsx browser/**/*.test.js routes/**/*.test.js db/**/*.test.js",
+    "start": "node server.js",
     "postinstall": "webpack",
     "dev": "webpack -w & node server.js"
   },
@@ -28,7 +28,6 @@
     "express-session": "^1.15.2",
     "marked": "^0.3.6",
     "nodemon": "^1.11.0",
-    "passport": "^0.3.2",
     "path": "^0.12.7",
     "pg": "^6.1.5",
     "react": "^15.3.2",
@@ -49,8 +48,10 @@
   },
   "devDependencies": {
     "babel-preset-stage-2": "^6.24.1",
+    "chai": "^4.0.2",
     "eslint": "^3.19.0",
     "eslint-config-fullstack": "^2.8.1",
-    "eslint-plugin-react": "^6.10.3"
+    "eslint-plugin-react": "^6.10.3",
+    "mocha": "^3.4.2"
   }
 }
