@@ -5,7 +5,9 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack -w & node server.js"
+    "start": "node server.js", 
+    "postinstall": "webpack",
+    "dev": "webpack -w & node server.js"
   },
   "keywords": [],
   "author": "",

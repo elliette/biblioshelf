@@ -14,6 +14,11 @@ const app = express();
 
 const db = require('./db').db;
 
+// pings Biblioshelf every 5 minutes to keep Heroku dyno from sleeping
+setInterval(() => {
+    app.get('http://www.biblioshelf.com');
+}, 300000);
+
 app.use(session({
   // this mandatory configuration ensures that session IDs are not predictable
   secret: SESSION_SECRET || 'an insecure secret key', // or whatever you like
