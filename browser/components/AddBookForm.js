@@ -9,12 +9,14 @@ import { setGoogleBook, removeGoogleBook } from '../reducers/singleGoogleBookRed
 import { addBook } from '../reducers/booksReducer';
 import { getBookInfo } from '../utilities';
 import { HAVE_READ, TO_READ, setVisibility }  from '../reducers/visibilityFilterReducer';
-
 const scroll = Scroll.animateScroll;
+var GOOGLE_BOOKS_API;
 
-// If we are in our development environment, we'll use the key stored in our secrets file.
-// In production, we use the publically exposed key below which is restricted to requests from www.biblioshelf.com only.
-const GOOGLE_BOOKS_API = require('../../secrets.js').GOOGLE_BOOKS_API || `AIzaSyCScXMIHvY-1NqdW5ukCcB1IddsLXd7VJw`;
+if (process.env.NODE_ENV === 'development'){ // If we are in our development environment, we'll use the key stored in our secrets file.
+	GOOGLE_BOOKS_API = require('../../secrets.js').GOOGLE_BOOKS_API;
+} else {  // In production, we use the publically exposed key below which is restricted to requests from www.biblioshelf.com only.
+	GOOGLE_BOOKS_API = `AIzaSyCScXMIHvY-1NqdW5ukCcB1IddsLXd7VJw`;
+}
 
 class AddBookForm extends Component {
     constructor (props) {
