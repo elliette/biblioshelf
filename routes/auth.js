@@ -43,7 +43,7 @@ auth.post('/login', (req, res, next) => {
     .then(user => {
         if (!user) throw new Error('Email not found.');
         const isCorrectPW = user.authenticate(req.body.password);
-        return [user, isCorrectPW];
+        return Promise.all([user, isCorrectPW]);
     })
     .spread( (user, isCorrectPW) => {
         if (!isCorrectPW) throw new Error('Incorrect password.');

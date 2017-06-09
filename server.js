@@ -34,16 +34,21 @@ app.get('/*', function (req, res) {
 app.use((err, req, res, next) => {
     console.error(err);
     if (err.message){
-      res.statusMessage = err.message;
-      res.status(400).end();
+        res.statusMessage = err.message;
+        res.status(400).end();
     } else {
-      res.status(500).send(err);
+        res.status(500).send(err);
     }
-  });
+});
 
-db.sync({force: false})
+// The check below syncs the database and starts the server if the file we are in is the one we started at. This means that we won't start the server and sync the database twice when we are running tests.
+if (module === require.main){
+    db.sync({force: false})
     .then(function() {
         app.listen(process.env.PORT || 3000, function() {
             console.log(`Server is listening on port ${process.env.PORT || 3000} !`);
         });
-});
+    });
+}
+
+module.exports = app;
