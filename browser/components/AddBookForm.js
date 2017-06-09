@@ -12,10 +12,10 @@ import { HAVE_READ, TO_READ, setVisibility }  from '../reducers/visibilityFilter
 const scroll = Scroll.animateScroll;
 var GOOGLE_BOOKS_API;
 
-if (process.env.NODE_ENV === 'development'){ // If we are in our development environment, we'll use the key stored in our secrets file.
-	GOOGLE_BOOKS_API = require('../../secrets.js').GOOGLE_BOOKS_API;
-} else {  // In production, we use the publically exposed key below which is restricted to requests from www.biblioshelf.com only.
+if (process.env.NODE_ENV === 'production'){ // If we are in our development environment, we'll use the key stored in our secrets file.
 	GOOGLE_BOOKS_API = `AIzaSyCScXMIHvY-1NqdW5ukCcB1IddsLXd7VJw`;
+} else {  // In production, we use the publically exposed key below which is restricted to requests from www.biblioshelf.com only.
+	GOOGLE_BOOKS_API = require('../../secrets.js').GOOGLE_BOOKS_API;
 }
 
 class AddBookForm extends Component {
