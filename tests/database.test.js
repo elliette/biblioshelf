@@ -1,4 +1,3 @@
-//const request = require('supertest');
 const chai = require('chai');
 const expect = chai.expect;
 const chaiThings = require('chai-things');
@@ -34,7 +33,9 @@ describe('~~~~MODEL TESTS~~~~', () => {
 	});
 
 	describe('The book model', () => {
+
         it('has the expected schema', () => {
+
             expect(Book.attributes.title).to.be.an('object');
             expect(Book.attributes.author).to.be.an('object');
             expect(Book.attributes.url).to.be.an('object');

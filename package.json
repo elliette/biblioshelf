@@ -9,7 +9,12 @@
     "postinstall": "webpack",
     "dev": "cross-env NODE_ENV=development webpack -w & node server.js"
   },
-  "keywords": ["react", "redux", "google books api", "books"],
+  "keywords": [
+    "react",
+    "redux",
+    "google books api",
+    "books"
+  ],
   "author": "Elliott Brooks <info.biblioshelf@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -49,13 +54,18 @@
   "devDependencies": {
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.0.2",
+    "chai-enzyme": "^0.7.1",
     "chai-properties": "^1.2.1",
     "chai-things": "^0.2.0",
     "env-cmd": "^5.1.0",
+    "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
     "eslint-config-fullstack": "^2.8.1",
     "eslint-plugin-react": "^6.10.3",
     "mocha": "^3.4.2",
+    "react-addons-test-utils": "^15.5.1",
+    "react-dom": "^15.6.0",
+    "sinon": "^2.3.4",
     "supertest": "^3.0.0"
   }
 }
