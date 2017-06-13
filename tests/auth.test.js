@@ -12,7 +12,7 @@ const ada = {
     password: '12345678'
 };
 
-describe('/api/auth tests', () => {
+describe('~~~~AUTH TESTS ~~~~', () => {
     beforeEach('Synchronize and clear database', () => db.sync({force: true}));
     after('Synchronize and clear database', () => db.sync({force: true}));
 
@@ -36,3 +36,5 @@ describe('/api/auth tests', () => {
         );
     });
 });
+
+    //"test": "mocha --compilers js:babel-register --watch-extensions js,jsx browser/**/*.test.js routes/**/*.test.js db/**/*.test.js",

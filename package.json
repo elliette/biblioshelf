@@ -4,7 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register --watch-extensions js,jsx browser/**/*.test.js routes/**/*.test.js db/**/*.test.js",
+    "test": "mocha ./tests --recursive --watch --compilers js:babel-register",
     "start": "node server.js",
     "postinstall": "webpack",
     "dev": "cross-env NODE_ENV=development webpack -w & node server.js"
@@ -49,6 +49,8 @@
   "devDependencies": {
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.0.2",
+    "chai-properties": "^1.2.1",
+    "chai-things": "^0.2.0",
     "env-cmd": "^5.1.0",
     "eslint": "^3.19.0",
     "eslint-config-fullstack": "^2.8.1",

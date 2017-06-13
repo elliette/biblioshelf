@@ -8,13 +8,13 @@ const bcrypt = require('bcryptjs');
 ================================================
 */
 
-function setEmailAndPassword(user) {
+const setEmailAndPassword = (user) => {
   user.email = user.email && user.email.toLowerCase();
   if (!user.password) return Promise.resolve(user);
 
   return bcrypt.hash(user.get('password'), 10)
     .then(hash => user.set('password_digest', hash));
-}
+};
 
 /*
 ================================================
