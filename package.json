@@ -1,7 +1,7 @@
 {
   "name": "biblioshelf",
   "version": "1.0.0",
-  "description": "",
+  "description": "A web app built for readers.",
   "main": "webpack.config.js",
   "scripts": {
     "test": "mocha ./tests --recursive --watch --compilers js:babel-register",
@@ -9,9 +9,9 @@
     "postinstall": "webpack",
     "dev": "cross-env NODE_ENV=development webpack -w & node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["react", "redux", "google books api", "books"],
+  "author": "Elliott Brooks <info.biblioshelf@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.15.3",
     "babel-core": "^6.23.1",

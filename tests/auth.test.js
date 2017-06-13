@@ -36,5 +36,3 @@ describe('~~~~AUTH TESTS ~~~~', () => {
         );
     });
 });
-
-    //"test": "mocha --compilers js:babel-register --watch-extensions js,jsx browser/**/*.test.js routes/**/*.test.js db/**/*.test.js",
