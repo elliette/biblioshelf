@@ -9,24 +9,27 @@ chai.use(chaiProperties);
 chai.use(chaiEnzyme());
 const enzyme = require('enzyme');
 const shallow = enzyme.shallow;
-//const sinon = require('sinon');
-//const spy = sinon.spy;
-//const faker = require('faker');
-const AddBookForm = require('../browser/components/AddBookForm');
+import AddBookForm from '../browser/components/AddBookForm';
+import store from '../browser/store';
 
 describe('~~~~REACT TESTS~~~', () => {
 
-	describe('AddBookForm Component', () => {
-
-		var AddBookFormWrapper;
+	describe('<AddBookForm />', () => {
+        var AddBookFormWrapper;
+        var props;
         beforeEach('Create <AddBookForm /> wrapper', () => {
-            AddBookFormWrapper = shallow(<AddBookForm />);
-            console.log(AddBookFormWrapper);
+            AddBookFormWrapper = shallow(<AddBookForm store={store} />);
+            props = AddBookFormWrapper.props();
         });
 
-        it('has props ', () => {
-        	console.log('PROPS ARE', AddBookFormWrapper.props);
-				expect(AddBookFormWrapper);
-			});
+        it('the connect function provides <AddBookForm /> with props', () => {
+                expect(props).to.be.an('object');
+            });
+
+        describe('props', () => {
+            it('has the function addBookToDB', () => {
+                expect(props.addBookToDB).to.be.a('function');
+            });
+        });
     });
 });
