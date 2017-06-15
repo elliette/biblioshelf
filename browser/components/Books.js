@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import { sortBooks } from '../utilities';
 
-
 const Books = ({ title, books }) => {
 	return (
 		<div>
